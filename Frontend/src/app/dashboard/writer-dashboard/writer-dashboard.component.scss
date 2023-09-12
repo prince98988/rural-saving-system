@@ -1,0 +1,36 @@
+@import "../common/dashboard.scss";
+@import "../../general-settings/common/modal.scss";
+@import "../../general-settings/common/loader.scss";
+
+.card-title-text{
+    font-weight: 700;
+    font-size: 140%;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    font-family: var(--gilroy-bold);
+    margin-bottom: 1.5%;
+}
+.card-vehicle-entry{
+    @extend .card;
+    width: 86%;
+    text-align: left;
+    margin: var(--margin-center);
+    padding: 2% 2%;
+}
+.card-body{
+    display: flex;
+    justify-content: space-between;
+}
+.vehicle-entry-icon{
+    width: 7%;
+}
+.text-align-center{
+    text-align: center;
+}
+.vehicle-list{
+    height: 55vh;
+    overflow: scroll;
+}
+.vehicle-list::-webkit-scrollbar{
+    display: none;
+}

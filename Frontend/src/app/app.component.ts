@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss', './general-settings/global.scss']
 })
 export class AppComponent {
-  title = 'Frontend';
+  title = 'Tavisca Parking';
 }

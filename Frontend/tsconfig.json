@@ -21,7 +21,11 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@logos/*": ["src/assets/logos/*"],
+      "@common-scss/*": ["src/app/general-settings/common/*"]
+     },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,0 +1,150 @@
+<div class="login-main">
+  <div class="modal-top">
+    <img class="tavisca-logo" src="../../../assets/logos/icon-employees.svg" />
+    <p class="text-main">Add Employee Details</p>
+    <form
+      class="login-form"
+      [formGroup]="addEmployeeForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="text-align-left">
+        <label>Employee Type</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <select
+            formControlName="type"
+            class="form-control border-none"
+            style="font-family: 'gilroy-semibold'"
+            [ngClass]="{ 'is-invalid': submitted && form['type'].errors }"
+          >
+            <option value="Reader">Reader</option>
+            <option value="Writer">Writer</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+        <div
+          *ngIf="submitted && form['type'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['type'].errors['required']">type is required</div>
+        </div>
+      </div>
+
+      <div class="text-align-left">
+        <label>Employee Email</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-envelope input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="email"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            placeholder="Employee Email"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
+          />
+        </div>
+        <div class="input-error text-align-left">
+          <div *ngIf="submitted && form['email'].errors">
+            <div *ngIf="form['email'].errors['required']">
+              email is required
+            </div>
+            <div *ngIf="form['email'].errors['email']">invalid email</div>
+          </div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Employee Name</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            placeholder="Employee Name"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && form['name'].errors }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['name'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['name'].errors['required']">name is required</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-dark login-button">
+        Add Employee
+      </button>
+    </form>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: doneDisplayStyle }"
+    (click)="closeDonePopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-done.svg"
+        />
+        <p class="card-modal-text">Entry Successful</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/gifs/spinner.gif"
+        />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
+    </div>
+  </div>
+</div>
