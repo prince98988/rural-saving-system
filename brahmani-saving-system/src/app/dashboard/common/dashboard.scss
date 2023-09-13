@@ -1,0 +1,94 @@
+
+.dashboard-main{
+    text-align: center;
+    width: 80%;
+    letter-spacing: 0.2px;
+    margin: var(--margin-center);
+    padding: 1.5% 0%;
+    padding-top: 3%;
+    color: var(--widget-text-color);
+}
+.row-dashboard{
+    width: 60%;
+    margin: var(--margin-center);
+    display: flex;
+    margin-bottom: 1rem;
+}
+.main-text{
+    color: var(--widget-text-color);
+    font-weight: 700;
+    font-size: 130%;
+    line-height: 24px;
+}
+
+//card
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.14);
+    width: 40%;
+    text-align: center;
+    padding: 3% 3%;
+    transition: all 0.3s ease-out;
+}
+.card-vehicle-entry-text{
+    @extend .card-widget-text;
+    align-self: center;
+}
+.card:hover{
+   transform: translateY(-5px) scale(1.005) translateZ(0);
+}
+.card-left-bg-color{
+    margin-left: 7%;
+    margin-right: 6%;
+    background-color: var(--white);
+}
+.card-car{
+    margin-left: 7%;
+    margin-right: 6%;
+    background-color: var(--car-bg-color);
+}
+.card-right-bg-color{
+    margin-right: 7%;
+    background-color: var(--white);
+}
+.card-bike{
+    margin-right: 7%;
+    background-color: var(--bike-bg-color);
+}
+
+.card-widget-icon{
+    width: 60%;
+}
+.card-widget-body{
+    text-align: center;
+}
+.card-widget-text{
+    letter-spacing: 0.2px;
+    font-weight: 500;
+    color: var(--widget-text-color);
+    margin-bottom: 0;
+}
+.card-widget-header-text{
+    letter-spacing: 0.2px;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--widget-text-color);
+    margin-bottom: 0;
+}
+
+$mobile : 800px;
+@media screen and (max-width: $mobile) {
+    .card-widget-text{
+        font-size: 100%;
+    }
+    .dashboard-main{
+        width: 100%;
+    }
+    .card-widget-header-text{
+        font-size: 120%;
+    }
+    .row-dashboard{
+        width: 100%;
+    }
+}

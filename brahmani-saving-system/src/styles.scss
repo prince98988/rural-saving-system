@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {    
+    font-family: "gilroy-semibold";   
+     src: local("gilroy-semibold"), 
+     url(./assets/fonts/gilroy/Gilroy-SemiBold.ttf) 
+     format("truetype");
+}
+@font-face {    
+    font-family: "gilroy-bold";   
+     src: local("gilroy-bold"), 
+     url(./assets/fonts/gilroy/Gilroy-Bold.ttf) 
+     format("truetype");
+}
+@font-face {    
+    font-family: "gilroy-regular";   
+     src: local("gilroy-regular"), 
+     url(./assets/fonts/gilroy/Gilroy-Regular.ttf) 
+     format("truetype");
+}
+
+*{
+    font-family: "gilroy-semibold";
+}

@@ -1,0 +1,39 @@
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.14);
+    width: 40%;
+    text-align: center;
+    padding: 3% 3%;
+    transition: all 0.3s ease-out;
+}
+.modal-top{
+    z-index: -1;
+}
+.modal-bottom{
+    background-color: rgba(0,0,0,0.75);
+}
+.card-modal{
+    margin: auto;
+    width: 40%;
+}
+.card-modal-text{
+    font-size: 2rem;
+    font-weight: 600;
+}
+.card-modal-icon{
+    width: 40%;
+}
+.card-widget-body{
+    text-align: center;
+}
+$mobile : 800px;
+@media screen and (max-width: $mobile) {
+    .card-modal{
+        width: 70%;
+    }
+    .card-modal-text{
+        font-size: 1.2rem;
+    }
+}
