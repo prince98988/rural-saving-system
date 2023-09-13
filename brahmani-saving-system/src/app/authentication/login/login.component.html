@@ -1,35 +1,40 @@
 <div class="login-main">
   <img class="tavisca-logo" src="../../../assets/logos/tavisca-logo.svg" />
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="authenticationService.isWrongCredentials"
-        class="input-error text-align-left"
-      >
-          Wrong Credentials
-      </div>
+    <div
+      *ngIf="authenticationService.isWrongCredentials"
+      class="input-error text-align-left"
+    >
+      Wrong Credentials
+    </div>
     <div class="text-align-left">
-      <label>Email</label>
+      <label>mnumber</label>
     </div>
     <div class="mb-3">
       <div class="input-group input-border">
-        <div class="input-group-prepend border-none" style="align-self:center">
+        <div class="input-group-prepend border-none" style="align-self: center">
           <i class="bi bi-envelope input-icon-size"></i>
         </div>
         <input
           type="text"
-          id="email"
-          style="margin-left:3px"
+          id="mnumber"
+          style="margin-left: 3px"
           class="input-box form-control border-none"
-          placeholder="Your Email"
+          placeholder="XXXXXXXXXX"
           aria-label="Username"
           aria-describedby="basic-addon1"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
+          formControlName="mnumber"
+          [ngClass]="{ 'is-invalid': submitted && form['mnumber'].errors }"
         />
       </div>
       <div class="input-error text-align-left">
-        <div *ngIf="submitted && form['email'].errors">
-          <div *ngIf="form['email'].errors['required']">email is required</div>
-          <div *ngIf="form['email'].errors['email']">invalid email</div>
+        <div *ngIf="submitted && form['mnumber'].errors">
+          <div *ngIf="form['mnumber'].errors['required']">
+            mobile number is required
+          </div>
+          <div *ngIf="form['mnumber'].errors['mnumber']">
+            invalid mobile number
+          </div>
         </div>
       </div>
     </div>
@@ -68,7 +73,9 @@
         *ngIf="submitted && form['password'].errors"
         class="input-error text-align-left"
       >
-        <div *ngIf="form['password'].errors['required']">password is required</div>
+        <div *ngIf="form['password'].errors['required']">
+          password is required
+        </div>
         <div *ngIf="form['password'].errors['minLength']">
           password should be more than 8 characters
         </div>

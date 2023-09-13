@@ -4,34 +4,26 @@ import { GeneralHeader } from '../static/Haders';
 import { login_with_email_password, update_employee } from '../static/Urls';
 import { EmailValidator } from '@angular/forms';
 import { LoginResponse } from '../Types/AuthenticationType';
-import { LoginBodyRequest, UpdateUserCredentialsBodyRequest } from '../static/Body';
+import {
+  LoginBodyRequest,
+  UpdateUserCredentialsBodyRequest,
+} from '../static/Body';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
-
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore) {}
   isLoading = false;
   isWrongCredentials = false;
   isError = false;
-  
-  isUserCredentialsUpdated: boolean = false;
-  loginResponse!:LoginResponse;
 
-  async requestLogin(email:string, password:string){
+  isUserCredentialsUpdated: boolean = false;
+  loginResponse!: LoginResponse;
+
+  async requestLogin(email: string, password: string) {
     this.isWrongCredentials = false;
-    const headers = GeneralHeader()
-    const body = LoginBodyRequest(email,password)
-    const data =await this.http.post(login_with_email_password, body, {headers}).toPromise()
-    .then(data => {
-        this.loginResponse = JSON.parse(JSON.stringify(data));
-        this.isWrongCredentials = false;
-    }).catch(
-    error => {
-        this.isWrongCredentials = true;
-        this.isError = true;
-    });
   }
   async updateUserCredentials(email: string, password: string) {
     this.isLoading = true;
