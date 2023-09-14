@@ -1,23 +1,24 @@
 <div class="login-main">
-  <img class="tavisca-logo" src="../../../assets/logos/tavisca-logo.svg" />
+  <img class="tavisca-logo" src="../../../assets/logos/app-logo.svg" />
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="authenticationService.isWrongCredentials"
-        class="input-error text-align-left"
-      >
-          Wrong Credentials
-      </div>
+    <div
+      *ngIf="authenticationService.isWrongCredentials"
+      class="input-error text-align-left"
+    >
+      Wrong Credentials
+    </div>
     <div class="text-align-left">
       <label>Email</label>
     </div>
     <div class="mb-3">
       <div class="input-group input-border">
-        <div class="input-group-prepend border-none" style="align-self:center">
+        <div class="input-group-prepend border-none" style="align-self: center">
           <i class="bi bi-envelope input-icon-size"></i>
         </div>
         <input
           type="text"
           id="email"
-          style="margin-left:3px"
+          style="margin-left: 3px"
           class="input-box form-control border-none"
           placeholder="Your Email"
           aria-label="Username"
@@ -68,7 +69,9 @@
         *ngIf="submitted && form['password'].errors"
         class="input-error text-align-left"
       >
-        <div *ngIf="form['password'].errors['required']">password is required</div>
+        <div *ngIf="form['password'].errors['required']">
+          password is required
+        </div>
         <div *ngIf="form['password'].errors['minLength']">
           password should be more than 8 characters
         </div>

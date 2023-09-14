@@ -1,13 +1,10 @@
 <div class="passcode-main">
-  <img class="tavisca-logo" src="../../../assets/logos/tavisca-logo.svg" />
+  <img class="tavisca-logo" src="../../../assets/logos/app-logo.svg" />
   <p *ngIf="isFirstPasscode" class="heading-text">Create Passcode</p>
   <p *ngIf="!isFirstPasscode" class="heading-text">Confirm Passcode</p>
-  <form
-    [formGroup]="loginForm"
-    (ngSubmit)="onCreatePasscode()"
-  >
+  <form [formGroup]="loginForm" (ngSubmit)="onCreatePasscode()">
     <div class="input-error text-align-left">
-      <div *ngIf="!isValuesSame" style="text-align: center;">
+      <div *ngIf="!isValuesSame" style="text-align: center">
         Passwords must be same
       </div>
     </div>
@@ -58,10 +55,16 @@
         (keyup)="onKey($event)"
       />
     </div>
-    <button 
-    [disabled]="form['one'].errors || form['two'].errors || form['three'].errors || form['four'].errors"
-    type="submit" 
-    class="btn btn-dark login-button passcode-btn">
+    <button
+      [disabled]="
+        form['one'].errors ||
+        form['two'].errors ||
+        form['three'].errors ||
+        form['four'].errors
+      "
+      type="submit"
+      class="btn btn-dark login-button passcode-btn"
+    >
       <div *ngIf="isFirstPasscode" class="mb-0">Create Passcode</div>
       <div *ngIf="!isFirstPasscode" class="mb-0">Confirm Passcode</div>
     </button>

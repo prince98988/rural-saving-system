@@ -4,51 +4,48 @@ import { GeneralHeader } from '../static/Haders';
 import { login_with_email_password, update_employee } from '../static/Urls';
 import { EmailValidator } from '@angular/forms';
 import { LoginResponse } from '../Types/AuthenticationType';
-import { LoginBodyRequest, UpdateUserCredentialsBodyRequest } from '../static/Body';
+import {
+  LoginBodyRequest,
+  UpdateUserCredentialsBodyRequest,
+} from '../static/Body';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { doc } from 'firebase/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
-
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore) {}
   isLoading = false;
   isWrongCredentials = false;
   isError = false;
-  
-  isUserCredentialsUpdated: boolean = false;
-  loginResponse!:LoginResponse;
 
-  async requestLogin(email:string, password:string){
-    this.isWrongCredentials = false;
-    const headers = GeneralHeader()
-    const body = LoginBodyRequest(email,password)
-    const data =await this.http.post(login_with_email_password, body, {headers}).toPromise()
-    .then(data => {
-        this.loginResponse = JSON.parse(JSON.stringify(data));
+  isUserCredentialsUpdated: boolean = false;
+  loginResponse!: LoginResponse;
+
+  async requestLogin(email: string, password: string) {
+    this.isWrongCredentials = true;
+    var list: any[] = [];
+    await this.firestore
+      .collection('login')
+      .get()
+      .forEach((collection) => {
+        var response = collection.docs.find((document) => {
+          console.log(document.data());
+          var json = JSON.parse(JSON.stringify(document.data()));
+          list.push(json);
+        });
+      });
+
+    list.forEach((user) => {
+      if (user.PhoneNumber == email && user.Password == password) {
         this.isWrongCredentials = false;
-    }).catch(
-    error => {
-        this.isWrongCredentials = true;
-        this.isError = true;
+      }
     });
+    console.log(this.isWrongCredentials);
   }
-  async updateUserCredentials(email: string, password: string) {
+  async updateUserCredentials(mmobile: string, password: string) {
     this.isLoading = true;
     this.isUserCredentialsUpdated = false;
-    var body = UpdateUserCredentialsBodyRequest(email, password);
-    const headers = {};
-    await this.http
-      .put(update_employee, body, { headers })
-      .toPromise()
-      .then((data) => {
-        var json = JSON.parse(JSON.stringify(data));
-        this.isUserCredentialsUpdated = true;
-        this.isLoading = false;
-      })
-      .catch((error) => {
-        this.isLoading = false;
-        this.isUserCredentialsUpdated = false;
-      });
   }
 }

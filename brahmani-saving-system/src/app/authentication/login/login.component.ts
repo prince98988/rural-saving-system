@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from 'src/app/general-settings/services/authentication.service';
-import { encryptData, getCryptpoKey } from 'src/app/general-settings/static/HelperFunctions';
+import {
+  encryptData,
+  getCryptpoKey,
+} from 'src/app/general-settings/static/HelperFunctions';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +31,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['login-passcode']);
     }
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.maxLength(10)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
   onForgotPassword() {
@@ -48,11 +51,10 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.email,
       this.loginForm.value.password
     );
-    if(this.authenticationService.isWrongCredentials) return;
-    const encryptedUserType = encryptData(this.authenticationService.loginResponse.employeeType.toString())
-    this.cookieService.set('userType', encryptedUserType, { expires: 30 });
-    this.cookieService.set('userName', this.authenticationService.loginResponse.name.toString(), { expires: 30 });
-    this.cookieService.set('userEmail', this.loginForm.value.email, { expires: 30 });
+    if (this.authenticationService.isWrongCredentials) return;
+    this.cookieService.set('userEmail', this.loginForm.value.email, {
+      expires: 30,
+    });
     this.router.navigate(['create-passcode']);
   }
   get form() {
