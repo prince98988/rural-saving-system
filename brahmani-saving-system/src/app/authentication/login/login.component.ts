@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.cookieService.check('passcode')) {
+    if (this.cookieService.check('userMobileNumber')) {
+      console.log('hii');
       this.router.navigate(['login-passcode']);
     }
     this.loginForm = this.formBuilder.group({
@@ -52,7 +53,16 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.password
     );
     if (this.authenticationService.isWrongCredentials) return;
-    this.cookieService.set('userEmail', this.loginForm.value.email, {
+    this.cookieService.set('userMobileNumber', this.loginForm.value.email, {
+      expires: 30,
+    });
+    const encryptedUserCredentials = encryptData(
+      JSON.stringify({
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      })
+    );
+    this.cookieService.set('userCredentials', encryptedUserCredentials, {
       expires: 30,
     });
     this.router.navigate(['create-passcode']);

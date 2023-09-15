@@ -2,7 +2,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { encryptData, getUserDashboard } from 'src/app/general-settings/static/HelperFunctions';
+import { HelpService } from 'src/app/general-settings/services/help.service';
+import {
+  encryptData,
+  getUserDashboard,
+} from 'src/app/general-settings/static/HelperFunctions';
 
 @Component({
   selector: 'app-page',
@@ -13,7 +17,8 @@ export class PasscodeComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private helpservice: HelpService
   ) {
     this.loginForm = this.createForm();
   }
@@ -25,7 +30,7 @@ export class PasscodeComponent implements OnInit {
   submitted: boolean = false;
 
   ngOnInit(): void {
-    document.getElementById('1')?.focus()
+    document.getElementById('1')?.focus();
   }
 
   createForm() {
@@ -49,38 +54,39 @@ export class PasscodeComponent implements OnInit {
     this.isFirstPasscode = false;
     this.firstPasscodeForm = this.loginForm;
     this.loginForm = this.createForm();
-    document.getElementById('1')?.focus()
+    document.getElementById('1')?.focus();
   }
-  secondPasscodeSubmit() {
-   
-    var passcodeOne:string = this.getValue(this.firstPasscodeForm.value)
-    var passcodeTwo:string = this.getValue(this.loginForm.value)
-    console.log(passcodeOne+" "+passcodeTwo);
-    if (this.checkFormValues(passcodeOne,passcodeTwo)) {
+  async secondPasscodeSubmit() {
+    var passcodeOne: string = this.getValue(this.firstPasscodeForm.value);
+    var passcodeTwo: string = this.getValue(this.loginForm.value);
+    console.log(passcodeOne + ' ' + passcodeTwo);
+    if (this.checkFormValues(passcodeOne, passcodeTwo)) {
       ///saving cookies
-      
-      this.cookieService.set('passcode', encryptData(passcodeOne), { expires: 30 });
-      var getDashboard:string = getUserDashboard(this.cookieService)
-      console.log(getDashboard);
-      this.router.navigate([getDashboard]);
+      this.cookieService.set('passcode', encryptData(passcodeOne), {
+        expires: 30,
+      });
+      this.router.navigate(['dashboard-reader']);
     } else {
       this.isValuesSame = false;
     }
   }
-  getValue(form:any):string{
-    var v1 = form.one + "";
-    var v2 = form.two + "";
-    var v3 = form.three + "";
-    var v4 = form.four + "";
+  getValue(form: any): string {
+    var v1 = form.one + '';
+    var v2 = form.two + '';
+    var v3 = form.three + '';
+    var v4 = form.four + '';
 
     var passcode =
-    v1.charAt(v1.length-1) + "" +
-    v2.charAt(v2.length-1) + "" +
-    v3.charAt(v3.length-1) + "" +
-    v4.charAt(v4.length-1);
+      v1.charAt(v1.length - 1) +
+      '' +
+      v2.charAt(v2.length - 1) +
+      '' +
+      v3.charAt(v3.length - 1) +
+      '' +
+      v4.charAt(v4.length - 1);
     return passcode;
   }
-  checkFormValues(passcodeOne:string, passcodeTwo:string) {
+  checkFormValues(passcodeOne: string, passcodeTwo: string) {
     return passcodeOne == passcodeTwo;
   }
   get form() {
@@ -102,8 +108,7 @@ export class PasscodeComponent implements OnInit {
         let cId = +this.currentId;
         let strId = (cId + 1).toString();
         field = document.getElementById(strId);
-      }
-      else this.secondPasscodeSubmit();
+      } else this.secondPasscodeSubmit();
     }
     if (field) {
       field.focus();
@@ -132,8 +137,7 @@ export class PasscodeComponent implements OnInit {
       let cId = +this.currentId;
       let strId = (cId + 1).toString();
       field = document.getElementById(strId);
-    }
-    else this.secondPasscodeSubmit();
+    } else this.secondPasscodeSubmit();
     if (field) {
       field.focus();
     }

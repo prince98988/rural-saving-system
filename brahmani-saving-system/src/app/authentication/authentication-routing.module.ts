@@ -21,7 +21,6 @@ const routes: Routes = [
   {
     path: 'login-passcode',
     component: PasscodeLoginComponent,
-    canActivate: [ReaderGuard],
   },
 ];
 

@@ -14,6 +14,8 @@ import {
 import { ReaderDashboardData } from '../Types/ReaderTypes';
 import { CookieService } from 'ngx-cookie-service';
 import { ReaderDashboardBodyRequest } from '../static/Body';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -24,38 +26,80 @@ export class ReaderService {
   userName!: string;
   useEmail!: string;
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+    private firestore: AngularFirestore,
+    private router: Router
+  ) {
     this.userName = getCurrentUserName(cookieService);
     this.useEmail = getCurrentUserEmail(cookieService);
   }
 
   isReader() {
-    var userType = getCurrentUserType(this.cookieService)
-    if (
-      userType == 'Admin' ||
-      userType == 'Writer' ||
-      userType == 'Reader'
-    ) {
+    var userType = getCurrentUserType(this.cookieService);
+    if (userType == 'Admin' || userType == 'Writer' || userType == 'Reader') {
       return true;
     } else return false;
   }
   async requestDashboardData() {
-    const headers = GeneralHeader();
-    const currentTime = new Date().toISOString();
-    //remaining
-    const body = ReaderDashboardBodyRequest(currentTime)
-    const url = reader_dashboard_details 
-    await this.http
-      .post(url, body, { headers })
-      .toPromise()
-      .then((data) => {
-        this.dashboardData = JSON.parse(JSON.stringify(data));
-        this.hideLoader();
-      })
-      .catch((error) => {
-        this.hideLoader();
-        this.isReaderDashboardDataLoaded = false;
+    if (this.cookieService.check('userMobileNumber')) {
+      await this.getUserData(this.cookieService.get('userMobileNumber'));
+    } else {
+      this.router.navigate(['login']);
+    }
+  }
+
+  async getUserData(mmobile: string) {
+    //get user data
+    var userData = null;
+    var list: any[] = [];
+    await this.firestore
+      .collection('memberTable')
+      .get()
+      .forEach((collection) => {
+        var response = collection.docs.find((document) => {
+          console.log(document.data());
+          var json = JSON.parse(JSON.stringify(document.data()));
+          list.push(json);
+        });
       });
+    list.forEach((user) => {
+      if (user.PhoneNumber == mmobile) {
+        userData = user;
+      }
+    });
+
+    this.cookieService.set('userData', JSON.stringify(userData), {
+      expires: 1,
+    });
+
+    if (userData != null) {
+      list = [];
+      //get assiciation data
+      await this.firestore
+        .collection('associationTable')
+        .get()
+        .forEach((collection) => {
+          var response = collection.docs.find((document) => {
+            console.log(document.data());
+            var json = JSON.parse(JSON.stringify(document.data()));
+            list.push(json);
+          });
+        });
+      var associationData = list[0];
+      this.cookieService.set(
+        'associationData',
+        JSON.stringify(associationData),
+        {
+          expires: 1,
+        }
+      );
+    }
+    console.log(this.cookieService.get('userData'));
+    console.log(this.cookieService.get('associationData'));
+    if (userData != null) return JSON.parse(JSON.stringify(userData)).Role;
+    else return 'Unknown';
   }
 
   makeLoader() {

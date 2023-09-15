@@ -36,7 +36,8 @@ export function getCurrentUserEmail(cookieService: CookieService) {
 }
 
 export function getCurrentUserType(cookieService: CookieService) {
-  if (cookieService.check('userType')) return decryptData(cookieService.get('userType'));
+  if (cookieService.check('userMobileNumber'))
+    return cookieService.get('userMobileNumber');
   else return 'Unkown';
 }
 export function makeCardAnimation(className: string) {
@@ -73,7 +74,7 @@ export function hideCardAnimation(className: string) {
   }
 }
 
-export function getUserDashboard(cookieService:CookieService){
-  var userType:string = getCurrentUserType(cookieService).toLowerCase();
-  return 'dashboard-'+ userType
-} 
+export function getUserDashboard(cookieService: CookieService) {
+  var userType: string = getCurrentUserType(cookieService).toLowerCase();
+  return 'dashboard-' + userType;
+}

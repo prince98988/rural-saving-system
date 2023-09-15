@@ -10,13 +10,21 @@ import { ReaderDashboardComponent } from './reader-dashboard/reader-dashboard.co
 import { WriterDashboardComponent } from './writer-dashboard/writer-dashboard.component';
 
 const routes: Routes = [
-  {path: 'dashboard-reader', component:ReaderDashboardComponent, canActivate: [ReaderGuard]},
-  {path: 'dashboard-writer', component:WriterDashboardComponent, canActivate: [WriterGuard]},
-  {path: 'dashboard-admin', component:AdminDashboardComponent, canActivate: [AdminGuard]},
+  { path: 'dashboard-reader', component: ReaderDashboardComponent },
+  {
+    path: 'dashboard-writer',
+    component: WriterDashboardComponent,
+    canActivate: [WriterGuard],
+  },
+  {
+    path: 'dashboard-admin',
+    component: AdminDashboardComponent,
+    canActivate: [AdminGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes), AdminRoutingModule],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

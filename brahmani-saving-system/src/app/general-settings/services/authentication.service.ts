@@ -23,6 +23,9 @@ export class AuthenticationService {
   isUserCredentialsUpdated: boolean = false;
   loginResponse!: LoginResponse;
 
+  userData: any = null;
+  associationData: any = null;
+
   async requestLogin(email: string, password: string) {
     this.isWrongCredentials = true;
     var list: any[] = [];
