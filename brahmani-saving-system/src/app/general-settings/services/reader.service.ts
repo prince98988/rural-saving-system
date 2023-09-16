@@ -11,7 +11,7 @@ import {
   hideCardAnimation,
   makeCardAnimation,
 } from '../static/HelperFunctions';
-import { ReaderDashboardData } from '../Types/ReaderTypes';
+import { MemberData, AssociationData } from '../Types/ReaderTypes';
 import { CookieService } from 'ngx-cookie-service';
 import { ReaderDashboardBodyRequest } from '../static/Body';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -22,7 +22,8 @@ import { Router } from '@angular/router';
 })
 export class ReaderService {
   isReaderDashboardDataLoaded = false;
-  dashboardData!: ReaderDashboardData;
+  memberData!: MemberData;
+  associationData!: AssociationData;
   userName!: string;
   useEmail!: string;
 
@@ -44,7 +45,10 @@ export class ReaderService {
   }
   async requestDashboardData() {
     if (this.cookieService.check('userMobileNumber')) {
-      await this.getUserData(this.cookieService.get('userMobileNumber'));
+      this.memberData = await this.getUserData(
+        this.cookieService.get('userMobileNumber')
+      );
+      this.hideLoader();
     } else {
       this.router.navigate(['login']);
     }
@@ -58,7 +62,7 @@ export class ReaderService {
       .collection('memberTable')
       .get()
       .forEach((collection) => {
-        var response = collection.docs.find((document) => {
+        collection.docs.find((document) => {
           console.log(document.data());
           var json = JSON.parse(JSON.stringify(document.data()));
           list.push(json);
@@ -68,10 +72,6 @@ export class ReaderService {
       if (user.PhoneNumber == mmobile) {
         userData = user;
       }
-    });
-
-    this.cookieService.set('userData', JSON.stringify(userData), {
-      expires: 1,
     });
 
     if (userData != null) {
@@ -95,11 +95,14 @@ export class ReaderService {
           expires: 1,
         }
       );
+      this.associationData = JSON.parse(JSON.stringify(associationData));
     }
-    console.log(this.cookieService.get('userData'));
-    console.log(this.cookieService.get('associationData'));
-    if (userData != null) return JSON.parse(JSON.stringify(userData)).Role;
-    else return 'Unknown';
+
+    console.log(this.associationData);
+    if (userData == null || associationData == null) {
+      this.router.navigate(['login']);
+    }
+    return JSON.parse(JSON.stringify(userData));
   }
 
   makeLoader() {

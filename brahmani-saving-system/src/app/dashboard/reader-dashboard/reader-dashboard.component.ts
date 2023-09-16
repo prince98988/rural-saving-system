@@ -31,7 +31,7 @@ export class ReaderDashboardComponent implements OnInit {
   }
 
   async getDashboardData() {
-    //await this.readerService.requestDashboardData();
+    await this.readerService.requestDashboardData();
   }
 
   openSettingPopup() {

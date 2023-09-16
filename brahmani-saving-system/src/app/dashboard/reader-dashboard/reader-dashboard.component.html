@@ -1,9 +1,11 @@
 <div class="dashboard-main">
   <div class="modal-top">
     <div class="welcome-box">
-      <p class="welcome-text">Welcome, {{ readerService.userName }}</p>
+      <p class="welcome-text">
+        Welcome, {{ readerService.memberData.FirstName }}
+      </p>
       <img
-      *ngIf="readerService.isReaderDashboardDataLoaded"
+        *ngIf="readerService.isReaderDashboardDataLoaded"
         class="icon-setting"
         (click)="openSettingPopup()"
         src="../../../assets/logos/icon-settings.svg"
@@ -11,65 +13,73 @@
     </div>
 
     <div class="fit-content">
-      <p class="main-text">Realtime Parking Status</p>
+      <p class="main-text">Brahamani Bachat Mandal</p>
     </div>
     <div class="row-dashboard">
-      <div class="card card-car">
+      <div class="card card-col-red">
         <div class="card-widget-body">
-          <img
-            class="card-widget-icon"
-            src="../../../assets/logos/icon-car.svg"
-          />
           <p
-            class="card-widget-text"
+            class="card-widget-header-text-white"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.currentCarCount }} Slots Available
+            {{ readerService.memberData.Shares }} Rs
           </p>
+
+          <p class="card-widget-text-white">Premium need to pay</p>
         </div>
       </div>
-      <div class="card card-bike">
+      <div class="card card-col-red">
         <div class="card-widget-body">
-          <img
-            class="card-widget-icon"
-            src="../../../assets/logos/icon-bike.svg"
-          />
           <p
-            class="card-widget-text"
+            class="card-widget-header-text-white"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.currentBikeCount }} Slots Available
+            {{ readerService.memberData.Shares }} Rs
           </p>
+          <p class="card-widget-text-white">interest need to pay</p>
+        </div>
+      </div>
+      <div class="card card-col-red">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text-white"
+            *ngIf="readerService.isReaderDashboardDataLoaded"
+          >
+            {{ readerService.memberData.Shares }} Rs
+          </p>
+          <p class="card-widget-text-white">Penalty need to pay</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">You can get a slot if you reach in</p>
+      <p class="main-text">Your Details</p>
     </div>
     <div class="row-dashboard">
-      <div class="card card-car">
+      <div class="card-big-size card card-car">
         <div class="card-widget-body">
           <p
-            class="card-widget-text"
+            class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.carSafeTime }}
+            {{ readerService.memberData.Shares }}
           </p>
+          <p class="card-widget-text">Total Shares</p>
         </div>
       </div>
-      <div class="card card-bike">
+      <div class="card-big-size card card-bike">
         <div class="card-widget-body">
           <p
-            class="card-widget-text"
+            class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.bikeSafeTime }}
+            {{ readerService.memberData.PremiumPaid }} Rs
           </p>
+          <p class="card-widget-text">Total Premium Paid</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">After 15 Minutes</p>
+      <p class="main-text">Loan Details</p>
     </div>
     <div class="row-dashboard">
       <div class="card card-car">
@@ -78,9 +88,9 @@
             class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.nextFifteenMinutes.carCount }} Slots
+            {{ readerService.memberData.LoanAmount }} Rs
           </p>
-          <p class="card-widget-text">will be available</p>
+          <p class="card-widget-text">Loan amount</p>
         </div>
       </div>
       <div class="card card-bike">
@@ -89,14 +99,14 @@
             class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.nextFifteenMinutes.bikeCount }} Slots
+            {{ readerService.memberData.InterestPaid }} Rs
           </p>
-          <p class="card-widget-text">will be available</p>
+          <p class="card-widget-text">interest paid</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">After 30 Minutes</p>
+      <p class="main-text">Next Month Details</p>
     </div>
     <div class="row-dashboard">
       <div class="card card-car">
@@ -105,9 +115,13 @@
             class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.nextThirtyMinutes.carCount }} Slots
+            {{
+              readerService.memberData.Shares *
+                readerService.associationData.SharePrice
+            }}
+            Rs
           </p>
-          <p class="card-widget-text">will be available</p>
+          <p class="card-widget-text">Premium</p>
         </div>
       </div>
       <div class="card card-bike">
@@ -116,36 +130,14 @@
             class="card-widget-header-text"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.dashboardData.nextThirtyMinutes.bikeCount }} Slots
+            {{
+              (readerService.memberData.LoanAmount *
+                readerService.associationData.InterestRate) /
+                100
+            }}
+            Rs
           </p>
-          <p class="card-widget-text">will be available</p>
-        </div>
-      </div>
-    </div>
-    <div class="fit-content">
-      <p class="main-text">After 1 Hours</p>
-    </div>
-    <div class="row-dashboard">
-      <div class="card card-car">
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
-            {{ readerService.dashboardData.nextOneHour.carCount }} Slots
-          </p>
-          <p class="card-widget-text">will be available</p>
-        </div>
-      </div>
-      <div class="card card-bike">
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
-            {{ readerService.dashboardData.nextOneHour.bikeCount }} Slots
-          </p>
-          <p class="card-widget-text">will be available</p>
+          <p class="card-widget-text">interest</p>
         </div>
       </div>
     </div>
