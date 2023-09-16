@@ -1,0 +1,133 @@
+<div class="dashboard-main">
+  <div class="modal-top">
+    <div class="search-box">
+      <div class="search-inner">
+        <p class="search-text">Search Employee</p>
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-person input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="email"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            placeholder="Enter Name"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="email"
+          />
+        </div>
+      </div>
+    </div>
+    <p class="main-text">Employee List</p>
+    <div class="employee-list">
+      <div *ngFor="let employee of adminService.employeeResponseArray">
+        <div class="row-dashboard">
+          <div
+            class="card-vehicle-entry"
+            (click)="onSelectUser(employee.name, employee.email)"
+          >
+            <div class="card-body">
+              <p class="employee-entry-text">{{ employee.name }}</p>
+              <p class="employee-entry-text">{{ employee.email }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-dashboard">
+      <div class="add-employee-btn">
+        <button
+          type="submit"
+          class="btn btn-dark add-employee-btn"
+          (click)="addEmployee()"
+        >
+          Add Employee
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: removeEmployeeStyle }"
+    (click)="closeRemoveEmployeePopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-cancel.svg"
+        />
+        <p class="card-modal-text">Entry Removed</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: settingsPopUpStyle }"
+    (click)="closeSettingPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">{{ selectedUserName }}</p>
+        <p class="card-modal-text">{{ selectedUserEmail }}</p>
+        <div class="">
+          <button type="submit" class="btn btn-dark">Update</button>
+          <button
+            type="submit"
+            class="btn btn-dark btn-down"
+            style="margin-left: 5%"
+            (click)="removeEmployeeEntry()"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/gifs/spinner.gif"
+        />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
+    </div>
+  </div>
+</div>

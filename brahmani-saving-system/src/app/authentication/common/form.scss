@@ -1,0 +1,43 @@
+.login-main{
+    text-align: center; 
+    margin-top: 10vh;
+}
+.tavisca-logo{
+    margin-bottom: 7%;
+    width: 15%;
+}
+.login-form{
+    width: 30%;
+    margin: var(--margin-center);
+}
+.border-none{
+    border: none;
+}
+.input-border{
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+.input-icon-size{
+    height: var(--input-icon-size);
+    width: var(--input-icon-size);
+}
+.input-box{
+    margin-left: 2px;
+}
+.forgot-password{
+    color: var(--link-color);
+    cursor: pointer;
+}
+.login-button{
+    width: 100%;
+}
+.text-align-left{
+    text-align: left;
+}
+.text-align-right{
+    text-align: right;
+}
+.input-error{
+    color: var(--red)
+}
