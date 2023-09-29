@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import {
   BikeEntryBodyRequest,
   CarEntryBodyRequest,
@@ -22,12 +23,17 @@ import {
   writer_dashboard_details,
 } from '../static/Urls';
 import { Vehicle, WriterDashboardData } from '../Types/WriterType';
+import { UserMonthlyData } from '../Types/ReaderTypes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WriterService {
-  constructor(private http: HttpClient, private cookieService: CookieService) {
+  constructor(
+    private http: HttpClient,
+    private cookieService: CookieService,
+    private firestore: AngularFirestore
+  ) {
     this.userName = getCurrentUserName(cookieService);
   }
   userName!: string;
@@ -36,7 +42,8 @@ export class WriterService {
   isVehicleDeleted = true;
   isAllVehicleEntriesAdded = true;
   vehicleEntries: Array<Vehicle> = [];
-  writerDashboardData!: WriterDashboardData;
+  membersMonthlyDetails: Array<UserMonthlyData> = [];
+  searchedMembersMonthlyDetails: Array<UserMonthlyData> = [];
 
   isWriter() {
     var userType = getCurrentUserType(this.cookieService);
@@ -57,23 +64,27 @@ export class WriterService {
     hideCardAnimation('fit-content');
     hideCardAnimation('card-vehicle-entry');
   }
-  async getWriterDashboardDetails() {
-    this.isDashBoardDetailsAdded = false
-    const headers = {};
-    await this.http
-      .get(writer_dashboard_details, { headers })
-      .toPromise()
-      .then((data) => {
-        this.writerDashboardData = JSON.parse(JSON.stringify(data));
-        this.vehicleEntries = this.writerDashboardData.logs;
-        this.isDashBoardDetailsAdded = true;
-      })
-      .catch((error) => {
-        this.isDashBoardDetailsAdded = false;
-      })
-      .finally(()=>{
-        this.hideLoader();
-      })
+  async getAllMembersMontlyDetails() {
+    this.isDashBoardDetailsAdded = false;
+    this.firestore
+      .collection('monthlyUserData/2023/Nov')
+      .get()
+      .forEach((collection) => {
+        collection.docs.find((document) => {
+          console.log(document.data());
+          var json = JSON.parse(JSON.stringify(document.data()));
+          this.membersMonthlyDetails.push(json);
+        });
+      });
+    this.searchedMembersMonthlyDetails = this.membersMonthlyDetails;
+    console.log(this.membersMonthlyDetails);
+  }
+
+  searchMembers(text: any) {
+    console.log(text);
+    this.searchedMembersMonthlyDetails = this.membersMonthlyDetails.filter(
+      (member) => member.PhoneNumber.indexOf(text) != -1
+    );
   }
   async postVehicleEntry(vehicleType: string) {
     var body = CarEntryBodyRequest();

@@ -50,5 +50,11 @@ export class AuthenticationService {
   async updateUserCredentials(mmobile: string, password: string) {
     this.isLoading = true;
     this.isUserCredentialsUpdated = false;
+    await this.firestore
+      .collection('login')
+      .doc(mmobile)
+      .update({ PhoneNumber: mmobile, Password: password });
+    this.isLoading = false;
+    this.isUserCredentialsUpdated = true;
   }
 }

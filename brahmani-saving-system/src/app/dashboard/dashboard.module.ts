@@ -11,24 +11,16 @@ import { ReaderGuard } from '../general-settings/AccessComponents/ReaderGuard';
 import { LoginComponent } from '../authentication/login/login.component';
 import { AppModule } from '../app.module';
 import { PopUpComponent } from '../general-settings/components/pop-up/pop-up.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     ReaderDashboardComponent,
     WriterDashboardComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
   ],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-  ],
-  exports:[
-    ReaderDashboardComponent
-  ],
-  providers:[
-    AdminGuard,
-    WriterGuard,
-    ReaderGuard
-  ],
+  imports: [CommonModule, DashboardRoutingModule, FormsModule],
+  exports: [ReaderDashboardComponent],
+  providers: [AdminGuard, WriterGuard, ReaderGuard],
 })
-export class DashboardModule { }
+export class DashboardModule {}

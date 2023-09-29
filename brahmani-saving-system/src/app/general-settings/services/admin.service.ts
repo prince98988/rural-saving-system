@@ -4,10 +4,15 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import {
   AddEmployeeBodyRequest,
-  RemoveEmployeeBodyRequest
+  RemoveEmployeeBodyRequest,
 } from '../static/Body';
 import { getCurrentUserType } from '../static/HelperFunctions';
-import { add_New_employee, get_all_employee, remove_employee, update_employee } from '../static/Urls';
+import {
+  add_New_employee,
+  get_all_employee,
+  remove_employee,
+  update_employee,
+} from '../static/Urls';
 import { EmployeeResponseArray } from '../Types/AdminType';
 
 @Injectable({
@@ -25,9 +30,7 @@ export class AdminService {
   employeeResponseArray: EmployeeResponseArray = [];
 
   isAdmin() {
-    if (
-     getCurrentUserType(this.cookieService) == 'Admin'
-    ) {
+    if (getCurrentUserType(this.cookieService) == 'Admin') {
       return true;
     } else return false;
   }
@@ -51,7 +54,7 @@ export class AdminService {
     var body = RemoveEmployeeBodyRequest(email);
     const headers = {};
     await this.http
-      .delete(remove_employee,{ headers: headers, body: body })
+      .delete(remove_employee, { headers: headers, body: body })
       .toPromise()
       .then((data) => {
         var json = JSON.parse(JSON.stringify(data));
@@ -61,7 +64,7 @@ export class AdminService {
         this.isEmployeeRemoved = false;
       });
   }
-  async getAllEmployee() {
+  async getAllMemberMontlyDetails() {
     this.isEmployeeResponseArrayAdded = false;
     const headers = {};
     await this.http

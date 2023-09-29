@@ -30,8 +30,9 @@ export function getCurrentUserName(cookieService: CookieService) {
   if (cookieService.check('userName')) return cookieService.get('userName');
   else return 'Unkown';
 }
-export function getCurrentUserEmail(cookieService: CookieService) {
-  if (cookieService.check('userEmail')) return cookieService.get('userEmail');
+export function getCurrentUserMobileNumber(cookieService: CookieService) {
+  if (cookieService.check('userMobileNumber'))
+    return cookieService.get('userMobileNumber');
   else return 'Unkown';
 }
 

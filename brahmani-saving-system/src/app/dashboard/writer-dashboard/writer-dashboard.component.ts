@@ -1,108 +1,72 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { WriterService } from 'src/app/general-settings/services/writer.service';
-import { DeleteEntryBodyRequest } from 'src/app/general-settings/static/Body';
-import { hideCardAnimation, makeCardAnimation } from 'src/app/general-settings/static/HelperFunctions';
-import { PopUpComponent } from '../../general-settings/components/pop-up/pop-up.component';
 
 @Component({
   selector: 'app-writer-dashboard',
   templateUrl: './writer-dashboard.component.html',
-  styleUrls: ['./writer-dashboard.component.scss']
+  styleUrls: ['./writer-dashboard.component.scss'],
 })
-export class WriterDashboardComponent implements OnInit{
-
-  constructor( @Inject(WriterService)
-  public writerService: WriterService) {
-    this.getDashboardData();
-   }
-  loadingDisplayStyle = 'none';
-  doneDisplayStyle = "none";
-  removeDisplayStyle = "none";
+export class WriterDashboardComponent implements OnInit {
+  removeEmployeeStyle = 'none';
   somethingWentWrongStyle: string = 'none';
-  isDisplayAllEntries = false;
+  settingsPopUpStyle: string = 'none';
+  selectedUserName: string = '';
+  selectedUserEmail: string = '';
+  loadingDisplayStyle: string = 'none';
+  searchForm!: FormGroup;
+  searchText: string = '';
+  constructor(
+    private router: Router,
+    @Inject(WriterService)
+    public writerService: WriterService,
+    private formBuilder: FormBuilder
+  ) {
+    this.getAllMember();
+  }
 
   ngOnInit(): void {
-    this.writerService.makeLoader();
+    this.searchForm = this.formBuilder.group({
+      searchText: ['', []],
+    });
   }
-  async getDashboardData(){
-    await this.writerService.getWriterDashboardDetails();
 
+  async getAllMember() {
+    await this.writerService.getAllMembersMontlyDetails();
   }
-  async addCarEntry(){
-    this.openLoadingPopup();
-    await this.writerService.postVehicleEntry('Car');
-    await this.getDashboardData();
-    this.closeLoadingPopup();
-    if(this.writerService.isVehicleAdded) 
-      this.openDonePopup();
-    else this.openErrorPopup();
-
+  openRemoveEmployeePopup() {
+    this.removeEmployeeStyle = 'flex';
   }
-  async addBikeEntry(){
-    this.openLoadingPopup();
-    await this.writerService.postVehicleEntry('Bike');
-    await this.getDashboardData();
-    this.closeLoadingPopup();
-    if(this.writerService.isVehicleAdded) 
-      this.openDonePopup();
-    else this.openErrorPopup();
-  }
-  async deleteEntry(timeStamp:string, vehicle:string){
-    this.openLoadingPopup();
-    await this.writerService.deleteVehicleEntry(timeStamp,vehicle);
-    await this.getDashboardData();
-    this.closeLoadingPopup();
-    if(this.writerService.isVehicleDeleted) 
-      this.openRemovePopup();
-    else this.openErrorPopup();
-  }
-  openDonePopup() {
-    this.doneDisplayStyle = "flex";
-  }
-  closeDonePopup() {
-    this.doneDisplayStyle = "none";
-  }
-  removeEntry(){
-    this.openRemovePopup();
-  }
-  openRemovePopup() {
-    this.removeDisplayStyle = "flex";
-  }
-  closeRemovePopup() {
-    this.removeDisplayStyle = "none";
+  closeRemoveEmployeePopup() {
+    this.removeEmployeeStyle = 'none';
   }
   openErrorPopup() {
-    this.somethingWentWrongStyle = "flex";
+    this.somethingWentWrongStyle = 'flex';
   }
   closeErrorPopup() {
-    this.somethingWentWrongStyle = "none";
+    this.somethingWentWrongStyle = 'none';
+  }
+  openSettingPopup() {
+    this.settingsPopUpStyle = 'flex';
+  }
+  closeSettingPopup() {
+    this.settingsPopUpStyle = 'none';
+  }
+  addEmployee() {
+    this.router.navigate(['add-employee']);
   }
   openLoadingPopup() {
-    this.loadingDisplayStyle = "flex";
+    this.loadingDisplayStyle = 'flex';
   }
   closeLoadingPopup() {
-    this.loadingDisplayStyle = "none";
+    this.loadingDisplayStyle = 'none';
   }
-  async displayAllEntries(){
-    this.openLoadingPopup();
-    await this.writerService.gelAllEntries();
-    this.closeLoadingPopup();
-    if(this.writerService.isAllVehicleEntriesAdded)
-      this.isDisplayAllEntries = true;
-    else 
-      this.openErrorPopup();
+  onSelectUser(username: string) {
+    this.settingsPopUpStyle = 'flex';
+    this.selectedUserName = username;
   }
-  async getAllEntries(){
-    await this.writerService.gelAllEntries();
-    if(this.writerService.isAllVehicleEntriesAdded)
-      this.isDisplayAllEntries = true;
-    else 
-      this.openErrorPopup();
+  searchMembers(searchText: any) {
+    console.log('jjf');
   }
-
-  getVehicleSrc(vehicleType:string){
-    if(vehicleType == 'Car') return '../../../assets/logos/icon-car.svg'
-    else return '../../../assets/logos/icon-bike.svg'
-  }
-
 }

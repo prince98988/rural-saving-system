@@ -25,7 +25,7 @@ export class EmployeeListComponent implements OnInit {
   ngOnInit(): void {}
 
   async getAllEmployee() {
-    await this.adminService.getAllEmployee();
+    await this.adminService.getAllMemberMontlyDetails();
   }
   async removeEmployeeEntry() {
     this.openLoadingPopup();
@@ -48,22 +48,22 @@ export class EmployeeListComponent implements OnInit {
     this.somethingWentWrongStyle = 'none';
   }
   openSettingPopup() {
-    this.settingsPopUpStyle = "flex";
+    this.settingsPopUpStyle = 'flex';
   }
   closeSettingPopup() {
-    this.settingsPopUpStyle = "none";
+    this.settingsPopUpStyle = 'none';
   }
   addEmployee() {
     this.router.navigate(['add-employee']);
   }
   openLoadingPopup() {
-    this.loadingDisplayStyle = "flex";
+    this.loadingDisplayStyle = 'flex';
   }
   closeLoadingPopup() {
-    this.loadingDisplayStyle = "none";
+    this.loadingDisplayStyle = 'none';
   }
-  onSelectUser(username:string, useremail:string){
-    this.settingsPopUpStyle = 'flex'
+  onSelectUser(username: string, useremail: string) {
+    this.settingsPopUpStyle = 'flex';
     this.selectedUserName = username;
     this.selectedUserEmail = useremail;
   }

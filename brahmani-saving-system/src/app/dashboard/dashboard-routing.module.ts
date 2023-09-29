@@ -14,12 +14,10 @@ const routes: Routes = [
   {
     path: 'dashboard-writer',
     component: WriterDashboardComponent,
-    canActivate: [WriterGuard],
   },
   {
     path: 'dashboard-admin',
     component: AdminDashboardComponent,
-    canActivate: [AdminGuard],
   },
 ];
 
