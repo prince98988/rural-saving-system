@@ -1,7 +1,7 @@
 <div class="dashboard-main">
   <div class="modal-top">
     <div class="welcome-box">
-      <p class="welcome-text">
+      <p class="welcome-text" *ngIf="readerService.isReaderDashboardDataLoaded">
         Welcome, {{ readerService.memberData.FirstName }}
       </p>
       <img
@@ -16,36 +16,59 @@
       <p class="main-text">Brahamani Bachat Mandal</p>
     </div>
     <div class="row-dashboard">
-      <div class="card card-col-red">
+      <div
+        class="card"
+        [ngClass]="
+          readerService.userCurrentMonthData.PremiumStatus
+            ? 'card-col-green'
+            : 'card-col-red'
+        "
+      >
         <div class="card-widget-body">
           <p
             class="card-widget-header-text-white"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.memberData.Shares }} Rs
+            {{ readerService.userCurrentMonthData.Premium }} Rs
           </p>
 
           <p class="card-widget-text-white">Premium need to pay</p>
         </div>
       </div>
-      <div class="card card-col-red">
+      <div
+        class="card"
+        [ngClass]="
+          readerService.userCurrentMonthData.InterestStatus
+            ? 'card-col-green'
+            : 'card-col-red'
+        "
+      >
         <div class="card-widget-body">
           <p
             class="card-widget-header-text-white"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.memberData.Shares }} Rs
+            {{ readerService.userCurrentMonthData.InterestAmount }} Rs
           </p>
           <p class="card-widget-text-white">interest need to pay</p>
         </div>
       </div>
-      <div class="card card-col-red">
+    </div>
+    <div class="row-dashboard">
+      <div
+        class="card"
+        [ngClass]="
+          readerService.userCurrentMonthData.PenaltyPaid == 0
+            ? 'card-col-center-green'
+            : 'card-col-center-red'
+        "
+      >
         <div class="card-widget-body">
           <p
             class="card-widget-header-text-white"
             *ngIf="readerService.isReaderDashboardDataLoaded"
           >
-            {{ readerService.memberData.Shares }} Rs
+            {{ readerService.userCurrentMonthData.PenaltyPaid }} Rs
           </p>
           <p class="card-widget-text-white">Penalty need to pay</p>
         </div>
@@ -102,6 +125,19 @@
             {{ readerService.memberData.InterestPaid }} Rs
           </p>
           <p class="card-widget-text">interest paid</p>
+        </div>
+      </div>
+    </div>
+    <div class="row-dashboard">
+      <div class="card card-center">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="readerService.isReaderDashboardDataLoaded"
+          >
+            {{ readerService.memberData.PenaltyPaid }} Rs
+          </p>
+          <p class="card-widget-text">Penalty paid</p>
         </div>
       </div>
     </div>

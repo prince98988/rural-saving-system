@@ -43,3 +43,14 @@ export interface AssociationData {
   SharePrice: number;
   AvailableBalance: number;
 }
+
+export interface UserMonthlyData {
+  PhoneNumber: string;
+  Premium: number;
+  PremiumStatus: boolean;
+  LoanAmount: number;
+  InterestAmount: number;
+  InterestStatus: boolean;
+  PenaltyPaid: number;
+  DateTime: Date;
+}

@@ -57,12 +57,34 @@
   margin-right: 2%;
   background-color: var(--red-color);
 }
+
+.card-col-center-red {
+  margin: auto;
+  background-color: var(--red-color);
+}
+
+.card-col-center-green {
+  margin: auto;
+  background-color: var(--green-color);
+}
+
+.card-col-green {
+  margin-left: 2%;
+  margin-right: 2%;
+  background-color: var(--green-color);
+}
+
 .card-right-bg-color {
   margin-right: 7%;
   background-color: var(--white);
 }
 .card-bike {
   margin-right: 7%;
+  background-color: var(--bike-bg-color);
+}
+
+.card-center {
+  margin: auto;
   background-color: var(--bike-bg-color);
 }
 

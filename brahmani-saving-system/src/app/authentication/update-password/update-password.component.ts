@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from 'src/app/general-settings/services/authentication.service';
-import { getCurrentUserEmail } from 'src/app/general-settings/static/HelperFunctions';
+import { getCurrentUserMobileNumber } from 'src/app/general-settings/static/HelperFunctions';
 
 @Component({
   selector: 'app-update-password',
@@ -23,8 +23,8 @@ export class UpdatePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.updatePasswordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      cpassword: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.maxLength(8)]],
+      cpassword: ['', [Validators.required, Validators.maxLength(8)]],
     });
   }
   async onSubmit() {
@@ -33,11 +33,11 @@ export class UpdatePasswordComponent implements OnInit {
       return;
     }
     await this.authenticationService.updateUserCredentials(
-      getCurrentUserEmail(this.cookieService),
+      getCurrentUserMobileNumber(this.cookieService),
       this.updatePasswordForm.value.password
     );
-    if(this.authenticationService.isUserCredentialsUpdated)
-    this.router.navigate(['dashboard-reader']);
+    if (this.authenticationService.isUserCredentialsUpdated)
+      this.router.navigate(['dashboard-reader']);
   }
 
   get form() {

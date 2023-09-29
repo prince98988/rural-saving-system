@@ -15,7 +15,6 @@ const routes: Routes = [
   {
     path: 'update-password',
     component: UpdatePasswordComponent,
-    canActivate: [ReaderGuard],
   },
   { path: 'create-passcode', component: PasscodeComponent },
   {

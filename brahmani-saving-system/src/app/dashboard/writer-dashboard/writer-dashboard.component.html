@@ -1,145 +1,50 @@
 <div class="dashboard-main">
   <div class="modal-top">
-    <div class="fit-content">
-      <p class="welcome-text">Welcome, {{writerService.userName}}</p>
-    </div>
-    <div class="fit-content">
-      <p class="main-text">Realtime Parking Status</p>
-    </div>
-    <div class="row-dashboard">
-      <div class="card card-car">
-        <div class="card-widget-body">
-          <p class="card-title-text">Car</p>
-          <p class="card-widget-text">{{writerService.writerDashboardData.carCount}} Slots Available</p>
-        </div>
-      </div>
-      <div class="card card-bike">
-        <div class="card-widget-body">
-          <p class="card-title-text">Bike</p>
-          <p class="card-widget-text">{{writerService.writerDashboardData.bikeCount}} Slots Available</p>
-        </div>
-      </div>
-    </div>
-    <div class="fit-content">
-      <p class="main-text">New Vehicle Entry</p>
-    </div>
-    <div class="row-dashboard">
-      <div class="card card-car" (click)="addCarEntry()">
-        <div class="card-widget-body">
-          <img
-            class="card-widget-icon"
-            src="../../../assets/logos/icon-car.svg"
+    <div class="search-box">
+      <div class="search-inner">
+        <p class="search-text">Search member</p>
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-person input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="email"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            placeholder="Enter mobile number or name"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            [ngModel]="searchText"
+            (ngModelChange)="writerService.searchMembers($event)"
           />
-          <p class="card-widget-text">Car Entry</p>
-        </div>
-      </div>
-      <div class="card card-bike" (click)="addBikeEntry()">
-        <div class="card-widget-body">
-          <img
-            class="card-widget-icon"
-            src="../../../assets/logos/icon-bike.svg"
-          />
-          <p class="card-widget-text">Bike Entry</p>
         </div>
       </div>
     </div>
-    <div class="fit-content">
-      <p class="main-text mt-5 mb-5">Last Vehicle Entries</p>
-    </div>
-    <div class="vehicle-list">
-      <div *ngFor="let entry of writerService.vehicleEntries">
+    <p class="main-text">Member List</p>
+    <div class="employee-list">
+      <div *ngFor="let member of writerService.searchedMembersMonthlyDetails">
         <div class="row-dashboard">
           <div class="card-vehicle-entry">
             <div class="card-body">
               <img
-                class="vehicle-entry-icon"
-                [src]="getVehicleSrc(entry.vehicleType)"
+                class="employee-entry-text"
+                [src]="
+                  member.PremiumStatus && member.InterestStatus
+                    ? '../../../assets/logos/icon-done.svg'
+                    : '../../../assets/logos/icon-cancel.svg'
+                "
+                height="6%"
+                width="6%"
               />
-              <p class="card-vehicle-entry-text">{{ entry.timeStamp }}</p>
-              <img 
-                (click)="deleteEntry(entry.timeStamp,entry.vehicleType)"
-                class="vehicle-entry-icon"
-                src="../../../assets/logos/icons-remove.svg"
-              />
+              <p class="employee-entry-text">{{ member.PhoneNumber }}</p>
             </div>
           </div>
         </div>
       </div>
-    <div *ngIf="!isDisplayAllEntries && writerService.isDashBoardDetailsAdded" class="row-dashboard">
-        <div class="card-vehicle-entry" (click)="displayAllEntries()">
-          <p class="card-vehicle-entry-text text-align-center">
-            Load Previous Entries
-          </p>
-        </div>
-      </div>
     </div>
   </div>
-  <div
-    class="modal modal-bottom"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: doneDisplayStyle }"
-    (click)="closeDonePopup()"
-  >
-    <div class="card card-modal">
-      <div class="card-widget-body">
-        <img
-          class="card-modal-icon"
-          src="../../../assets/logos/icon-done.svg"
-        />
-        <p class="card-modal-text">Entry Successful</p>
-      </div>
-    </div>
-  </div>
-  <div
-    class="modal modal-bottom"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: removeDisplayStyle }"
-    (click)="closeRemovePopup()"
-  >
-    <div class="card card-modal">
-      <div class="card-widget-body">
-        <img
-          class="card-modal-icon"
-          src="../../../assets/logos/icon-cancel.svg"
-        />
-        <p class="card-modal-text">Entry Removed</p>
-      </div>
-    </div>
-  </div>
-  <div
-    class="modal modal-bottom"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: somethingWentWrongStyle }"
-    (click)="closeErrorPopup()"
-  >
-    <div class="card card-modal">
-      <div class="card-widget-body">
-        <img
-          class="card-modal-icon"
-          src="../../../assets/logos/icon-exclamation-mark.svg"
-        />
-        <p class="card-modal-text">Something Went Wrong</p>
-      </div>
-    </div>
-  </div>
-  <div
-    class="modal modal-bottom"
-    tabindex="-1"
-    role="dialog"
-    [ngStyle]="{ display: loadingDisplayStyle }"
-  >
-    <div class="card card-modal">
-      <div class="card-widget-body">
-        <img
-          class="card-modal-icon"
-          src="../../../assets/gifs/spinner.gif"
-        />
-        <p class="card-modal-text">Please Wait</p>
-      </div>
-    </div>
-  </div>
-  
 </div>

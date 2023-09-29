@@ -8,7 +8,7 @@
       Wrong Credentials
     </div>
     <div class="text-align-left">
-      <label>Email</label>
+      <label>Mobile Number</label>
     </div>
     <div class="mb-3">
       <div class="input-group input-border">
@@ -17,20 +17,31 @@
         </div>
         <input
           type="text"
-          id="email"
+          id="mmobile"
           style="margin-left: 3px"
           class="input-box form-control border-none"
-          placeholder="Your Email"
+          placeholder="Your mobile number"
           aria-label="Username"
           aria-describedby="basic-addon1"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
+          formControlName="mmobile"
+          maxlength="10"
+          minlength="10"
+          [ngClass]="{ 'is-invalid': submitted && form['mmobile'].errors }"
         />
       </div>
       <div class="input-error text-align-left">
-        <div *ngIf="submitted && form['email'].errors">
-          <div *ngIf="form['email'].errors['required']">email is required</div>
-          <div *ngIf="form['email'].errors['email']">invalid email</div>
+        <div *ngIf="submitted && form['mmobile'].errors">
+          <div *ngIf="form['mmobile'].errors['required']">
+            mobile number is required
+          </div>
+          <div
+            *ngIf="
+              form['mmobile'].errors['maxLength'] ||
+              form['mmobile'].errors['minLength']
+            "
+          >
+            invalid mobile number
+          </div>
         </div>
       </div>
     </div>
@@ -72,7 +83,7 @@
         <div *ngIf="form['password'].errors['required']">
           password is required
         </div>
-        <div *ngIf="form['password'].errors['minLength']">
+        <div *ngIf="form['password'].errors['maxLength']">
           password should be more than 8 characters
         </div>
       </div>

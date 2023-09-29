@@ -5,13 +5,17 @@ import { reader_dashboard_details } from '../static/Urls';
 import {
   decryptData,
   encryptData,
-  getCurrentUserEmail,
+  getCurrentUserMobileNumber,
   getCurrentUserName,
   getCurrentUserType,
   hideCardAnimation,
   makeCardAnimation,
 } from '../static/HelperFunctions';
-import { MemberData, AssociationData } from '../Types/ReaderTypes';
+import {
+  MemberData,
+  AssociationData,
+  UserMonthlyData,
+} from '../Types/ReaderTypes';
 import { CookieService } from 'ngx-cookie-service';
 import { ReaderDashboardBodyRequest } from '../static/Body';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -24,6 +28,7 @@ export class ReaderService {
   isReaderDashboardDataLoaded = false;
   memberData!: MemberData;
   associationData!: AssociationData;
+  userCurrentMonthData!: UserMonthlyData;
   userName!: string;
   useEmail!: string;
 
@@ -34,7 +39,7 @@ export class ReaderService {
     private router: Router
   ) {
     this.userName = getCurrentUserName(cookieService);
-    this.useEmail = getCurrentUserEmail(cookieService);
+    this.useEmail = getCurrentUserMobileNumber(cookieService);
   }
 
   isReader() {
@@ -75,34 +80,57 @@ export class ReaderService {
     });
 
     if (userData != null) {
-      list = [];
-      //get assiciation data
-      await this.firestore
-        .collection('associationTable')
-        .get()
-        .forEach((collection) => {
-          var response = collection.docs.find((document) => {
-            console.log(document.data());
-            var json = JSON.parse(JSON.stringify(document.data()));
-            list.push(json);
-          });
-        });
-      var associationData = list[0];
-      this.cookieService.set(
-        'associationData',
-        JSON.stringify(associationData),
-        {
-          expires: 1,
-        }
-      );
-      this.associationData = JSON.parse(JSON.stringify(associationData));
+      await this.getAssociationData();
+      await this.getUserCurrentMonthData(mmobile);
     }
 
     console.log(this.associationData);
-    if (userData == null || associationData == null) {
+    if (userData == null || this.associationData == null) {
       this.router.navigate(['login']);
     }
     return JSON.parse(JSON.stringify(userData));
+  }
+
+  async getAssociationData() {
+    var list: any = [];
+    //get assiciation data
+    await this.firestore
+      .collection('associationTable')
+      .get()
+      .forEach((collection) => {
+        collection.docs.find((document) => {
+          var json = JSON.parse(JSON.stringify(document.data()));
+          list.push(json);
+        });
+      });
+    var associationData = list[0];
+    this.cookieService.set('associationData', JSON.stringify(associationData), {
+      expires: 1,
+    });
+    this.associationData = JSON.parse(JSON.stringify(associationData));
+  }
+
+  async getUserCurrentMonthData(mmobile: string) {
+    var list: any = [];
+    //get assiciation data
+    await this.firestore
+      .collection('monthlyUserData/2023/Nov')
+      .get()
+      .forEach((collection) => {
+        var response = collection.docs.find((document) => {
+          if (document.id == mmobile) {
+            var json = JSON.parse(JSON.stringify(document.data()));
+            list.push(json);
+          }
+        });
+      });
+
+    list.forEach((userMonthlyData: any) => {
+      if (userMonthlyData.PhoneNumber == mmobile) {
+        this.userCurrentMonthData = userMonthlyData;
+      }
+    });
+    console.log(this.userCurrentMonthData);
   }
 
   makeLoader() {
