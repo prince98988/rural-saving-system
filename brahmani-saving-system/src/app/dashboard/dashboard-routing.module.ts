@@ -8,6 +8,7 @@ import { WriterGuard } from '../general-settings/AccessComponents/WriterGuard';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { ReaderDashboardComponent } from './reader-dashboard/reader-dashboard.component';
 import { WriterDashboardComponent } from './writer-dashboard/writer-dashboard.component';
+import { WriterRoutingModule } from '../writer/writer-routing.module';
 
 const routes: Routes = [
   { path: 'dashboard-reader', component: ReaderDashboardComponent },
@@ -22,7 +23,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), AdminRoutingModule],
+  imports: [
+    RouterModule.forChild(routes),
+    AdminRoutingModule,
+    WriterRoutingModule,
+  ],
   exports: [RouterModule],
 })
 export class DashboardRoutingModule {}

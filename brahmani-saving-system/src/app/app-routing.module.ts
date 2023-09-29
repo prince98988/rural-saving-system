@@ -8,14 +8,21 @@ import { AdminDashboardComponent } from './dashboard/admin-dashboard/admin-dashb
 import { DashboardRoutingModule } from './dashboard/dashboard-routing.module';
 import { ReaderDashboardComponent } from './dashboard/reader-dashboard/reader-dashboard.component';
 import { WriterDashboardComponent } from './dashboard/writer-dashboard/writer-dashboard.component';
+import { WriterRoutingModule } from './writer/writer-routing.module';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: '**', component:LoginComponent }, 
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: LoginComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), AuthenticationRoutingModule, DashboardRoutingModule, AdminRoutingModule],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes),
+    AuthenticationRoutingModule,
+    DashboardRoutingModule,
+    AdminRoutingModule,
+    WriterRoutingModule,
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -8,21 +8,14 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminGuard } from '../general-settings/AccessComponents/AdminGuard';
 
-
 @NgModule({
   declarations: [
     VehicleHistoryComponent,
     EmployeeListComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    ReactiveFormsModule
-  ],
-  exports:[
-    VehicleHistoryComponent
-  ],
-  providers:[AdminGuard]
+  imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule],
+  exports: [VehicleHistoryComponent],
+  providers: [AdminGuard],
 })
-export class AdminModule { }
+export class AdminModule {}

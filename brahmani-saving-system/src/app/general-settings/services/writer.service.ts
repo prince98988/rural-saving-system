@@ -23,7 +23,12 @@ import {
   writer_dashboard_details,
 } from '../static/Urls';
 import { Vehicle, WriterDashboardData } from '../Types/WriterType';
-import { UserMonthlyData } from '../Types/ReaderTypes';
+import {
+  MemberData,
+  UserCurrentMonthData,
+  UserMonthlyData,
+} from '../Types/ReaderTypes';
+import { HelpService } from './help.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +37,8 @@ export class WriterService {
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private helpService: HelpService
   ) {
     this.userName = getCurrentUserName(cookieService);
   }
@@ -42,14 +48,21 @@ export class WriterService {
   isVehicleDeleted = true;
   isAllVehicleEntriesAdded = true;
   vehicleEntries: Array<Vehicle> = [];
-  membersMonthlyDetails: Array<UserMonthlyData> = [];
-  searchedMembersMonthlyDetails: Array<UserMonthlyData> = [];
+  membersMonthlyDetails: Array<UserCurrentMonthData> = [];
+  searchedMembersMonthlyDetails: Array<UserCurrentMonthData> = [];
+  memberCurrentMonthData!: UserCurrentMonthData;
 
   isWriter() {
     var userType = getCurrentUserType(this.cookieService);
     if (userType == 'Admin' || userType == 'Writer') {
       return true;
     } else return false;
+  }
+
+  getCurrentMonthData() {
+    this.memberCurrentMonthData = decryptData(
+      this.cookieService.get('memberCurrentMonthData')
+    );
   }
 
   makeLoader() {
@@ -66,16 +79,50 @@ export class WriterService {
   }
   async getAllMembersMontlyDetails() {
     this.isDashBoardDetailsAdded = false;
-    this.firestore
+    await this.firestore
       .collection('monthlyUserData/2023/Nov')
       .get()
       .forEach((collection) => {
         collection.docs.find((document) => {
-          console.log(document.data());
           var json = JSON.parse(JSON.stringify(document.data()));
           this.membersMonthlyDetails.push(json);
         });
       });
+
+    var memberData: Array<MemberData> =
+      await this.helpService.getAllMemberData();
+
+    console.log(memberData);
+    if (memberData != null) {
+      for (var index = 0; index < this.membersMonthlyDetails.length; index++) {
+        memberData.find((memberData) => {
+          console.log(memberData.PhoneNumber);
+          if (
+            memberData.PhoneNumber ==
+            this.membersMonthlyDetails[index].PhoneNumber
+          ) {
+            this.membersMonthlyDetails[index].FirstName = memberData.FirstName;
+            this.membersMonthlyDetails[index].MiddleName =
+              memberData.MiddleName;
+            this.membersMonthlyDetails[index].LastName = memberData.LastName;
+            this.membersMonthlyDetails[index].Role = memberData.Role;
+            this.membersMonthlyDetails[index].Shares = memberData.Shares;
+            this.membersMonthlyDetails[index].PremiumPaid =
+              memberData.PremiumPaid;
+            this.membersMonthlyDetails[index].LoanAmount =
+              memberData.LoanAmount;
+            this.membersMonthlyDetails[index].PenaltyPaid =
+              memberData.PenaltyPaid;
+            this.membersMonthlyDetails[index].InterestPaid =
+              memberData.InterestPaid;
+            this.membersMonthlyDetails[index].NextMonthPremium =
+              memberData.NextMonthInterest;
+            this.membersMonthlyDetails[index].NextMonthInterest =
+              memberData.NextMonthInterest;
+          }
+        });
+      }
+    }
     this.searchedMembersMonthlyDetails = this.membersMonthlyDetails;
     console.log(this.membersMonthlyDetails);
   }
@@ -83,7 +130,9 @@ export class WriterService {
   searchMembers(text: any) {
     console.log(text);
     this.searchedMembersMonthlyDetails = this.membersMonthlyDetails.filter(
-      (member) => member.PhoneNumber.indexOf(text) != -1
+      (member) =>
+        member.PhoneNumber.indexOf(text) != -1 ||
+        member.FirstName.indexOf(text) != -1
     );
   }
   async postVehicleEntry(vehicleType: string) {

@@ -54,3 +54,5 @@ export interface UserMonthlyData {
   PenaltyPaid: number;
   DateTime: Date;
 }
+
+export interface UserCurrentMonthData extends UserMonthlyData, MemberData {}
