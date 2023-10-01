@@ -8,6 +8,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminGuard } from '../general-settings/AccessComponents/AdminGuard';
 import { UpdateTablesComponent } from './update-tables/update-tables.component';
+import { AssociationInfoComponent } from './association-info/association-info.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { UpdateTablesComponent } from './update-tables/update-tables.component';
     EmployeeListComponent,
     AddEmployeeComponent,
     UpdateTablesComponent,
+    AssociationInfoComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, FormsModule],
   exports: [VehicleHistoryComponent],

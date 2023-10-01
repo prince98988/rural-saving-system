@@ -36,9 +36,11 @@ export class AdminService {
   isEmployeeAdded: boolean = false;
   isEmployeeRemoved: boolean = false;
   isEmployeeResponseArrayAdded: boolean = false;
+  isAssociationDetailsUpdated: boolean = false;
   memberList: Array<MemberData> = [];
   searchedMemberList: Array<MemberData> = [];
   newMember!: MemberData;
+  associationDetals!: AssociationData;
 
   isAdmin() {
     if (getCurrentUserType(this.cookieService) == 'Admin') {
@@ -61,15 +63,37 @@ export class AdminService {
     if (copyMember != null) {
       return;
     }
-    await this.firestore.collection('memberTable').add(newMemberData);
+    await this.firestore
+      .collection('memberTable')
+      .doc(newMemberData.PhoneNumber)
+      .set(newMemberData);
     var data: AssociationData = await this.helpService.getAssociationData();
     var newShares =
       parseInt(data.Shares.toString()) + parseInt(newMemberData.Shares);
+    var newMembers = parseInt(data.TotalMembers.toString()) + 1;
     await this.firestore
       .collection('associationTable')
       .doc('table')
-      .update({ Shares: newShares });
+      .update({ Shares: newShares, TotalMembers: newMembers });
     this.isEmployeeAdded = true;
+
+    await this.firestore
+      .collection('login')
+      .doc(newMemberData.PhoneNumber)
+      .set({
+        PhoneNumber: newMemberData.PhoneNumber,
+        Password: newMemberData.PhoneNumber,
+      });
+  }
+
+  async updateAssociationDetails(updatedData: any) {
+    this.isAssociationDetailsUpdated = false;
+    console.log(updatedData);
+    await this.firestore
+      .collection('associationTable')
+      .doc('table')
+      .update(updatedData);
+    this.isAssociationDetailsUpdated = true;
   }
   async removeEmployee(email: string) {
     this.isEmployeeRemoved = false;
@@ -97,6 +121,11 @@ export class AdminService {
     });
     this.searchedMemberList = this.memberList;
     this.isEmployeeResponseArrayAdded = false;
+  }
+
+  async getAssociationDetails() {
+    this.associationDetals = await this.helpService.getAssociationData();
+    console.log(this.associationDetals.Name);
   }
 
   onSearchMemberList(text: any) {

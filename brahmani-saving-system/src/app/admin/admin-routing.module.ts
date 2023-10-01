@@ -6,6 +6,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { VehicleHistoryComponent } from './vehicle-history/vehicle-history.component';
 import { UpdateTablesComponent } from './update-tables/update-tables.component';
+import { AssociationInfoComponent } from './association-info/association-info.component';
 
 export const adminRoutes: Routes = [
   {
@@ -26,6 +27,10 @@ export const adminRoutes: Routes = [
   {
     path: 'update-tables',
     component: UpdateTablesComponent,
+  },
+  {
+    path: 'association-info',
+    component: AssociationInfoComponent,
   },
 ];
 

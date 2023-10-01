@@ -1,0 +1,296 @@
+<div class="login-main">
+  <div class="modal-top">
+    <img class="tavisca-logo" src="../../../assets/logos/icon-employees.svg" />
+    <p class="text-main">Association Details</p>
+    <form
+      class="login-form"
+      [formGroup]="addEmployeeForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="text-align-left">
+        <label>Association Name</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-envelope input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="mmobile"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            placeholder=""
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && form['name'].errors }"
+          />
+        </div>
+        <div class="input-error text-align-left">
+          <div *ngIf="submitted && form['name'].errors">
+            <div *ngIf="form['name'].errors['required']">name is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Shares</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="shares"
+            [ngClass]="{ 'is-invalid': submitted && form['shares'].errors }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['shares'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['shares'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Share Price</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="shareprice"
+            [ngClass]="{ 'is-invalid': submitted && form['shareprice'].errors }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['shareprice'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['shareprice'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>President Name</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="presidentname"
+            [ngClass]="{
+              'is-invalid': submitted && form['presidentname'].errors
+            }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['presidentname'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['presidentname'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Interest Rate</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="interestrate"
+            [ngClass]="{ 'is-invalid': submitted && form['shares'].errors }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Total Balance</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="totalbalance"
+            [ngClass]="{
+              'is-invalid': submitted && form['totalbalance'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Available Balance</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="availablebalance"
+            [ngClass]="{
+              'is-invalid': submitted && form['availablebalance'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Total Members</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="totalmembers"
+            [disabled]="true"
+            [ngClass]="{
+              'is-invalid': submitted && form['totalmembers'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Default Password</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="defaultpassword"
+            [ngClass]="{
+              'is-invalid': submitted && form['defaultpassword'].errors
+            }"
+          />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-dark login-button">
+        Update Data
+      </button>
+    </form>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: doneDisplayStyle }"
+    (click)="closeDonePopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-done.svg"
+        />
+        <p class="card-modal-text">Entry Successful</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img class="card-modal-icon" src="../../../assets/gifs/spinner.gif" />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
+    </div>
+  </div>
+</div>
