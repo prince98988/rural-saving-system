@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import {
@@ -59,10 +59,14 @@ export class WriterService {
     } else return false;
   }
 
-  getCurrentMonthData() {
-    this.memberCurrentMonthData = decryptData(
-      this.cookieService.get('memberCurrentMonthData')
+  async getCurrentMonthData() {
+    var data = JSON.parse(
+      decryptData(await this.cookieService.get('memberCurrentMonthData'))
     );
+    this.memberCurrentMonthData = data.memberCurrentMonthData;
+
+    console.log(typeof this.memberCurrentMonthData);
+    console.log(this.memberCurrentMonthData.FirstName);
   }
 
   makeLoader() {
@@ -111,8 +115,8 @@ export class WriterService {
               memberData.PremiumPaid;
             this.membersMonthlyDetails[index].LoanAmount =
               memberData.LoanAmount;
-            this.membersMonthlyDetails[index].PenaltyPaid =
-              memberData.PenaltyPaid;
+            this.membersMonthlyDetails[index].TotalPenaltyPaid =
+              memberData.TotalPenaltyPaid;
             this.membersMonthlyDetails[index].InterestPaid =
               memberData.InterestPaid;
             this.membersMonthlyDetails[index].NextMonthPremium =
@@ -135,47 +139,14 @@ export class WriterService {
         member.FirstName.indexOf(text) != -1
     );
   }
-  async postVehicleEntry(vehicleType: string) {
-    var body = CarEntryBodyRequest();
-    if (vehicleType == 'Bike') body = BikeEntryBodyRequest();
-    const headers = {};
-    await this.http
-      .put(post_vehicle_entry, body, { headers })
-      .toPromise()
-      .then((data) => {
-        console.log('entry added');
-        this.isVehicleAdded = true;
-      })
-      .catch((error) => {
-        this.isVehicleAdded = false;
-      });
-  }
-  async deleteVehicleEntry(timeStamp: string, vehicle: string) {
-    var body = DeleteEntryBodyRequest(timeStamp, vehicle);
-    const headers = GeneralHeader();
-    await this.http
-      .delete(delete_vehicle_entry, { headers: headers, body: body })
-      .toPromise()
-      .then((data) => {
-        var json = JSON.parse(JSON.stringify(data));
-        this.isVehicleDeleted = true;
-      })
-      .catch((error) => {
-        this.isVehicleDeleted = false;
-      });
-  }
-  async gelAllEntries() {
-    this.isAllVehicleEntriesAdded = false;
-    const headers = GeneralHeader();
-    await this.http
-      .get(gel_all_vehicle_entry, { headers: headers })
-      .toPromise()
-      .then((data) => {
-        this.vehicleEntries = JSON.parse(JSON.stringify(data));
-        this.isAllVehicleEntriesAdded = true;
-      })
-      .catch((error) => {
-        this.isAllVehicleEntriesAdded = false;
+  async AddMemberMontlyEntry(penalty: number) {
+    await this.firestore
+      .collection('monthlyUserData/2023/Nov')
+      .doc(this.memberCurrentMonthData.PhoneNumber)
+      .update({
+        InterestStatus: true,
+        PremiumStatus: true,
+        PenaltyPaid: penalty,
       });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MemberData } from 'src/app/general-settings/Types/ReaderTypes';
 import { AdminService } from 'src/app/general-settings/services/admin.service';
 
 @Component({
@@ -23,9 +24,12 @@ export class AddEmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.addEmployeeForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      name: ['', [Validators.required]],
-      type: ['Reader', [Validators.required]],
+      mmobile: ['', [Validators.required, Validators.minLength(10)]],
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      middlename: ['', [Validators.required]],
+      shares: [0, []],
+      type: ['reader', [Validators.required]],
     });
   }
   openDonePopup() {
@@ -33,7 +37,7 @@ export class AddEmployeeComponent implements OnInit {
   }
   closeDonePopup() {
     this.doneDisplayStyle = 'none';
-    this.router.navigate(['manage-employee']);
+    this.router.navigate(['manage-members']);
   }
   openErrorPopup() {
     this.somethingWentWrongStyle = 'flex';
@@ -42,10 +46,10 @@ export class AddEmployeeComponent implements OnInit {
     this.somethingWentWrongStyle = 'none';
   }
   openLoadingPopup() {
-    this.loadingDisplayStyle = "flex";
+    this.loadingDisplayStyle = 'flex';
   }
   closeLoadingPopup() {
-    this.loadingDisplayStyle = "none";
+    this.loadingDisplayStyle = 'none';
   }
   async onSubmit() {
     this.submitted = true;
@@ -53,11 +57,19 @@ export class AddEmployeeComponent implements OnInit {
       return;
     }
     this.openLoadingPopup();
-    await this.adminService.addNewEmployee(
-      this.addEmployeeForm.value.email,
-      this.addEmployeeForm.value.name,
-      this.addEmployeeForm.value.type
-    );
+    var newMember: any = {
+      FirstName: this.addEmployeeForm.value.firstname,
+      LastName: this.addEmployeeForm.value.lastname,
+      MiddleName: this.addEmployeeForm.value.middlename,
+      PhoneNumber: this.addEmployeeForm.value.mmobile,
+      Shares: this.addEmployeeForm.value.shares,
+      Role: this.addEmployeeForm.value.type,
+      InterestPaid: 0,
+      PremiumPaid: 0,
+      LoanAmount: 0,
+      TotalPenaltyPaid: 0,
+    };
+    await this.adminService.addNewEmployee(newMember);
     this.closeLoadingPopup();
     if (this.adminService.isEmployeeAdded) this.openDonePopup();
     else this.openErrorPopup();

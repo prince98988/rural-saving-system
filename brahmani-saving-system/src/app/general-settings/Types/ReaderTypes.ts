@@ -25,7 +25,7 @@ export interface MemberData {
   PhoneNumber: string;
   PremiumPaid: number;
   LoanAmount: number;
-  PenaltyPaid: number;
+  TotalPenaltyPaid: number;
   InterestPaid: number;
   NextMonthPremium: number;
   NextMonthInterest: number;

@@ -20,12 +20,30 @@ export class HelpService {
       .get()
       .forEach((collection) => {
         collection.docs.find((document) => {
-          console.log(document.data());
           var json = JSON.parse(JSON.stringify(document.data()));
           this.allMembersData.push(json);
         });
       });
     console.log(this.allMembersData);
     return this.allMembersData;
+  }
+
+  async getAssociationData() {
+    var list: any = [];
+    //get assiciation data
+    await this.firestore
+      .collection('associationTable')
+      .get()
+      .forEach((collection) => {
+        collection.docs.find((document) => {
+          var json = JSON.parse(JSON.stringify(document.data()));
+          list.push(json);
+        });
+      });
+    var associationData = list[0];
+    this.cookieService.set('associationData', JSON.stringify(associationData), {
+      expires: 1,
+    });
+    return JSON.parse(JSON.stringify(associationData));
   }
 }

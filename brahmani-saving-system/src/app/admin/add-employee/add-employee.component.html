@@ -1,7 +1,7 @@
 <div class="login-main">
   <div class="modal-top">
     <img class="tavisca-logo" src="../../../assets/logos/icon-employees.svg" />
-    <p class="text-main">Add Employee Details</p>
+    <p class="text-main">Add Member Details</p>
     <form
       class="login-form"
       [formGroup]="addEmployeeForm"
@@ -18,9 +18,9 @@
             style="font-family: 'gilroy-semibold'"
             [ngClass]="{ 'is-invalid': submitted && form['type'].errors }"
           >
-            <option value="Reader">Reader</option>
-            <option value="Writer">Writer</option>
-            <option value="Admin">Admin</option>
+            <option value="reader">Reader</option>
+            <option value="writer">Writer</option>
+            <option value="admin">Admin</option>
           </select>
         </div>
         <div
@@ -32,7 +32,7 @@
       </div>
 
       <div class="text-align-left">
-        <label>Employee Email</label>
+        <label>Member Mobile Number</label>
       </div>
       <div class="mb-3">
         <div class="input-group input-border">
@@ -44,27 +44,31 @@
           </div>
           <input
             type="text"
-            id="email"
+            id="mmobile"
             style="margin-left: 3px"
             class="input-box form-control border-none"
-            placeholder="Employee Email"
+            placeholder="Employee mmobile"
             aria-label="Username"
             aria-describedby="basic-addon1"
-            formControlName="email"
-            [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
+            formControlName="mmobile"
+            maxlength="10"
+            minlength="10"
+            [ngClass]="{ 'is-invalid': submitted && form['mmobile'].errors }"
           />
         </div>
         <div class="input-error text-align-left">
-          <div *ngIf="submitted && form['email'].errors">
-            <div *ngIf="form['email'].errors['required']">
-              email is required
+          <div *ngIf="submitted && form['mmobile'].errors">
+            <div *ngIf="form['mmobile'].errors['required']">
+              mmobile is required
             </div>
-            <div *ngIf="form['email'].errors['email']">invalid email</div>
+            <div *ngIf="form['mmobile'].errors['minLength']">
+              invalid mmobile
+            </div>
           </div>
         </div>
       </div>
       <div class="text-align-left">
-        <label>Employee Name</label>
+        <label>Member FirstName</label>
       </div>
       <div class="mb-3">
         <div class="input-group input-border">
@@ -78,22 +82,102 @@
             type="text"
             style="margin: auto 3px"
             class="input-box form-control border-none"
-            placeholder="Employee Name"
+            placeholder="Member firstname"
             aria-label="Username"
             aria-describedby="basic-addon1"
-            formControlName="name"
-            [ngClass]="{ 'is-invalid': submitted && form['name'].errors }"
+            formControlName="firstname"
+            [ngClass]="{ 'is-invalid': submitted && form['firstname'].errors }"
           />
         </div>
         <div
-          *ngIf="submitted && form['name'].errors"
+          *ngIf="submitted && form['firstname'].errors"
           class="input-error text-align-left"
         >
-          <div *ngIf="form['name'].errors['required']">name is required</div>
+          <div *ngIf="form['firstname'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Member MiddleName</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            placeholder="Member middleName"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="middlename"
+            [ngClass]="{ 'is-invalid': submitted && form['middlename'].errors }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['middlename'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['middlename'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Member LastName</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            placeholder="Member lastname"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="lastname"
+            [ngClass]="{ 'is-invalid': submitted && form['lastname'].errors }"
+          />
+        </div>
+        <div
+          *ngIf="submitted && form['lastname'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['lastname'].errors['required']">required</div>
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Member Shares</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="shares"
+            [ngClass]="{ 'is-invalid': submitted && form['shares'].errors }"
+          />
         </div>
       </div>
       <button type="submit" class="btn btn-dark login-button">
-        Add Employee
+        Add Member
       </button>
     </form>
   </div>
@@ -139,10 +223,7 @@
   >
     <div class="card card-modal">
       <div class="card-widget-body">
-        <img
-          class="card-modal-icon"
-          src="../../../assets/gifs/spinner.gif"
-        />
+        <img class="card-modal-icon" src="../../../assets/gifs/spinner.gif" />
         <p class="card-modal-text">Please Wait</p>
       </div>
     </div>

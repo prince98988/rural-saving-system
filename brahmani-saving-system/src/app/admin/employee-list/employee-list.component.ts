@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MemberData } from 'src/app/general-settings/Types/ReaderTypes';
 import { AdminService } from 'src/app/general-settings/services/admin.service';
 
 @Component({
@@ -12,8 +13,9 @@ export class EmployeeListComponent implements OnInit {
   somethingWentWrongStyle: string = 'none';
   settingsPopUpStyle: string = 'none';
   selectedUserName: string = '';
-  selectedUserEmail: string = '';
+  selectedUserPhoneNumber: string = '';
   loadingDisplayStyle: string = 'none';
+  searchText: string = '';
   constructor(
     private router: Router,
     @Inject(AdminService)
@@ -25,15 +27,15 @@ export class EmployeeListComponent implements OnInit {
   ngOnInit(): void {}
 
   async getAllEmployee() {
-    await this.adminService.getAllMemberMontlyDetails();
+    await this.adminService.getAllMemberDetails();
   }
   async removeEmployeeEntry() {
-    this.openLoadingPopup();
-    await this.adminService.removeEmployee(this.selectedUserEmail);
-    await this.getAllEmployee();
-    this.closeLoadingPopup();
-    if (this.adminService.isEmployeeRemoved) this.openRemoveEmployeePopup();
-    else this.openErrorPopup();
+    // this.openLoadingPopup();
+    // await this.adminService.removeEmployee(this.selectedUserPhoneNumber);
+    // await this.getAllEmployee();
+    // this.closeLoadingPopup();
+    // if (this.adminService.isEmployeeRemoved) this.openRemoveEmployeePopup();
+    // else this.openErrorPopup();
   }
   openRemoveEmployeePopup() {
     this.removeEmployeeStyle = 'flex';
@@ -54,7 +56,7 @@ export class EmployeeListComponent implements OnInit {
     this.settingsPopUpStyle = 'none';
   }
   addEmployee() {
-    this.router.navigate(['add-employee']);
+    this.router.navigate(['add-member']);
   }
   openLoadingPopup() {
     this.loadingDisplayStyle = 'flex';
@@ -62,9 +64,9 @@ export class EmployeeListComponent implements OnInit {
   closeLoadingPopup() {
     this.loadingDisplayStyle = 'none';
   }
-  onSelectUser(username: string, useremail: string) {
+  onSelectUser(userData: MemberData) {
     this.settingsPopUpStyle = 'flex';
-    this.selectedUserName = username;
-    this.selectedUserEmail = useremail;
+    this.selectedUserName = userData.FirstName;
+    this.selectedUserPhoneNumber = userData.PhoneNumber;
   }
 }
