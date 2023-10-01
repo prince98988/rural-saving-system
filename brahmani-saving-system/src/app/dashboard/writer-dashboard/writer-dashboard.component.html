@@ -28,7 +28,7 @@
     <div class="employee-list">
       <div *ngFor="let member of writerService.searchedMembersMonthlyDetails">
         <div class="row-dashboard">
-          <div class="card-vehicle-entry">
+          <div class="card-vehicle-entry" (click)="onSelectedMember(member)">
             <div class="card-body">
               <img
                 class="employee-entry-text"
@@ -40,6 +40,8 @@
                 height="6%"
                 width="6%"
               />
+              <p class="employee-entry-text">{{ member.FirstName }}</p>
+              <p class="employee-entry-text">{{ member.MiddleName }}</p>
               <p class="employee-entry-text">{{ member.PhoneNumber }}</p>
             </div>
           </div>

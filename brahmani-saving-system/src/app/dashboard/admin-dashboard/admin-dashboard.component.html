@@ -23,13 +23,13 @@
     </div>
   </div>
   <div class="row-dashboard">
-    <div class="card card-left-bg-color" (click)="showHistory()">
+    <div class="card card-left-bg-color" (click)="UpdateEntries()">
       <div class="card-widget-body">
         <img
           class="card-widget-icon"
           src="../../../assets/logos/icon-vehicle-history.svg"
         />
-        <p class="card-widget-text">Vehicle History</p>
+        <p class="card-widget-text">Update Tables</p>
       </div>
     </div>
     <div class="card card-right-bg-color" (click)="showEmployeeList()">
@@ -39,6 +39,26 @@
           src="../../../assets/logos/icon-employees.svg"
         />
         <p class="card-widget-text">Manage Employee</p>
+      </div>
+    </div>
+  </div>
+  <div class="row-dashboard">
+    <div class="card card-left-bg-color" (click)="UpdateEntries()">
+      <div class="card-widget-body">
+        <img
+          class="card-widget-icon"
+          src="../../../assets/logos/icon-analytics.svg"
+        />
+        <p class="card-widget-text">Analytics</p>
+      </div>
+    </div>
+    <div class="card card-right-bg-color" (click)="gotoConfiguration()">
+      <div class="card-widget-body">
+        <img
+          class="card-widget-icon"
+          src="../../../assets/logos/icon-configurations.svg"
+        />
+        <p class="card-widget-text">Configurations</p>
       </div>
     </div>
   </div>

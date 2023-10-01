@@ -1,0 +1,79 @@
+<div class="dashboard-main">
+  <div class="modal-top">
+    <div class="welcome-box">
+      <p
+        class="welcome-text"
+        *ngIf="writerService.memberCurrentMonthData != null"
+      >
+        {{ writerService.memberCurrentMonthData.FirstName }}
+        {{ writerService.memberCurrentMonthData.MiddleName }}
+        {{ writerService.memberCurrentMonthData.LastName }}
+      </p>
+    </div>
+    <div class="welcome-box">
+      <p class="welcome-text">
+        {{ writerService.memberCurrentMonthData.PhoneNumber }}
+      </p>
+    </div>
+  </div>
+  <div class="row-dashboard">
+    <div
+      class="card"
+      [ngClass]="
+        writerService.memberCurrentMonthData.PremiumStatus
+          ? 'card-col-green'
+          : 'card-col-red'
+      "
+    >
+      <div class="card-widget-body">
+        <p class="card-widget-header-text-white">
+          {{ writerService.memberCurrentMonthData.Premium }} Rs
+        </p>
+        <p class="card-widget-text-white">Premium need to pay</p>
+      </div>
+    </div>
+    <div
+      class="card"
+      [ngClass]="
+        writerService.memberCurrentMonthData.InterestStatus
+          ? 'card-col-green'
+          : 'card-col-red'
+      "
+    >
+      <div class="card-widget-body">
+        <p class="card-widget-header-text-white">
+          {{ writerService.memberCurrentMonthData.InterestAmount }} Rs
+        </p>
+        <p class="card-widget-text-white">interest need to pay</p>
+      </div>
+    </div>
+  </div>
+  <div class="row-dashboard">
+    <div
+      class="card"
+      [ngClass]="
+        writerService.memberCurrentMonthData.InterestStatus
+          ? 'card-col-center-green'
+          : 'card-col-center-red'
+      "
+    >
+      <form
+        class="card-widget-body"
+        [formGroup]="penaltyForm"
+        (ngSubmit)="onAddEntry()"
+      >
+        <input
+          type="text"
+          id="email"
+          class="input-box form-control border-none"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          formControlName="penalty"
+        />
+        <button type="submit" class="btn btn-dark" style="margin-top: 3px">
+          Add entry
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
