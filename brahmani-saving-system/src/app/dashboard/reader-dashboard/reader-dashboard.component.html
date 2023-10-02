@@ -19,6 +19,7 @@
       <div
         class="card"
         [ngClass]="
+          readerService.userCurrentMonthData != null &&
           readerService.userCurrentMonthData.PremiumStatus
             ? 'card-col-green'
             : 'card-col-red'
@@ -38,6 +39,7 @@
       <div
         class="card"
         [ngClass]="
+          readerService.userCurrentMonthData != null &&
           readerService.userCurrentMonthData.InterestStatus
             ? 'card-col-green'
             : 'card-col-red'

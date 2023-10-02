@@ -83,6 +83,7 @@ export class WriterService {
   }
   async getAllMembersMontlyDetails() {
     this.isDashBoardDetailsAdded = false;
+    this.membersMonthlyDetails = [];
     await this.firestore
       .collection('monthlyUserData/2023/Nov')
       .get()
@@ -95,7 +96,6 @@ export class WriterService {
 
     var memberData: Array<MemberData> =
       await this.helpService.getAllMemberData();
-
     console.log(memberData);
     if (memberData != null) {
       for (var index = 0; index < this.membersMonthlyDetails.length; index++) {
@@ -140,6 +140,9 @@ export class WriterService {
     );
   }
   async AddMemberMontlyEntry(penalty: number) {
+    //if alreday entry added
+    if (this.memberCurrentMonthData.PremiumStatus == true) return;
+
     await this.firestore
       .collection('monthlyUserData/2023/Nov')
       .doc(this.memberCurrentMonthData.PhoneNumber)
@@ -148,5 +151,19 @@ export class WriterService {
         PremiumStatus: true,
         PenaltyPaid: penalty,
       });
+
+    var data = await this.helpService.getAssociationData();
+    var newTotalBalance =
+      parseInt(data.TotalBalance) +
+      this.memberCurrentMonthData.Premium +
+      this.memberCurrentMonthData.InterestAmount;
+    var newAvailableBalance =
+      parseInt(data.AvailableBalance) +
+      this.memberCurrentMonthData.Premium +
+      this.memberCurrentMonthData.InterestAmount;
+    await this.firestore.collection('associationTable').doc('table').update({
+      TotalBalance: newTotalBalance,
+      AvailableBalance: newAvailableBalance,
+    });
   }
 }

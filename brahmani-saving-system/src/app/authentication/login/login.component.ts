@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
           Validators.minLength(10),
         ],
       ],
-      password: ['', [Validators.required, Validators.maxLength(8)]],
+      password: ['', [Validators.required, Validators.maxLength(10)]],
     });
   }
   onForgotPassword() {

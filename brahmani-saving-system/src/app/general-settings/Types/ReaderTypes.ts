@@ -38,7 +38,7 @@ export interface AssociationData {
   Shares: number;
   TotalBalance: number;
   LoanAmount: number;
-  ToalMembers: number;
+  TotalMembers: number;
   InterestRate: number;
   SharePrice: number;
   AvailableBalance: number;
