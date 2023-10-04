@@ -217,6 +217,30 @@
         </div>
       </div>
       <div class="text-align-left">
+        <label>Penalty Amount</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="penaltyamount"
+            [ngClass]="{
+              'is-invalid': submitted && form['penaltyamount'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
         <label>Total Members</label>
       </div>
       <div class="mb-3">

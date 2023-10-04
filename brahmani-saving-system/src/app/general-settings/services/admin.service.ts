@@ -19,7 +19,12 @@ import {
   update_employee,
 } from '../static/Urls';
 import { EmployeeResponseArray } from '../Types/AdminType';
-import { AssociationData, MemberData } from '../Types/ReaderTypes';
+import {
+  AssociationData,
+  AssociationMontlyData,
+  MemberData,
+  UserMonthlyData,
+} from '../Types/ReaderTypes';
 import { HelpService } from './help.service';
 
 @Injectable({
@@ -37,10 +42,12 @@ export class AdminService {
   isEmployeeRemoved: boolean = false;
   isEmployeeResponseArrayAdded: boolean = false;
   isAssociationDetailsUpdated: boolean = false;
+  isAssociationMonthlyDataAdded: boolean = false;
   memberList: Array<MemberData> = [];
   searchedMemberList: Array<MemberData> = [];
   newMember!: MemberData;
   associationDetals!: AssociationData;
+  associationMontlyData!: AssociationMontlyData;
 
   isAdmin() {
     if (getCurrentUserType(this.cookieService) == 'Admin') {
@@ -135,5 +142,37 @@ export class AdminService {
         member.FirstName.indexOf(text) != -1 ||
         member.PhoneNumber.indexOf(text) != -1
     );
+  }
+
+  async getAssociationMontlyData() {
+    console.log(this.isAssociationMonthlyDataAdded);
+    this.isAssociationMonthlyDataAdded = false;
+    this.associationMontlyData = {
+      TotalInterestRecieved: 0,
+      TotalPenaltyRecieved: 0,
+      TotalPremiumRecieved: 0,
+      PremiumRemainingPhoneNumbers: [],
+    };
+
+    await this.firestore
+      .collection('monthlyUserData/2023/Nov')
+      .get()
+      .forEach((collection) => {
+        collection.docs.find((document) => {
+          var json = JSON.parse(JSON.stringify(document.data()));
+          if (json.PremiumStatus) {
+            this.associationMontlyData.TotalPremiumRecieved += json.Premium;
+            this.associationMontlyData.TotalInterestRecieved +=
+              json.InterestAmount;
+            this.associationMontlyData.TotalPenaltyRecieved += json.PenaltyPaid;
+          } else {
+            this.associationMontlyData.PremiumRemainingPhoneNumbers.push(
+              json.PhoneNumber
+            );
+          }
+        });
+      });
+    console.log(this.associationMontlyData);
+    this.isAssociationMonthlyDataAdded = true;
   }
 }

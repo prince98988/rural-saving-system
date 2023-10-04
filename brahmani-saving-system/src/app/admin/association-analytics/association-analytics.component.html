@@ -1,1 +1,105 @@
-<p>association-analytics works!</p>
+<form
+  class="login-form"
+  [formGroup]="searchMonthlyDataForm"
+  (ngSubmit)="onSubmit()"
+  style="margin-top: 5%"
+>
+  <div class="text-align-left">
+    <label>Select Month</label>
+  </div>
+  <div class="mb-3">
+    <div class="input-group input-border">
+      <select
+        formControlName="month"
+        class="form-control border-none"
+        style="font-family: 'gilroy-semibold'"
+        [ngClass]="{ 'is-invalid': submitted && form['month'].errors }"
+      >
+        <option *ngFor="let month of monthList" [value]="month">
+          {{ month }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="text-align-left">
+    <label>Select Year</label>
+  </div>
+  <div class="mb-3">
+    <div class="input-group input-border">
+      <select
+        formControlName="year"
+        class="form-control border-none"
+        style="font-family: 'gilroy-semibold'"
+        [ngClass]="{ 'is-invalid': submitted && form['year'].errors }"
+      >
+        <option *ngFor="let year of yearList" [value]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-dark login-button">Search</button>
+</form>
+
+<div class="fit-content" style="margin-top: 5%">
+  <p class="main-text">Premium And Interest</p>
+</div>
+<div class="row-dashboard">
+  <div class="card-big-size card card-car">
+    <div class="card-widget-body">
+      <p
+        class="card-widget-header-text"
+        *ngIf="adminService.isAssociationMonthlyDataAdded"
+      >
+        {{ adminService.associationMontlyData.TotalPremiumRecieved }}
+      </p>
+      <p class="card-widget-text">Total Premium Recieved</p>
+    </div>
+  </div>
+  <div class="card-big-size card card-bike">
+    <div class="card-widget-body">
+      <p
+        class="card-widget-header-text"
+        *ngIf="adminService.isAssociationMonthlyDataAdded"
+      >
+        {{ adminService.associationMontlyData.TotalInterestRecieved }} Rs
+      </p>
+      <p class="card-widget-text">Total Interest Recieved</p>
+    </div>
+  </div>
+</div>
+
+<div class="fit-content">
+  <p class="main-text">Other Details</p>
+</div>
+<div class="row-dashboard">
+  <div class="card-big-size card card-car">
+    <div class="card-widget-body">
+      <p
+        class="card-widget-header-text"
+        *ngIf="adminService.isAssociationMonthlyDataAdded"
+      >
+        {{ adminService.associationMontlyData.TotalPenaltyRecieved }}
+      </p>
+      <p class="card-widget-text">Total Penalty Recieved</p>
+    </div>
+  </div>
+  <div class="card-big-size card card-bike">
+    <div class="card-widget-body">
+      <div
+        class="card-widget-header-text"
+        *ngIf="adminService.isAssociationMonthlyDataAdded"
+      >
+        <div
+          *ngFor="
+            let item of adminService.associationMontlyData
+              .PremiumRemainingPhoneNumbers
+          "
+        >
+          <p class="card-widget-text">{{ item }}</p>
+        </div>
+      </div>
+      <p class="card-widget-text">Premium Remaining PhoneNumbers</p>
+    </div>
+  </div>
+</div>

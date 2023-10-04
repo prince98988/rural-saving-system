@@ -38,6 +38,7 @@ export class AssociationInfoComponent {
       startedmonth: this.adminService.associationDetals.StartedMonth,
       startedyear: this.adminService.associationDetals.StartedYear,
       loanamount: this.adminService.associationDetals.LoanAmount,
+      penaltyamount: this.adminService.associationDetals.PenaltyAmount,
     });
   }
 
@@ -53,6 +54,7 @@ export class AssociationInfoComponent {
       defaultpassword: ['', [Validators.required]],
       availablebalance: [{ value: 0, disabled: true }, [Validators.required]],
       loanamount: [{ value: 0, disabled: true }, [Validators.required]],
+      penaltyamount: [{ value: 0, disabled: true }, [Validators.required]],
       startedmonth: ['', [Validators.required]],
       startedyear: ['', [Validators.required]],
     });

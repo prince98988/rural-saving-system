@@ -42,8 +42,16 @@ export interface AssociationData {
   InterestRate: number;
   SharePrice: number;
   AvailableBalance: number;
+  PenaltyAmount: number;
   StartedYear: string;
   StartedMonth: string;
+}
+
+export interface AssociationMontlyData {
+  TotalInterestRecieved: number;
+  TotalPremiumRecieved: number;
+  TotalPenaltyRecieved: number;
+  PremiumRemainingPhoneNumbers: any[];
 }
 
 export interface UserMonthlyData {

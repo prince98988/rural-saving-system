@@ -17,8 +17,8 @@ export class AdminDashboardComponent implements OnInit {
   goToWriter() {
     this.router.navigate(['dashboard-writer']);
   }
-  UpdateEntries(): void {
-    this.router.navigate(['vehicle-history']);
+  goToAnalytics(): void {
+    this.router.navigate(['analytics']);
   }
   showEmployeeList(): void {
     this.router.navigate(['manage-members']);
