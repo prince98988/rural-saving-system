@@ -42,6 +42,8 @@ export interface AssociationData {
   InterestRate: number;
   SharePrice: number;
   AvailableBalance: number;
+  StartedYear: string;
+  StartedMonth: string;
 }
 
 export interface UserMonthlyData {

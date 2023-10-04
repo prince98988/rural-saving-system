@@ -35,6 +35,9 @@ export class AssociationInfoComponent {
       defaultpassword: this.adminService.associationDetals.DefaultPassword,
       interestrate: this.adminService.associationDetals.InterestRate,
       presidentname: this.adminService.associationDetals.PresidentName,
+      startedmonth: this.adminService.associationDetals.StartedMonth,
+      startedyear: this.adminService.associationDetals.StartedYear,
+      loanamount: this.adminService.associationDetals.LoanAmount,
     });
   }
 
@@ -49,6 +52,9 @@ export class AssociationInfoComponent {
       interestrate: [0, [Validators.required]],
       defaultpassword: ['', [Validators.required]],
       availablebalance: [{ value: 0, disabled: true }, [Validators.required]],
+      loanamount: [{ value: 0, disabled: true }, [Validators.required]],
+      startedmonth: ['', [Validators.required]],
+      startedyear: ['', [Validators.required]],
     });
   }
   openDonePopup() {

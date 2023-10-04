@@ -24,5 +24,7 @@ export class AdminDashboardComponent implements OnInit {
     this.router.navigate(['manage-members']);
   }
 
-  gotoConfiguration(): void {}
+  gotoConfiguration(): void {
+    this.router.navigate(['association-info']);
+  }
 }

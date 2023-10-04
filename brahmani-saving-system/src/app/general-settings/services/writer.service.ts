@@ -140,9 +140,6 @@ export class WriterService {
     );
   }
   async AddMemberMontlyEntry(penalty: number) {
-    //if alreday entry added
-    if (this.memberCurrentMonthData.PremiumStatus == true) return;
-
     await this.firestore
       .collection('monthlyUserData/2023/Nov')
       .doc(this.memberCurrentMonthData.PhoneNumber)
@@ -161,6 +158,10 @@ export class WriterService {
       parseInt(data.AvailableBalance) +
       this.memberCurrentMonthData.Premium +
       this.memberCurrentMonthData.InterestAmount;
+    await this.firestore.collection('associationTable').doc('table').update({
+      TotalBalance: newTotalBalance,
+      AvailableBalance: newAvailableBalance,
+    });
     await this.firestore.collection('associationTable').doc('table').update({
       TotalBalance: newTotalBalance,
       AvailableBalance: newAvailableBalance,

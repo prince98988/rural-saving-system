@@ -15,6 +15,7 @@ export class HelpService {
   allMembersData: Array<MemberData> = [];
 
   async getAllMemberData() {
+    this.allMembersData = [];
     await this.firestore
       .collection('memberTable')
       .get()

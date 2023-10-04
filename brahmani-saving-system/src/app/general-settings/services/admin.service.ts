@@ -48,6 +48,7 @@ export class AdminService {
     } else return false;
   }
   async addNewEmployee(newMemberData: any) {
+    console.log(newMemberData);
     this.isEmployeeAdded = false;
     var memberList: Array<MemberData> = JSON.parse(
       decryptData(this.cookieService.get('memberList'))
