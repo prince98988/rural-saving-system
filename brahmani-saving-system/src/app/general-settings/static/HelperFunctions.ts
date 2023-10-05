@@ -1,6 +1,25 @@
 import * as CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 
+export function getMonthList() {
+  return [
+    'JAN',
+    'FEB',
+    'MARCH',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
+}
+export function getYearList() {
+  return ['2021', '2022', '2023', '2024', '2025', '2026', '2027'];
+}
 export function getCryptpoKey() {
   return 'ganciskirvaapt';
 }

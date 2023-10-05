@@ -193,6 +193,54 @@
         </div>
       </div>
       <div class="text-align-left">
+        <label>Loan Amount</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="loanamount"
+            [ngClass]="{
+              'is-invalid': submitted && form['loanamount'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Penalty Amount</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="penaltyamount"
+            [ngClass]="{
+              'is-invalid': submitted && form['penaltyamount'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
         <label>Total Members</label>
       </div>
       <div class="mb-3">
@@ -237,6 +285,56 @@
             formControlName="defaultpassword"
             [ngClass]="{
               'is-invalid': submitted && form['defaultpassword'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Started Month</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="startedmonth"
+            [disabled]="true"
+            [ngClass]="{
+              'is-invalid': submitted && form['startedmonth'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Started Year</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="startedyear"
+            [disabled]="true"
+            [ngClass]="{
+              'is-invalid': submitted && form['startedyear'].errors
             }"
           />
         </div>

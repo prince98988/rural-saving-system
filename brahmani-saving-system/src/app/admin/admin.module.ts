@@ -9,6 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminGuard } from '../general-settings/AccessComponents/AdminGuard';
 import { UpdateTablesComponent } from './update-tables/update-tables.component';
 import { AssociationInfoComponent } from './association-info/association-info.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
+import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { AssociationInfoComponent } from './association-info/association-info.co
     AddEmployeeComponent,
     UpdateTablesComponent,
     AssociationInfoComponent,
+    AnalyticsComponent,
+    AssociationAnalyticsComponent,
+    MemberAnalyticsComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, FormsModule],
   exports: [VehicleHistoryComponent],

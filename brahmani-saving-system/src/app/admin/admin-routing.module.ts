@@ -7,6 +7,9 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { VehicleHistoryComponent } from './vehicle-history/vehicle-history.component';
 import { UpdateTablesComponent } from './update-tables/update-tables.component';
 import { AssociationInfoComponent } from './association-info/association-info.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
+import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
 
 export const adminRoutes: Routes = [
   {
@@ -31,6 +34,18 @@ export const adminRoutes: Routes = [
   {
     path: 'association-info',
     component: AssociationInfoComponent,
+  },
+  {
+    path: 'analytics',
+    component: AnalyticsComponent,
+  },
+  {
+    path: 'association-analytics',
+    component: AssociationAnalyticsComponent,
+  },
+  {
+    path: 'member-analytics',
+    component: MemberAnalyticsComponent,
   },
 ];
 

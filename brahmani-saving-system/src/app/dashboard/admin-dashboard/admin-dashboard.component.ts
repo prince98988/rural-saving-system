@@ -17,12 +17,14 @@ export class AdminDashboardComponent implements OnInit {
   goToWriter() {
     this.router.navigate(['dashboard-writer']);
   }
-  UpdateEntries(): void {
-    this.router.navigate(['vehicle-history']);
+  goToAnalytics(): void {
+    this.router.navigate(['analytics']);
   }
   showEmployeeList(): void {
     this.router.navigate(['manage-members']);
   }
 
-  gotoConfiguration(): void {}
+  gotoConfiguration(): void {
+    this.router.navigate(['association-info']);
+  }
 }
