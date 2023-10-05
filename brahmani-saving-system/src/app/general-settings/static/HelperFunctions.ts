@@ -3,18 +3,18 @@ import { CookieService } from 'ngx-cookie-service';
 
 export function getMonthList() {
   return [
-    'JAN',
-    'FEB',
-    'MARCH',
-    'APR',
-    'MAY',
-    'JUN',
-    'JUL',
-    'AUG',
-    'SEP',
-    'OCT',
-    'NOV',
-    'DEC',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 }
 export function getYearList() {
