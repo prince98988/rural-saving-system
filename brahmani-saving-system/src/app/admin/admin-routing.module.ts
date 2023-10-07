@@ -10,6 +10,7 @@ import { AssociationInfoComponent } from './association-info/association-info.co
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
 import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
+import { MemberDetailsComponent } from './member-details/member-details.component';
 
 export const adminRoutes: Routes = [
   {
@@ -46,6 +47,10 @@ export const adminRoutes: Routes = [
   {
     path: 'member-analytics',
     component: MemberAnalyticsComponent,
+  },
+  {
+    path: 'member-details',
+    component: MemberDetailsComponent,
   },
 ];
 

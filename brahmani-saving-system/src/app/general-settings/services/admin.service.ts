@@ -43,11 +43,14 @@ export class AdminService {
   isEmployeeResponseArrayAdded: boolean = false;
   isAssociationDetailsUpdated: boolean = false;
   isAssociationMonthlyDataAdded: boolean = false;
+  isMemberDetailsLoaded: boolean = false;
   memberList: Array<MemberData> = [];
   searchedMemberList: Array<MemberData> = [];
   newMember!: MemberData;
   associationDetals!: AssociationData;
   associationMontlyData!: AssociationMontlyData;
+  memberDetails!: MemberData;
+  memberMontlyData!: UserMonthlyData;
 
   isAdmin() {
     if (getCurrentUserType(this.cookieService) == 'Admin') {
@@ -174,5 +177,26 @@ export class AdminService {
       });
     console.log(this.associationMontlyData);
     this.isAssociationMonthlyDataAdded = true;
+  }
+
+  async getMemberDetails() {
+    this.isMemberDetailsLoaded = false;
+    this.memberDetails = JSON.parse(this.cookieService.get('memberDetails'));
+    this.memberMontlyData = await this.helpService.getMemberMonthlyDetails(
+      this.memberDetails.PhoneNumber,
+      'Nov',
+      '2023'
+    );
+    console.log(this.memberMontlyData);
+    console.log(this.memberDetails);
+    this.isMemberDetailsLoaded = true;
+  }
+
+  async getMemberMothlyDetails(month: string, year: string) {
+    this.memberMontlyData = await this.helpService.getMemberMonthlyDetails(
+      this.memberDetails.PhoneNumber,
+      month,
+      year
+    );
   }
 }

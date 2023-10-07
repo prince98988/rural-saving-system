@@ -1,1 +1,42 @@
-<p>member-analytics works!</p>
+<div class="dashboard-main">
+  <div class="modal-top">
+    <div class="search-box">
+      <div class="search-inner">
+        <p class="search-text">Search Member</p>
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-person input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="email"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            placeholder="Enter Name"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            [ngModel]="searchText"
+            (ngModelChange)="adminService.onSearchMemberList($event)"
+          />
+        </div>
+      </div>
+    </div>
+    <p class="main-text">Employee List</p>
+    <div class="employee-list">
+      <div *ngFor="let member of adminService.searchedMemberList">
+        <div class="row-dashboard">
+          <div class="card-vehicle-entry" (click)="onSelectUser(member)">
+            <div class="card-body">
+              <p class="employee-entry-text">{{ member.FirstName }}</p>
+              <p class="employee-entry-text">{{ member.PhoneNumber }}</p>
+              <p class="employee-entry-text">{{ member.Role }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

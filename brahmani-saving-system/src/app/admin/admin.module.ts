@@ -12,6 +12,7 @@ import { AssociationInfoComponent } from './association-info/association-info.co
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
 import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
+import { MemberDetailsComponent } from './member-details/member-details.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MemberAnalyticsComponent } from './member-analytics/member-analytics.co
     AnalyticsComponent,
     AssociationAnalyticsComponent,
     MemberAnalyticsComponent,
+    MemberDetailsComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, FormsModule],
   exports: [VehicleHistoryComponent],

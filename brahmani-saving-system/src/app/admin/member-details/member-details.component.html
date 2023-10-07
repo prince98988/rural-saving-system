@@ -1,0 +1,204 @@
+<div class="dashboard-main">
+  <div class="modal-top">
+    <div class="welcome-box">
+      <p class="welcome-text" *ngIf="adminService.isMemberDetailsLoaded">
+        {{ adminService.memberDetails.FirstName }}
+        {{ adminService.memberDetails.LastName }}
+      </p>
+    </div>
+
+    <div class="fit-content">
+      <p class="main-text">Member Details</p>
+    </div>
+    <div class="row-dashboard">
+      <div class="card-big-size card card-car">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="adminService.isMemberDetailsLoaded"
+          >
+            {{ adminService.memberDetails.Shares }}
+          </p>
+          <p class="card-widget-text">Total Shares</p>
+        </div>
+      </div>
+      <div class="card-big-size card card-bike">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="adminService.isMemberDetailsLoaded"
+          >
+            {{ adminService.memberDetails.PremiumPaid }} Rs
+          </p>
+          <p class="card-widget-text">Total Premium Paid</p>
+        </div>
+      </div>
+    </div>
+    <div class="fit-content">
+      <p class="main-text">Loan Details</p>
+    </div>
+    <div class="row-dashboard">
+      <div class="card card-car">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="adminService.isMemberDetailsLoaded"
+          >
+            {{ adminService.memberDetails.LoanAmount }} Rs
+          </p>
+          <p class="card-widget-text">Loan amount</p>
+        </div>
+      </div>
+      <div class="card card-bike">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="adminService.isMemberDetailsLoaded"
+          >
+            {{ adminService.memberDetails.InterestPaid }} Rs
+          </p>
+          <p class="card-widget-text">interest paid</p>
+        </div>
+      </div>
+    </div>
+    <div class="row-dashboard">
+      <div class="card card-center">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="adminService.isMemberDetailsLoaded"
+          >
+            {{ adminService.memberDetails.TotalPenaltyPaid }} Rs
+          </p>
+          <p class="card-widget-text">Penalty paid</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form
+    class="login-form"
+    [formGroup]="searchMonthlyDataForm"
+    (ngSubmit)="onSubmit()"
+    style="margin-top: 5%"
+  >
+    <div class="text-align-left">
+      <label>Select Month</label>
+    </div>
+    <div class="mb-3">
+      <div class="input-group input-border">
+        <select
+          formControlName="month"
+          class="form-control border-none"
+          style="font-family: 'gilroy-semibold'"
+          [ngClass]="{ 'is-invalid': submitted && form['month'].errors }"
+        >
+          <option *ngFor="let month of monthList" [value]="month">
+            {{ month }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="text-align-left">
+      <label>Select Year</label>
+    </div>
+    <div class="mb-3">
+      <div class="input-group input-border">
+        <select
+          formControlName="year"
+          class="form-control border-none"
+          style="font-family: 'gilroy-semibold'"
+          [ngClass]="{ 'is-invalid': submitted && form['year'].errors }"
+        >
+          <option *ngFor="let year of yearList" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-dark login-button">Search</button>
+  </form>
+
+  <div class="fit-content" style="margin-top: 5%">
+    <p class="main-text">Premium Details</p>
+  </div>
+  <div class="row-dashboard">
+    <div class="card-big-size card card-car">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{ adminService.memberDetails.Shares }}
+        </p>
+        <p class="card-widget-text">Total Shares</p>
+      </div>
+    </div>
+    <div class="card-big-size card card-bike">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{ adminService.memberMontlyData.Premium }} Rs
+        </p>
+        <p class="card-widget-text">Total Premium Paid</p>
+      </div>
+    </div>
+  </div>
+  <div class="fit-content">
+    <p class="main-text">Loan Details</p>
+  </div>
+  <div class="row-dashboard">
+    <div class="card card-car">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{ adminService.memberMontlyData.LoanAmount }} Rs
+        </p>
+        <p class="card-widget-text">Loan amount</p>
+      </div>
+    </div>
+    <div class="card card-bike">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{ adminService.memberMontlyData.InterestAmount }} Rs
+        </p>
+        <p class="card-widget-text">interest paid</p>
+      </div>
+    </div>
+  </div>
+  <div class="row-dashboard">
+    <div class="card card-center">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{ adminService.memberMontlyData.PenaltyPaid }} Rs
+        </p>
+        <p class="card-widget-text">Penalty paid</p>
+      </div>
+    </div>
+    <div class="card card-bike">
+      <div class="card-widget-body">
+        <p
+          class="card-widget-header-text"
+          *ngIf="adminService.isMemberDetailsLoaded"
+        >
+          {{
+            adminService.memberMontlyData.InterestAmount +
+              adminService.memberMontlyData.Premium +
+              adminService.memberMontlyData.PenaltyPaid
+          }}
+          Rs
+        </p>
+        <p class="card-widget-text">Total Amount paid</p>
+      </div>
+    </div>
+  </div>
+</div>
