@@ -33,13 +33,16 @@ export class MemberDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.searchMonthlyDataForm = this.formBuilder.group({
-      month: ['NOV', []],
+      month: ['Nov', []],
       year: ['2023', []],
     });
   }
 
   async onSubmit() {
-    await this.adminService.getAssociationMontlyData();
+    await this.adminService.getMemberMothlyDetails(
+      this.searchMonthlyDataForm.value.month,
+      this.searchMonthlyDataForm.value.year
+    );
   }
   get form() {
     return this.searchMonthlyDataForm.controls;

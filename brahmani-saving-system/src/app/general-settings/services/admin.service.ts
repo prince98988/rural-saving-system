@@ -11,6 +11,7 @@ import {
   decryptData,
   encryptData,
   getCurrentUserType,
+  getNextMonth,
 } from '../static/HelperFunctions';
 import {
   add_New_employee,
@@ -40,10 +41,12 @@ export class AdminService {
   ) {}
   isEmployeeAdded: boolean = false;
   isEmployeeRemoved: boolean = false;
-  isEmployeeResponseArrayAdded: boolean = false;
+  isMemberDetailsArrayAdded: boolean = false;
   isAssociationDetailsUpdated: boolean = false;
   isAssociationMonthlyDataAdded: boolean = false;
   isMemberDetailsLoaded: boolean = false;
+  isNextMonthStarted: boolean = false;
+  isLoanEntryAdded: boolean = false;
   memberList: Array<MemberData> = [];
   searchedMemberList: Array<MemberData> = [];
   newMember!: MemberData;
@@ -122,7 +125,7 @@ export class AdminService {
       });
   }
   async getAllMemberDetails() {
-    this.isEmployeeResponseArrayAdded = false;
+    this.isMemberDetailsArrayAdded = false;
     this.memberList = await this.helpService.getAllMemberData();
     const encryptedUserCredentials = encryptData(
       JSON.stringify(this.memberList)
@@ -131,7 +134,7 @@ export class AdminService {
       expires: 30,
     });
     this.searchedMemberList = this.memberList;
-    this.isEmployeeResponseArrayAdded = false;
+    this.isMemberDetailsArrayAdded = true;
   }
 
   async getAssociationDetails() {
@@ -198,5 +201,85 @@ export class AdminService {
       month,
       year
     );
+
+    if (this.memberMontlyData == undefined)
+      this.memberMontlyData = {
+        PhoneNumber: '',
+        Premium: 0,
+        PremiumStatus: false,
+        LoanAmount: 0,
+        InterestAmount: 0,
+        InterestStatus: false,
+        PenaltyPaid: 0,
+        DateTime: new Date(),
+      };
+    console.log(this.memberMontlyData);
+  }
+
+  async startNextMonth() {
+    this.isNextMonthStarted = false;
+    this.associationDetals = await this.helpService.getAssociationData();
+    if (this.associationDetals == null) return;
+    await this.getAllMemberDetails();
+    this.memberList.find((member) => {
+      member.NextMonthPremium =
+        member.Shares * this.associationDetals.SharePrice;
+      member.NextMonthInterest =
+        member.LoanAmount * this.associationDetals.InterestRate;
+    });
+    console.log(this.memberList);
+
+    var nextMonth = getNextMonth(this.associationDetals.CurrentMonth);
+    var nextYear = parseInt(this.associationDetals.CurrentYear);
+    if (nextMonth == 'Jan') nextYear += 1;
+
+    for (var i = 0; i < this.memberList.length; i++) {
+      await this.addMemberInNexMonth(this.memberList[i], nextYear, nextMonth);
+    }
+
+    this.associationDetals.CurrentMonth = nextMonth;
+    this.associationDetals.CurrentYear = nextYear.toString();
+    await this.updateAssociationDetails(this.associationDetals);
+    this.isNextMonthStarted = true;
+  }
+
+  async addMemberInNexMonth(
+    member: MemberData,
+    nextYear: number,
+    nextMonth: string
+  ) {
+    await this.firestore
+      .collection('monthlyUserData/' + nextYear + '/' + nextMonth)
+      .doc(member.PhoneNumber)
+      .set({
+        PhoneNumber: member.PhoneNumber,
+        Premium: member.NextMonthPremium,
+        PremiumStatus: false,
+        LoanAmount: member.LoanAmount,
+        InterestAmount: member.NextMonthInterest,
+        InterestStatus: false,
+        PenaltyPaid: 0,
+        DateTime: null,
+      });
+  }
+
+  async addLoanEntry(memberDetails: MemberData, LoanAmount: number) {
+    this.isLoanEntryAdded = false;
+    this.associationDetals = await this.helpService.getAssociationData();
+    if (this.associationDetals.AvailableBalance < LoanAmount) {
+      return;
+    }
+    await this.firestore
+      .collection('associationTable')
+      .doc('table')
+      .update({
+        LoanAmount:
+          parseInt(this.associationDetals.LoanAmount.toString()) + LoanAmount,
+        AvailableBalance: this.associationDetals.AvailableBalance - LoanAmount,
+      });
+    await this.firestore
+      .collection('memberTable')
+      .doc(memberDetails.PhoneNumber)
+      .update({ LoanAmount: memberDetails.LoanAmount + LoanAmount });
   }
 }

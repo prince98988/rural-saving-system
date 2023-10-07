@@ -133,7 +133,15 @@
         <p class="card-widget-text">Total Shares</p>
       </div>
     </div>
-    <div class="card-big-size card card-bike">
+    <div
+      class="card"
+      [ngClass]="
+        adminService.isMemberDetailsLoaded &&
+        adminService.memberMontlyData.PremiumStatus
+          ? 'card-col-green'
+          : 'card-col-red'
+      "
+    >
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
@@ -160,7 +168,15 @@
         <p class="card-widget-text">Loan amount</p>
       </div>
     </div>
-    <div class="card card-bike">
+    <div
+      class="card"
+      [ngClass]="
+        adminService.isMemberDetailsLoaded &&
+        adminService.memberMontlyData.InterestStatus
+          ? 'card-col-green'
+          : 'card-col-red'
+      "
+    >
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"

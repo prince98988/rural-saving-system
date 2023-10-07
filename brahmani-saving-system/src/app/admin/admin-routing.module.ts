@@ -5,12 +5,13 @@ import { AdminGuard } from '../general-settings/AccessComponents/AdminGuard';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { VehicleHistoryComponent } from './vehicle-history/vehicle-history.component';
-import { UpdateTablesComponent } from './update-tables/update-tables.component';
+import UpdateTablesComponent from './update-tables/update-tables.component';
 import { AssociationInfoComponent } from './association-info/association-info.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
 import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
 import { MemberDetailsComponent } from './member-details/member-details.component';
+import { LoanEntryComponent } from './loan-entry/loan-entry.component';
 
 export const adminRoutes: Routes = [
   {
@@ -51,6 +52,10 @@ export const adminRoutes: Routes = [
   {
     path: 'member-details',
     component: MemberDetailsComponent,
+  },
+  {
+    path: 'loan-entry',
+    component: LoanEntryComponent,
   },
 ];
 

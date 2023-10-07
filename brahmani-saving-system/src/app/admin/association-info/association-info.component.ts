@@ -39,6 +39,8 @@ export class AssociationInfoComponent {
       startedyear: this.adminService.associationDetals.StartedYear,
       loanamount: this.adminService.associationDetals.LoanAmount,
       penaltyamount: this.adminService.associationDetals.PenaltyAmount,
+      currentmonth: this.adminService.associationDetals.CurrentMonth,
+      currentyear: this.adminService.associationDetals.CurrentYear,
     });
   }
 
@@ -57,6 +59,8 @@ export class AssociationInfoComponent {
       penaltyamount: [{ value: 0, disabled: true }, [Validators.required]],
       startedmonth: ['', [Validators.required]],
       startedyear: ['', [Validators.required]],
+      currentmonth: [{ value: '', disabled: true }, [Validators.required]],
+      currentyear: [{ value: '', disabled: true }, [Validators.required]],
     });
   }
   openDonePopup() {

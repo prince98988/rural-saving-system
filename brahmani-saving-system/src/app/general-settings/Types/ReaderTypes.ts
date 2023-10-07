@@ -45,6 +45,8 @@ export interface AssociationData {
   PenaltyAmount: number;
   StartedYear: string;
   StartedMonth: string;
+  CurrentMonth: string;
+  CurrentYear: string;
 }
 
 export interface AssociationMontlyData {
