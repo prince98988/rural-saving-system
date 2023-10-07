@@ -27,4 +27,8 @@ export class AdminDashboardComponent implements OnInit {
   gotoConfiguration(): void {
     this.router.navigate(['association-info']);
   }
+
+  gotoUpdateTables(): void {
+    this.router.navigate(['update-tables']);
+  }
 }

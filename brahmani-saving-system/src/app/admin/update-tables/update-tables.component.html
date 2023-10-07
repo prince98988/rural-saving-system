@@ -1,1 +1,69 @@
-<p>update-tables works!</p>
+<div class="dashboard-main">
+  <div class="modal-top">
+    <div class="fit-content">
+      <p class="main-text">Update Details</p>
+    </div>
+    <div class="row-dashboard">
+      <div class="card card-left-bg-color">
+        <div class="card-widget-body">
+          <p class="card-widget-text">Start Next Month</p>
+        </div>
+        <button class="btn btn-dark login-button" (click)="startNewSprint()">
+          Start
+        </button>
+      </div>
+      <div class="card card-left-bg-color">
+        <div class="card-widget-body" (click)="gotoLoanEntryPage()">
+          <p class="card-widget-text">Add Loan Entry</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img class="card-modal-icon" src="../../../assets/gifs/spinner.gif" />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: removeEmployeeStyle }"
+    (click)="closeNewMonthStarted()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-done.svg"
+        />
+        <p class="card-modal-text">New Month Started</p>
+      </div>
+    </div>
+  </div>
+</div>

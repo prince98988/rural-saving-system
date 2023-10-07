@@ -1,0 +1,125 @@
+<div class="login-main">
+  <div class="modal-top">
+    <img class="tavisca-logo" src="../../../assets/logos/icon-employees.svg" />
+    <p class="text-main">Add Loan Entry</p>
+    <form
+      class="login-form"
+      [formGroup]="addLoanEntryForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="text-align-left">
+        <label>Mobile Number</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <select
+            formControlName="phonenumber"
+            class="form-control border-none"
+            style="font-family: 'gilroy-semibold'"
+            [ngClass]="{
+              'is-invalid': submitted && form['phonenumber'].errors
+            }"
+            *ngIf="adminService.isMemberDetailsArrayAdded"
+          >
+            <option
+              *ngFor="let member of adminService.memberList"
+              [value]="member"
+            >
+              {{ member.PhoneNumber }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="submitted && form['phonenumber'].errors"
+          class="input-error text-align-left"
+        >
+          <div *ngIf="form['phonenumber'].errors['required']">
+            phonenumber is required
+          </div>
+        </div>
+      </div>
+
+      <div class="text-align-left">
+        <label>Loan Amount</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-envelope input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            id="mmobile"
+            style="margin-left: 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="loanamount"
+            maxlength="10"
+            minlength="10"
+            [ngClass]="{ 'is-invalid': submitted && form['loanamount'].errors }"
+          />
+        </div>
+        <div class="input-error text-align-left">
+          <div *ngIf="submitted && form['loanamount'].errors">
+            <div *ngIf="form['loanamount'].errors['required']">
+              loan amount is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-dark login-button">Add Entry</button>
+    </form>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: doneDisplayStyle }"
+    (click)="closeDonePopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-done.svg"
+        />
+        <p class="card-modal-text">Entry Successful</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img class="card-modal-icon" src="../../../assets/gifs/spinner.gif" />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
+    </div>
+  </div>
+</div>
