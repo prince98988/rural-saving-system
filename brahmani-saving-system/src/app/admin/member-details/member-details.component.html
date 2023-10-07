@@ -136,7 +136,7 @@
     <div
       class="card"
       [ngClass]="
-        adminService.isMemberDetailsLoaded &&
+        adminService.isMemberMontlyDataLoaded &&
         adminService.memberMontlyData.PremiumStatus
           ? 'card-col-green'
           : 'card-col-red'
@@ -145,7 +145,7 @@
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
-          *ngIf="adminService.isMemberDetailsLoaded"
+          *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{ adminService.memberMontlyData.Premium }} Rs
         </p>
@@ -161,7 +161,7 @@
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
-          *ngIf="adminService.isMemberDetailsLoaded"
+          *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{ adminService.memberMontlyData.LoanAmount }} Rs
         </p>
@@ -171,7 +171,7 @@
     <div
       class="card"
       [ngClass]="
-        adminService.isMemberDetailsLoaded &&
+        adminService.isMemberMontlyDataLoaded &&
         adminService.memberMontlyData.InterestStatus
           ? 'card-col-green'
           : 'card-col-red'
@@ -180,7 +180,7 @@
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
-          *ngIf="adminService.isMemberDetailsLoaded"
+          *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{ adminService.memberMontlyData.InterestAmount }} Rs
         </p>
@@ -193,7 +193,7 @@
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
-          *ngIf="adminService.isMemberDetailsLoaded"
+          *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{ adminService.memberMontlyData.PenaltyPaid }} Rs
         </p>
@@ -204,7 +204,7 @@
       <div class="card-widget-body">
         <p
           class="card-widget-header-text"
-          *ngIf="adminService.isMemberDetailsLoaded"
+          *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{
             adminService.memberMontlyData.InterestAmount +

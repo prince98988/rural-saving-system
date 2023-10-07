@@ -13,6 +13,7 @@ import {
   styleUrls: ['./reader-dashboard.component.scss'],
 })
 export class ReaderDashboardComponent implements OnInit {
+  readerRole: string = 'reader';
   constructor(
     private router: Router,
     @Inject(ReaderService)
@@ -46,5 +47,8 @@ export class ReaderDashboardComponent implements OnInit {
   logOut() {
     this.cookieService.deleteAll();
     this.router.navigate(['login']);
+  }
+  goToMemberRoleScreen() {
+    this.router.navigate(['dashboard-' + this.readerService.memberRole]);
   }
 }

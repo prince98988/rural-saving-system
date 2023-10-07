@@ -23,7 +23,7 @@
           >
             <option
               *ngFor="let member of adminService.memberList"
-              [value]="member"
+              [value]="member.PhoneNumber"
             >
               {{ member.PhoneNumber }}
             </option>

@@ -30,6 +30,9 @@ export class AddEmployeeComponent implements OnInit {
       middlename: ['', [Validators.required]],
       shares: [0, []],
       type: ['reader', [Validators.required]],
+      premiumpaid: [0, []],
+      penaltypaid: [0, []],
+      interestpaid: [0, []],
     });
   }
   openDonePopup() {
@@ -62,12 +65,12 @@ export class AddEmployeeComponent implements OnInit {
       LastName: this.addEmployeeForm.value.lastname,
       MiddleName: this.addEmployeeForm.value.middlename,
       PhoneNumber: this.addEmployeeForm.value.mmobile,
-      Shares: this.addEmployeeForm.value.shares,
+      Shares: parseInt(this.addEmployeeForm.value.shares),
       Role: this.addEmployeeForm.value.type,
-      InterestPaid: 0,
-      PremiumPaid: 0,
+      InterestPaid: parseInt(this.addEmployeeForm.value.interestpaid),
+      PremiumPaid: parseInt(this.addEmployeeForm.value.premiumpaid),
       LoanAmount: 0,
-      TotalPenaltyPaid: 0,
+      TotalPenaltyPaid: parseInt(this.addEmployeeForm.value.penaltypaid),
     };
     await this.adminService.addNewEmployee(newMember);
     this.closeLoadingPopup();

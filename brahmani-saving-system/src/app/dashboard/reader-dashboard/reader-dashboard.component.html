@@ -1,5 +1,19 @@
 <div class="dashboard-main">
   <div class="modal-top">
+    <div class="row-dashboard">
+      <button
+        type="submit"
+        class="btn btn-dark login-button"
+        style="margin-left: 7%"
+        (click)="goToMemberRoleScreen()"
+        *ngIf="
+          readerService.memberRole != null &&
+          readerService.memberRole != readerRole
+        "
+      >
+        < {{ readerService.memberRole }} screen
+      </button>
+    </div>
     <div class="welcome-box">
       <p class="welcome-text" *ngIf="readerService.isReaderDashboardDataLoaded">
         Welcome, {{ readerService.memberData.FirstName }}
