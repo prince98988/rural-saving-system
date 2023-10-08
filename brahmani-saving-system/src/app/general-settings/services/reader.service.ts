@@ -31,6 +31,7 @@ export class ReaderService {
   userCurrentMonthData!: UserMonthlyData;
   userName!: string;
   useEmail!: string;
+  memberRole!: string;
 
   constructor(
     private http: HttpClient,
@@ -61,7 +62,7 @@ export class ReaderService {
 
   async getUserData(mmobile: string) {
     //get user data
-    var userData = null;
+    var userData!: MemberData;
     var list: any[] = [];
     await this.firestore
       .collection('memberTable')
@@ -78,6 +79,9 @@ export class ReaderService {
         userData = user;
       }
     });
+
+    this.cookieService.set('role', encryptData(userData.Role));
+    this.memberRole = userData.Role;
 
     if (userData != null) {
       await this.getAssociationData();
@@ -130,6 +134,18 @@ export class ReaderService {
         this.userCurrentMonthData = userMonthlyData;
       }
     });
+    if (this.userCurrentMonthData == null) {
+      this.userCurrentMonthData = {
+        PhoneNumber: mmobile,
+        Premium: 0,
+        PremiumStatus: true,
+        LoanAmount: 0,
+        InterestAmount: 0,
+        InterestStatus: true,
+        PenaltyPaid: 0,
+        DateTime: new Date(),
+      };
+    }
     console.log(this.userCurrentMonthData);
   }
 

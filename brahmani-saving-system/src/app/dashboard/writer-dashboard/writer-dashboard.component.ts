@@ -51,4 +51,8 @@ export class WriterDashboardComponent implements OnInit {
     });
     this.router.navigate(['add-montly-entry']);
   }
+
+  goToReaderScreen() {
+    this.router.navigate(['dashboard-reader']);
+  }
 }

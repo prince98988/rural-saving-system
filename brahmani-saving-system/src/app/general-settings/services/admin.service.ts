@@ -45,6 +45,7 @@ export class AdminService {
   isAssociationDetailsUpdated: boolean = false;
   isAssociationMonthlyDataAdded: boolean = false;
   isMemberDetailsLoaded: boolean = false;
+  isMemberMontlyDataLoaded: boolean = false;
   isNextMonthStarted: boolean = false;
   isLoanEntryAdded: boolean = false;
   memberList: Array<MemberData> = [];
@@ -85,10 +86,26 @@ export class AdminService {
     var newShares =
       parseInt(data.Shares.toString()) + parseInt(newMemberData.Shares);
     var newMembers = parseInt(data.TotalMembers.toString()) + 1;
-    await this.firestore
-      .collection('associationTable')
-      .doc('table')
-      .update({ Shares: newShares, TotalMembers: newMembers });
+    var AvailableBalance =
+      parseInt(data.AvailableBalance.toString()) +
+      parseInt(newMemberData.PremiumPaid) +
+      parseInt(newMemberData.InterestPaid) +
+      parseInt(newMemberData.TotalPenaltyPaid);
+    var TotalBalance =
+      parseInt(data.TotalBalance.toString()) +
+      parseInt(newMemberData.PremiumPaid) +
+      parseInt(newMemberData.InterestPaid) +
+      parseInt(newMemberData.TotalPenaltyPaid);
+    var PenaltyAmount =
+      parseInt(data.PenaltyAmount.toString()) +
+      parseInt(newMemberData.TotalPenaltyPaid);
+    await this.firestore.collection('associationTable').doc('table').update({
+      Shares: newShares,
+      TotalMembers: newMembers,
+      AvailableBalance: AvailableBalance,
+      TotalBalance: TotalBalance,
+      PenaltyAmount: PenaltyAmount,
+    });
     this.isEmployeeAdded = true;
 
     await this.firestore
@@ -150,7 +167,7 @@ export class AdminService {
     );
   }
 
-  async getAssociationMontlyData() {
+  async getAssociationMontlyData(month: string, year: string) {
     console.log(this.isAssociationMonthlyDataAdded);
     this.isAssociationMonthlyDataAdded = false;
     this.associationMontlyData = {
@@ -161,7 +178,7 @@ export class AdminService {
     };
 
     await this.firestore
-      .collection('monthlyUserData/2023/Nov')
+      .collection('monthlyUserData/' + year + '/' + month)
       .get()
       .forEach((collection) => {
         collection.docs.find((document) => {
@@ -196,6 +213,7 @@ export class AdminService {
   }
 
   async getMemberMothlyDetails(month: string, year: string) {
+    this.isMemberMontlyDataLoaded = false;
     this.memberMontlyData = await this.helpService.getMemberMonthlyDetails(
       this.memberDetails.PhoneNumber,
       month,
@@ -214,6 +232,7 @@ export class AdminService {
         DateTime: new Date(),
       };
     console.log(this.memberMontlyData);
+    this.isMemberMontlyDataLoaded = true;
   }
 
   async startNextMonth() {
@@ -263,8 +282,15 @@ export class AdminService {
       });
   }
 
-  async addLoanEntry(memberDetails: MemberData, LoanAmount: number) {
+  async addLoanEntry(PhoneNumber: string, LoanAmount: number) {
     this.isLoanEntryAdded = false;
+    LoanAmount = parseInt(LoanAmount.toString());
+    var memberDetails!: MemberData;
+    this.memberList.find((member) => {
+      if (member.PhoneNumber == PhoneNumber) {
+        memberDetails = member;
+      }
+    });
     this.associationDetals = await this.helpService.getAssociationData();
     if (this.associationDetals.AvailableBalance < LoanAmount) {
       return;
@@ -275,11 +301,18 @@ export class AdminService {
       .update({
         LoanAmount:
           parseInt(this.associationDetals.LoanAmount.toString()) + LoanAmount,
-        AvailableBalance: this.associationDetals.AvailableBalance - LoanAmount,
+        AvailableBalance:
+          parseInt(this.associationDetals.AvailableBalance.toString()) -
+          LoanAmount,
       });
+
+    var loanamount = parseInt(memberDetails.LoanAmount.toString()) + LoanAmount;
+    console.log(loanamount);
     await this.firestore
       .collection('memberTable')
       .doc(memberDetails.PhoneNumber)
-      .update({ LoanAmount: memberDetails.LoanAmount + LoanAmount });
+      .update({
+        LoanAmount: loanamount,
+      });
   }
 }

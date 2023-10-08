@@ -176,6 +176,78 @@
           />
         </div>
       </div>
+      <div class="text-align-left">
+        <label>Total Premium Paid</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="premiumpaid"
+            [ngClass]="{
+              'is-invalid': submitted && form['premiumpaid'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Total Interest Paid</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="interestpaid"
+            [ngClass]="{
+              'is-invalid': submitted && form['interestpaid'].errors
+            }"
+          />
+        </div>
+      </div>
+      <div class="text-align-left">
+        <label>Total Penalty Paid</label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <div
+            class="input-group-prepend border-none"
+            style="align-self: center"
+          >
+            <i class="bi bi-lock input-icon-size"></i>
+          </div>
+          <input
+            type="text"
+            style="margin: auto 3px"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="penaltypaid"
+            [ngClass]="{
+              'is-invalid': submitted && form['penaltypaid'].errors
+            }"
+          />
+        </div>
+      </div>
       <button type="submit" class="btn btn-dark login-button">
         Add Member
       </button>

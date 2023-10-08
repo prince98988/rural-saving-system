@@ -57,7 +57,6 @@ export class LoanEntryComponent implements OnInit {
 
   async onSubmit() {
     console.log(JSON.stringify(this.addLoanEntryForm.value.phonenumber));
-    console.log(this.addLoanEntryForm.value.loanamount);
     await this.adminService.addLoanEntry(
       this.addLoanEntryForm.value.phonenumber,
       this.addLoanEntryForm.value.loanamount

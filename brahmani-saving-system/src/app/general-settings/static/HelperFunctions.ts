@@ -1,6 +1,11 @@
 import * as CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 
+export function getMemberRole(cookieService: CookieService) {
+  var role = decryptData(cookieService.get('memberRole'));
+  if (role == null) return 'reader';
+  else return role;
+}
 export function getMonthList() {
   return [
     'Jan',
