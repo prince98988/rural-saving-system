@@ -3,26 +3,12 @@ import { Injectable, Type } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import {
-  BikeEntryBodyRequest,
-  CarEntryBodyRequest,
-  DeleteEntryBodyRequest,
-} from '../static/Body';
-import { GeneralHeader } from '../static/Haders';
-import {
   decryptData,
-  encryptData,
   getCurrentUserName,
   getCurrentUserType,
   hideCardAnimation,
   makeCardAnimation,
 } from '../static/HelperFunctions';
-import {
-  delete_vehicle_entry,
-  gel_all_vehicle_entry,
-  post_vehicle_entry,
-  writer_dashboard_details,
-} from '../static/Urls';
-import { Vehicle, WriterDashboardData } from '../Types/WriterType';
 import {
   AssociationData,
   MemberData,
@@ -48,11 +34,11 @@ export class WriterService {
   isVehicleAdded = true;
   isVehicleDeleted = true;
   isAllVehicleEntriesAdded = true;
-  vehicleEntries: Array<Vehicle> = [];
   membersMonthlyDetails: Array<UserCurrentMonthData> = [];
   searchedMembersMonthlyDetails: Array<UserCurrentMonthData> = [];
   memberCurrentMonthData!: UserCurrentMonthData;
   associationData!: AssociationData;
+  currentUserData!: MemberData;
 
   isWriter() {
     var userType = getCurrentUserType(this.cookieService);
@@ -102,14 +88,13 @@ export class WriterService {
           this.membersMonthlyDetails.push(json);
         });
       });
-
+    console.log(this.membersMonthlyDetails);
     var memberData: Array<MemberData> =
       await this.helpService.getAllMemberData();
     console.log(memberData);
     if (memberData != null) {
       for (var index = 0; index < this.membersMonthlyDetails.length; index++) {
         memberData.find((memberData) => {
-          console.log(memberData.PhoneNumber);
           if (
             memberData.PhoneNumber ==
             this.membersMonthlyDetails[index].PhoneNumber
@@ -151,6 +136,10 @@ export class WriterService {
   async AddMemberMontlyEntry(penalty: number) {
     if (this.associationData == null)
       this.associationData = await this.helpService.getAssociationData();
+    if (this.currentUserData == null)
+      this.currentUserData = await this.helpService.getCurrentMemberData(
+        this.memberCurrentMonthData.PhoneNumber
+      );
     await this.firestore
       .collection(
         'monthlyUserData/' +
@@ -163,26 +152,45 @@ export class WriterService {
         InterestStatus: true,
         PremiumStatus: true,
         PenaltyPaid: penalty,
-        PaidToPersonMobile: '',
-        PaidTOPersonName: '',
+        PaidToPersonMobile: this.currentUserData.PhoneNumber,
+        PaidToPersonName: this.currentUserData.FirstName,
       });
 
     var data = await this.helpService.getAssociationData();
+    var newPenalty =
+      parseInt(penalty.toString()) - this.memberCurrentMonthData.PenaltyPaid;
     var newTotalBalance =
       parseInt(data.TotalBalance) +
       this.memberCurrentMonthData.Premium +
-      this.memberCurrentMonthData.InterestAmount;
+      this.memberCurrentMonthData.InterestAmount +
+      newPenalty;
+    console.log(parseInt(data.TotalBalance));
+    console.log(newTotalBalance);
     var newAvailableBalance =
       parseInt(data.AvailableBalance) +
       this.memberCurrentMonthData.Premium +
-      this.memberCurrentMonthData.InterestAmount;
+      newPenalty;
+    var penaltyAmount = newPenalty + parseInt(data.PenaltyAmount);
     await this.firestore.collection('associationTable').doc('table').update({
       TotalBalance: newTotalBalance,
       AvailableBalance: newAvailableBalance,
+      PenaltyAmount: penaltyAmount,
     });
-    await this.firestore.collection('associationTable').doc('table').update({
-      TotalBalance: newTotalBalance,
-      AvailableBalance: newAvailableBalance,
-    });
+
+    var updateMemberData = await this.helpService.getMemberDetails(
+      this.memberCurrentMonthData.PhoneNumber
+    );
+    await this.firestore
+      .collection('memberTable')
+      .doc(this.memberCurrentMonthData.PhoneNumber)
+      .update({
+        PremiumPaid:
+          updateMemberData.PremiumPaid + this.memberCurrentMonthData.Premium,
+        InterestPaid:
+          updateMemberData.InterestPaid +
+          this.memberCurrentMonthData.InterestAmount,
+        TotalPenaltyPaid:
+          parseInt(updateMemberData.TotalPenaltyPaid.toString()) + newPenalty,
+      });
   }
 }

@@ -33,23 +33,28 @@ export class HelpService {
   async getCurrentMemberData(phoneNumber: string) {
     var userData!: MemberData;
     if (this.cookieService.check('userData')) {
-      userData = decryptData(this.cookieService.get('userData'));
+      userData = JSON.parse(decryptData(this.cookieService.get('userData')));
+      console.log(userData);
     } else {
       await this.firestore
         .collection('memberTable')
         .get()
         .forEach((collection) => {
           collection.docs.find((document) => {
-            console.log(document.data());
             var json = JSON.parse(JSON.stringify(document.data()));
             if (json.PhoneNumber == phoneNumber) {
               userData = json;
             }
           });
         });
+      var encryptedUseData = encryptData(
+        JSON.stringify({
+          userData,
+        })
+      );
+      this.cookieService.set('userData', encryptedUseData, { expires: 0.01 });
     }
-
-    this.cookieService.set('userData', encryptData(JSON.stringify(userData)));
+    console.log(userData);
     return userData;
   }
   async getAssociationData() {
@@ -75,7 +80,7 @@ export class HelpService {
     var memberDetails!: MemberData;
     //get assiciation data
     await this.firestore
-      .collection('memberDetails')
+      .collection('memberTable')
       .get()
       .forEach((collection) => {
         collection.docs.find((document) => {
