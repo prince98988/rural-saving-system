@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CookieService } from 'ngx-cookie-service';
 import { MemberData, UserMonthlyData } from '../Types/ReaderTypes';
+import { decryptData, encryptData } from '../static/HelperFunctions';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,28 @@ export class HelpService {
     return this.allMembersData;
   }
 
+  async getCurrentMemberData(phoneNumber: string) {
+    var userData!: MemberData;
+    if (this.cookieService.check('userData')) {
+      userData = decryptData(this.cookieService.get('userData'));
+    } else {
+      await this.firestore
+        .collection('memberTable')
+        .get()
+        .forEach((collection) => {
+          collection.docs.find((document) => {
+            console.log(document.data());
+            var json = JSON.parse(JSON.stringify(document.data()));
+            if (json.PhoneNumber == phoneNumber) {
+              userData = json;
+            }
+          });
+        });
+    }
+
+    this.cookieService.set('userData', encryptData(JSON.stringify(userData)));
+    return userData;
+  }
   async getAssociationData() {
     var list: any = [];
     //get assiciation data

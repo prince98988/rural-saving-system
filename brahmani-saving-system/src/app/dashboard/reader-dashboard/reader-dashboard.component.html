@@ -26,8 +26,11 @@
       />
     </div>
 
+    <div class="fit-content" *ngIf="readerService.isReaderDashboardDataLoaded">
+      <p class="main-text">{{ readerService.associationData.Name }}</p>
+    </div>
     <div class="fit-content">
-      <p class="main-text">Brahamani Bachat Mandal</p>
+      <p class="main-text">Current Month Status</p>
     </div>
     <div class="row-dashboard">
       <div
@@ -106,6 +109,35 @@
           <p class="card-widget-text">Total Shares</p>
         </div>
       </div>
+      <div class="card card-bike">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="readerService.isReaderDashboardDataLoaded"
+          >
+            {{
+              readerService.memberData.InterestPaid +
+                readerService.memberData.PremiumPaid +
+                readerService.memberData.TotalPenaltyPaid
+            }}
+            Rs
+          </p>
+          <p class="card-widget-text">Total Money paid</p>
+        </div>
+      </div>
+    </div>
+    <div class="row-dashboard">
+      <div class="card card-car">
+        <div class="card-widget-body">
+          <p
+            class="card-widget-header-text"
+            *ngIf="readerService.isReaderDashboardDataLoaded"
+          >
+            {{ readerService.memberData.TotalPenaltyPaid }} Rs
+          </p>
+          <p class="card-widget-text">Penalty paid</p>
+        </div>
+      </div>
       <div class="card-big-size card card-bike">
         <div class="card-widget-body">
           <p
@@ -142,19 +174,6 @@
             {{ readerService.memberData.InterestPaid }} Rs
           </p>
           <p class="card-widget-text">interest paid</p>
-        </div>
-      </div>
-    </div>
-    <div class="row-dashboard">
-      <div class="card card-center">
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
-            {{ readerService.memberData.TotalPenaltyPaid }} Rs
-          </p>
-          <p class="card-widget-text">Penalty paid</p>
         </div>
       </div>
     </div>

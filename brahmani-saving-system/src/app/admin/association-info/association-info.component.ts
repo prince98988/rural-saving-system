@@ -41,6 +41,8 @@ export class AssociationInfoComponent {
       penaltyamount: this.adminService.associationDetals.PenaltyAmount,
       currentmonth: this.adminService.associationDetals.CurrentMonth,
       currentyear: this.adminService.associationDetals.CurrentYear,
+      loanamountpershare:
+        this.adminService.associationDetals.LoanAmountPerShare,
     });
   }
 
@@ -61,6 +63,7 @@ export class AssociationInfoComponent {
       startedyear: ['', [Validators.required]],
       currentmonth: [{ value: '', disabled: true }, [Validators.required]],
       currentyear: [{ value: '', disabled: true }, [Validators.required]],
+      loanamountpershare: [0, [Validators.required]],
     });
   }
   openDonePopup() {
@@ -94,6 +97,9 @@ export class AssociationInfoComponent {
       SharePrice: this.addEmployeeForm.value.shareprice,
       InterestRate: this.addEmployeeForm.value.interestrate,
       DefaultPassword: this.addEmployeeForm.value.defaultpassword,
+      LoanAmountPerShare: parseInt(
+        this.addEmployeeForm.value.loanamountpershare
+      ),
     };
     await this.adminService.updateAssociationDetails(updatedData);
     this.closeLoadingPopup();

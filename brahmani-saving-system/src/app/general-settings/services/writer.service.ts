@@ -24,6 +24,7 @@ import {
 } from '../static/Urls';
 import { Vehicle, WriterDashboardData } from '../Types/WriterType';
 import {
+  AssociationData,
   MemberData,
   UserCurrentMonthData,
   UserMonthlyData,
@@ -51,6 +52,7 @@ export class WriterService {
   membersMonthlyDetails: Array<UserCurrentMonthData> = [];
   searchedMembersMonthlyDetails: Array<UserCurrentMonthData> = [];
   memberCurrentMonthData!: UserCurrentMonthData;
+  associationData!: AssociationData;
 
   isWriter() {
     var userType = getCurrentUserType(this.cookieService);
@@ -84,8 +86,15 @@ export class WriterService {
   async getAllMembersMontlyDetails() {
     this.isDashBoardDetailsAdded = false;
     this.membersMonthlyDetails = [];
+    this.associationData = await this.helpService.getAssociationData();
+    if (this.associationData == null) return;
     await this.firestore
-      .collection('monthlyUserData/2023/Nov')
+      .collection(
+        'monthlyUserData/' +
+          this.associationData.CurrentYear +
+          '/' +
+          this.associationData.CurrentMonth
+      )
       .get()
       .forEach((collection) => {
         collection.docs.find((document) => {
@@ -140,13 +149,22 @@ export class WriterService {
     );
   }
   async AddMemberMontlyEntry(penalty: number) {
+    if (this.associationData == null)
+      this.associationData = await this.helpService.getAssociationData();
     await this.firestore
-      .collection('monthlyUserData/2023/Nov')
+      .collection(
+        'monthlyUserData/' +
+          this.associationData.CurrentYear +
+          '/' +
+          this.associationData.CurrentMonth
+      )
       .doc(this.memberCurrentMonthData.PhoneNumber)
       .update({
         InterestStatus: true,
         PremiumStatus: true,
         PenaltyPaid: penalty,
+        PaidToPersonMobile: '',
+        PaidTOPersonName: '',
       });
 
     var data = await this.helpService.getAssociationData();

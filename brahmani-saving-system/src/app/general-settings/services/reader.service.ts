@@ -63,7 +63,6 @@ export class ReaderService {
   async getUserData(mmobile: string) {
     //get user data
     var userData!: MemberData;
-    var list: any[] = [];
     await this.firestore
       .collection('memberTable')
       .get()
@@ -71,16 +70,14 @@ export class ReaderService {
         collection.docs.find((document) => {
           console.log(document.data());
           var json = JSON.parse(JSON.stringify(document.data()));
-          list.push(json);
+          if (json.PhoneNumber == mmobile) {
+            userData = json;
+          }
         });
       });
-    list.forEach((user) => {
-      if (user.PhoneNumber == mmobile) {
-        userData = user;
-      }
-    });
 
     this.cookieService.set('role', encryptData(userData.Role));
+    this.cookieService.set('userData', encryptData(JSON.stringify(userData)));
     this.memberRole = userData.Role;
 
     if (userData != null) {
@@ -144,6 +141,8 @@ export class ReaderService {
         InterestStatus: true,
         PenaltyPaid: 0,
         DateTime: new Date(),
+        PaidToPersonMobile: '',
+        PaidToPersonName: '',
       };
     }
     console.log(this.userCurrentMonthData);

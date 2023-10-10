@@ -47,6 +47,7 @@ export interface AssociationData {
   StartedMonth: string;
   CurrentMonth: string;
   CurrentYear: string;
+  LoanAmountPerShare: number;
 }
 
 export interface AssociationMontlyData {
@@ -65,6 +66,8 @@ export interface UserMonthlyData {
   InterestStatus: boolean;
   PenaltyPaid: number;
   DateTime: Date;
+  PaidToPersonName: string;
+  PaidToPersonMobile: string;
 }
 
 export interface UserCurrentMonthData extends UserMonthlyData, MemberData {}
