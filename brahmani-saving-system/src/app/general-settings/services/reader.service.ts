@@ -20,6 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReaderDashboardBodyRequest } from '../static/Body';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { HelpService } from './help.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,8 @@ export class ReaderService {
     private http: HttpClient,
     private cookieService: CookieService,
     private firestore: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private helpService: HelpService
   ) {
     this.userName = getCurrentUserName(cookieService);
     this.useEmail = getCurrentUserMobileNumber(cookieService);
@@ -63,24 +65,9 @@ export class ReaderService {
   async getUserData(mmobile: string) {
     //get user data
     var userData!: MemberData;
-    var list: any[] = [];
-    await this.firestore
-      .collection('memberTable')
-      .get()
-      .forEach((collection) => {
-        collection.docs.find((document) => {
-          console.log(document.data());
-          var json = JSON.parse(JSON.stringify(document.data()));
-          list.push(json);
-        });
-      });
-    list.forEach((user) => {
-      if (user.PhoneNumber == mmobile) {
-        userData = user;
-      }
-    });
-
+    userData = await this.helpService.getCurrentMemberData(mmobile);
     this.cookieService.set('role', encryptData(userData.Role));
+    this.cookieService.set('userData', encryptData(JSON.stringify(userData)));
     this.memberRole = userData.Role;
 
     if (userData != null) {
@@ -144,6 +131,8 @@ export class ReaderService {
         InterestStatus: true,
         PenaltyPaid: 0,
         DateTime: new Date(),
+        PaidToPersonMobile: '',
+        PaidToPersonName: '',
       };
     }
     console.log(this.userCurrentMonthData);

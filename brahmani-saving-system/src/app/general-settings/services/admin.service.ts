@@ -230,6 +230,8 @@ export class AdminService {
         InterestStatus: false,
         PenaltyPaid: 0,
         DateTime: new Date(),
+        PaidToPersonMobile: '',
+        PaidToPersonName: '',
       };
     console.log(this.memberMontlyData);
     this.isMemberMontlyDataLoaded = true;
@@ -292,7 +294,11 @@ export class AdminService {
       }
     });
     this.associationDetals = await this.helpService.getAssociationData();
-    if (this.associationDetals.AvailableBalance < LoanAmount) {
+    if (
+      this.associationDetals.AvailableBalance < LoanAmount ||
+      this.associationDetals.LoanAmountPerShare * memberDetails.Shares <
+        LoanAmount + memberDetails.LoanAmount
+    ) {
       return;
     }
     await this.firestore

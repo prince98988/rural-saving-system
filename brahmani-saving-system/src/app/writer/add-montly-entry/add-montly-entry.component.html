@@ -15,6 +15,20 @@
         {{ writerService.memberCurrentMonthData.PhoneNumber }}
       </p>
     </div>
+    <p
+      class="welcome-text"
+      *ngIf="
+        writerService.memberCurrentMonthData != null &&
+        writerService.memberCurrentMonthData.PremiumStatus
+      "
+    >
+      Paid to
+      {{
+        writerService.memberCurrentMonthData.PaidToPersonName +
+          " " +
+          writerService.memberCurrentMonthData.PaidToPersonMobile
+      }}
+    </p>
   </div>
   <div class="row-dashboard">
     <div

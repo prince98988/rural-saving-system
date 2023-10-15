@@ -56,10 +56,14 @@ export class LoanEntryComponent implements OnInit {
   }
 
   async onSubmit() {
+    this.openLoadingPopup();
     console.log(JSON.stringify(this.addLoanEntryForm.value.phonenumber));
     await this.adminService.addLoanEntry(
       this.addLoanEntryForm.value.phonenumber,
       this.addLoanEntryForm.value.loanamount
     );
+    this.closeLoadingPopup();
+    if (this.adminService.isLoanEntryAdded) this.openDonePopup();
+    else this.openErrorPopup();
   }
 }
