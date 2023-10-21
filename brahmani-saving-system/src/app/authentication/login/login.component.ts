@@ -15,9 +15,10 @@ import {
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  submitted = false;
   passwordType: string = 'password';
   isShowPassword: boolean = false;
+  submitted: boolean = false;
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -58,19 +59,16 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.mmobile,
       this.loginForm.value.password
     );
+    this.submitted = false;
     if (this.authenticationService.isWrongCredentials) return;
-    this.cookieService.set('userMobileNumber', this.loginForm.value.mmobile, {
-      expires: 30,
-    });
+    this.cookieService.set('userMobileNumber', this.loginForm.value.mmobile);
     const encryptedUserCredentials = encryptData(
       JSON.stringify({
         PhoneNumber: this.loginForm.value.mmobile,
         Password: this.loginForm.value.password,
       })
     );
-    this.cookieService.set('userCredentials', encryptedUserCredentials, {
-      expires: 30,
-    });
+    this.cookieService.set('userCredentials', encryptedUserCredentials);
     this.router.navigate(['create-passcode']);
   }
   get form() {

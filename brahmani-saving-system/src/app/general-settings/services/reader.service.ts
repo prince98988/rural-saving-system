@@ -8,6 +8,7 @@ import {
   getCurrentUserMobileNumber,
   getCurrentUserName,
   getCurrentUserType,
+  getSelectedLanguage,
   hideCardAnimation,
   makeCardAnimation,
 } from '../static/HelperFunctions';
@@ -33,6 +34,7 @@ export class ReaderService {
   userName!: string;
   useEmail!: string;
   memberRole!: string;
+  appLanguage: string = getSelectedLanguage(this.cookieService);
 
   constructor(
     private http: HttpClient,
@@ -47,7 +49,7 @@ export class ReaderService {
 
   isReader() {
     var userType = getCurrentUserType(this.cookieService);
-    if (userType == 'Admin' || userType == 'Writer' || userType == 'Reader') {
+    if (userType == 'admin' || userType == 'writer' || userType == 'reader') {
       return true;
     } else return false;
   }
@@ -151,5 +153,15 @@ export class ReaderService {
     hideCardAnimation('card-bike');
     hideCardAnimation('fit-content');
     hideCardAnimation('welcome-box');
+  }
+
+  switchLanguage() {
+    if (this.appLanguage == 'English') {
+      this.appLanguage = 'ગુજરાતી';
+      this.cookieService.set('app-language', 'ગુજરાતી');
+    } else {
+      this.appLanguage = 'English';
+      this.cookieService.set('app-language', 'English');
+    }
   }
 }

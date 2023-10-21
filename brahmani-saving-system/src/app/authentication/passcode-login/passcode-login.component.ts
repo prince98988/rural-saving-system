@@ -22,6 +22,7 @@ export class PasscodeLoginComponent implements OnInit {
   ) {
     this.loginForm = this.createForm();
   }
+
   currentId = '';
   loginForm: any;
   firstPasscodeForm: any;

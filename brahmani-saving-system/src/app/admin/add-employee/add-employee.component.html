@@ -32,6 +32,25 @@
       </div>
 
       <div class="text-align-left">
+        <label>User active status </label>
+      </div>
+      <div class="mb-3">
+        <div class="input-group input-border">
+          <select
+            formControlName="activestatus"
+            class="form-control border-none"
+            style="font-family: 'gilroy-semibold'"
+            [ngClass]="{
+              'is-invalid': submitted && form['activestatus'].errors
+            }"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="text-align-left">
         <label>Member Mobile Number</label>
       </div>
       <div class="mb-3">
@@ -248,7 +267,11 @@
           />
         </div>
       </div>
-      <button type="submit" class="btn btn-dark login-button">
+      <button
+        type="submit"
+        class="btn btn-dark login-button"
+        style="margin-bottom: 1%"
+      >
         Add Member
       </button>
     </form>

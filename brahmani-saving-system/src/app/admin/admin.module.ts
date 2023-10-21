@@ -14,6 +14,7 @@ import { AssociationAnalyticsComponent } from './association-analytics/associati
 import { MemberAnalyticsComponent } from './member-analytics/member-analytics.component';
 import { MemberDetailsComponent } from './member-details/member-details.component';
 import { LoanEntryComponent } from './loan-entry/loan-entry.component';
+import { LoanDetailsComponent } from './loan-details/loan-details.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoanEntryComponent } from './loan-entry/loan-entry.component';
     MemberAnalyticsComponent,
     MemberDetailsComponent,
     LoanEntryComponent,
+    LoanDetailsComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, FormsModule],
   exports: [VehicleHistoryComponent],

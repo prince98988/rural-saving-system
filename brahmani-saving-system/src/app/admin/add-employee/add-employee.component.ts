@@ -30,6 +30,7 @@ export class AddEmployeeComponent implements OnInit {
       middlename: ['', [Validators.required]],
       shares: [0, []],
       type: ['reader', [Validators.required]],
+      activestatus: ['active', [Validators.required]],
       premiumpaid: [0, []],
       penaltypaid: [0, []],
       interestpaid: [0, []],
@@ -71,6 +72,7 @@ export class AddEmployeeComponent implements OnInit {
       PremiumPaid: parseInt(this.addEmployeeForm.value.premiumpaid),
       LoanAmount: 0,
       TotalPenaltyPaid: parseInt(this.addEmployeeForm.value.penaltypaid),
+      ActiveStatus: this.addEmployeeForm.value.activestatus,
     };
     await this.adminService.addNewEmployee(newMember);
     this.closeLoadingPopup();

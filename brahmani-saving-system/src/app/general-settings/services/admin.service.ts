@@ -12,6 +12,7 @@ import {
   encryptData,
   getCurrentUserType,
   getNextMonth,
+  getSelectedLanguage,
 } from '../static/HelperFunctions';
 import {
   add_New_employee,
@@ -48,8 +49,11 @@ export class AdminService {
   isMemberMontlyDataLoaded: boolean = false;
   isNextMonthStarted: boolean = false;
   isLoanEntryAdded: boolean = false;
+  appLanguage: string = getSelectedLanguage(this.cookieService);
   memberList: Array<MemberData> = [];
   searchedMemberList: Array<MemberData> = [];
+  loanMemberList: Array<MemberData> = [];
+  searchedLoanMemberList: Array<MemberData> = [];
   newMember!: MemberData;
   associationDetals!: AssociationData;
   associationMontlyData!: AssociationMontlyData;
@@ -57,7 +61,7 @@ export class AdminService {
   memberMontlyData!: UserMonthlyData;
 
   isAdmin() {
-    if (getCurrentUserType(this.cookieService) == 'Admin') {
+    if (getCurrentUserType(this.cookieService) == 'admin') {
       return true;
     } else return false;
   }
@@ -154,6 +158,25 @@ export class AdminService {
     this.isMemberDetailsArrayAdded = true;
   }
 
+  async getAllLoanMemberDetails() {
+    this.isMemberDetailsArrayAdded = false;
+    this.getAssociationDetails();
+    this.loanMemberList = await this.helpService.getAllMemberData();
+    this.loanMemberList = this.loanMemberList.filter((member) => {
+      return member.LoanAmount > 0;
+    });
+
+    const encryptedUserCredentials = encryptData(
+      JSON.stringify(this.memberList)
+    );
+    this.cookieService.set('memberList', encryptedUserCredentials, {
+      expires: 30,
+    });
+
+    this.searchedLoanMemberList = this.loanMemberList;
+    this.isMemberDetailsArrayAdded = true;
+  }
+
   async getAssociationDetails() {
     this.associationDetals = await this.helpService.getAssociationData();
     console.log(this.associationDetals.Name);
@@ -161,6 +184,14 @@ export class AdminService {
 
   onSearchMemberList(text: any) {
     this.searchedMemberList = this.memberList.filter(
+      (member) =>
+        member.FirstName.indexOf(text) != -1 ||
+        member.PhoneNumber.indexOf(text) != -1
+    );
+  }
+
+  onSearchLoanMemberList(text: any) {
+    this.searchedLoanMemberList = this.loanMemberList.filter(
       (member) =>
         member.FirstName.indexOf(text) != -1 ||
         member.PhoneNumber.indexOf(text) != -1
@@ -255,7 +286,9 @@ export class AdminService {
     if (nextMonth == 'Jan') nextYear += 1;
 
     for (var i = 0; i < this.memberList.length; i++) {
-      await this.addMemberInNexMonth(this.memberList[i], nextYear, nextMonth);
+      if (this.memberList[i].ActiveStatus == 'active') {
+        await this.addMemberInNexMonth(this.memberList[i], nextYear, nextMonth);
+      }
     }
 
     this.associationDetals.CurrentMonth = nextMonth;
@@ -293,12 +326,17 @@ export class AdminService {
         memberDetails = member;
       }
     });
+    if (memberDetails == null) {
+      console.log('member Not found');
+      return;
+    }
     this.associationDetals = await this.helpService.getAssociationData();
     if (
       this.associationDetals.AvailableBalance < LoanAmount ||
       this.associationDetals.LoanAmountPerShare * memberDetails.Shares <
         LoanAmount + memberDetails.LoanAmount
     ) {
+      console.log('loan amount greate than limit');
       return;
     }
     await this.firestore
@@ -320,5 +358,17 @@ export class AdminService {
       .update({
         LoanAmount: loanamount,
       });
+
+    this.isLoanEntryAdded = true;
+  }
+
+  switchLanguage() {
+    if (this.appLanguage == 'English') {
+      this.appLanguage = 'ગુજરાતી';
+      this.cookieService.set('app-language', 'ગુજરાતી');
+    } else {
+      this.appLanguage = 'English';
+      this.cookieService.set('app-language', 'English');
+    }
   }
 }

@@ -12,6 +12,7 @@ import { MemberAnalyticsComponent } from './member-analytics/member-analytics.co
 import { AssociationAnalyticsComponent } from './association-analytics/association-analytics.component';
 import { MemberDetailsComponent } from './member-details/member-details.component';
 import { LoanEntryComponent } from './loan-entry/loan-entry.component';
+import { LoanDetailsComponent } from './loan-details/loan-details.component';
 
 export const adminRoutes: Routes = [
   {
@@ -56,6 +57,10 @@ export const adminRoutes: Routes = [
   {
     path: 'loan-entry',
     component: LoanEntryComponent,
+  },
+  {
+    path: 'loan-details',
+    component: LoanDetailsComponent,
   },
 ];
 

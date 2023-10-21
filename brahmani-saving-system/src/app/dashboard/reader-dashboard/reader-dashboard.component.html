@@ -13,6 +13,15 @@
       >
         < {{ readerService.memberRole }} screen
       </button>
+      <div style="margin-left: auto; margin-right: 7%">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="switchLanguage()"
+        >
+          {{ readerService.appLanguage }}
+        </button>
+      </div>
     </div>
     <div class="welcome-box">
       <p class="welcome-text" *ngIf="readerService.isReaderDashboardDataLoaded">
@@ -30,7 +39,7 @@
       <p class="main-text">{{ readerService.associationData.Name }}</p>
     </div>
     <div class="fit-content">
-      <p class="main-text">Current Month Status</p>
+      <p class="main-text">{{ languageClass.CurrentMonthStatus }}</p>
     </div>
     <div class="row-dashboard">
       <div
@@ -42,15 +51,21 @@
             : 'card-col-red'
         "
       >
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text-white"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
+        <div
+          class="card-widget-body"
+          *ngIf="readerService.isReaderDashboardDataLoaded"
+        >
+          <p class="card-widget-header-text-white">
             {{ readerService.userCurrentMonthData.Premium }} Rs
           </p>
 
-          <p class="card-widget-text-white">Premium need to pay</p>
+          <p class="card-widget-text-white">
+            {{
+              readerService.userCurrentMonthData.PremiumStatus
+                ? languageClass.PremiumPaid
+                : languageClass.PremiumNeedsToPay
+            }}
+          </p>
         </div>
       </div>
       <div
@@ -62,14 +77,20 @@
             : 'card-col-red'
         "
       >
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text-white"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
+        <div
+          class="card-widget-body"
+          *ngIf="readerService.isReaderDashboardDataLoaded"
+        >
+          <p class="card-widget-header-text-white">
             {{ readerService.userCurrentMonthData.InterestAmount }} Rs
           </p>
-          <p class="card-widget-text-white">interest need to pay</p>
+          <p class="card-widget-text-white">
+            {{
+              readerService.userCurrentMonthData.InterestStatus
+                ? languageClass.InterestPaid
+                : languageClass.InterestNeedsToPay
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -78,24 +99,24 @@
         class="card"
         [ngClass]="
           readerService.isReaderDashboardDataLoaded &&
-          readerService.userCurrentMonthData.PenaltyPaid == 0
+          readerService.userCurrentMonthData.InterestStatus
             ? 'card-col-center-green'
             : 'card-col-center-red'
         "
       >
-        <div class="card-widget-body">
-          <p
-            class="card-widget-header-text-white"
-            *ngIf="readerService.isReaderDashboardDataLoaded"
-          >
+        <div
+          class="card-widget-body"
+          *ngIf="readerService.isReaderDashboardDataLoaded"
+        >
+          <p class="card-widget-header-text-white">
             {{ readerService.userCurrentMonthData.PenaltyPaid }} Rs
           </p>
-          <p class="card-widget-text-white">Penalty need to pay</p>
+          <p class="card-widget-text-white">{{ languageClass.PenaltyPaid }}</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">Your Details</p>
+      <p class="main-text">{{ languageClass.YourDetails }}</p>
     </div>
     <div class="row-dashboard">
       <div class="card-big-size card card-car">
@@ -106,7 +127,7 @@
           >
             {{ readerService.memberData.Shares }}
           </p>
-          <p class="card-widget-text">Total Shares</p>
+          <p class="card-widget-text">{{ languageClass.TotalShares }}</p>
         </div>
       </div>
       <div class="card card-bike">
@@ -122,7 +143,7 @@
             }}
             Rs
           </p>
-          <p class="card-widget-text">Total Money paid</p>
+          <p class="card-widget-text">{{ languageClass.TotalMoneyPaid }}</p>
         </div>
       </div>
     </div>
@@ -135,7 +156,7 @@
           >
             {{ readerService.memberData.TotalPenaltyPaid }} Rs
           </p>
-          <p class="card-widget-text">Penalty paid</p>
+          <p class="card-widget-text">{{ languageClass.TotalPenaltyPaid }}</p>
         </div>
       </div>
       <div class="card-big-size card card-bike">
@@ -146,12 +167,12 @@
           >
             {{ readerService.memberData.PremiumPaid }} Rs
           </p>
-          <p class="card-widget-text">Total Premium Paid</p>
+          <p class="card-widget-text">{{ languageClass.TotalPremiumPaid }}</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">Loan Details</p>
+      <p class="main-text">{{ languageClass.LoanDetails }}</p>
     </div>
     <div class="row-dashboard">
       <div class="card card-car">
@@ -162,7 +183,7 @@
           >
             {{ readerService.memberData.LoanAmount }} Rs
           </p>
-          <p class="card-widget-text">Loan amount</p>
+          <p class="card-widget-text">{{ languageClass.LoanAmount }}</p>
         </div>
       </div>
       <div class="card card-bike">
@@ -173,12 +194,12 @@
           >
             {{ readerService.memberData.InterestPaid }} Rs
           </p>
-          <p class="card-widget-text">interest paid</p>
+          <p class="card-widget-text">{{ languageClass.TotalInterestPaid }}</p>
         </div>
       </div>
     </div>
     <div class="fit-content">
-      <p class="main-text">Next Month Details</p>
+      <p class="main-text">{{ languageClass.NextMonthDetails }}</p>
     </div>
     <div class="row-dashboard">
       <div class="card card-car">
@@ -193,7 +214,7 @@
             }}
             Rs
           </p>
-          <p class="card-widget-text">Premium</p>
+          <p class="card-widget-text">{{ languageClass.Premium }}</p>
         </div>
       </div>
       <div class="card card-bike">
@@ -209,7 +230,7 @@
             }}
             Rs
           </p>
-          <p class="card-widget-text">interest</p>
+          <p class="card-widget-text">{{ languageClass.Interest }}</p>
         </div>
       </div>
     </div>

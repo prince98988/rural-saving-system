@@ -23,8 +23,8 @@ export class UpdatePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.updatePasswordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.maxLength(8)]],
-      cpassword: ['', [Validators.required, Validators.maxLength(8)]],
+      password: ['', [Validators.required, Validators.maxLength(10)]],
+      cpassword: ['', [Validators.required, Validators.maxLength(10)]],
     });
   }
   async onSubmit() {

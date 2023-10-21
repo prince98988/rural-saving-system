@@ -38,4 +38,7 @@ export class AddMontlyEntryComponent implements OnInit {
     );
     this.router.navigate(['dashboard-writer']);
   }
+  goBackToWriterDashboard() {
+    this.router.navigate(['dashboard-writer']);
+  }
 }

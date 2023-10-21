@@ -42,7 +42,7 @@ export class WriterService {
 
   isWriter() {
     var userType = getCurrentUserType(this.cookieService);
-    if (userType == 'Admin' || userType == 'Writer') {
+    if (userType == 'admin' || userType == 'writer') {
       return true;
     } else return false;
   }

@@ -29,6 +29,7 @@ export interface MemberData {
   InterestPaid: number;
   NextMonthPremium: number;
   NextMonthInterest: number;
+  ActiveStatus: string;
 }
 
 export interface AssociationData {

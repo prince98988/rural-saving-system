@@ -1,5 +1,15 @@
 <div class="dashboard-main">
   <div class="modal-top">
+    <div class="row-dashboard">
+      <button
+        type="submit"
+        class="btn btn-dark login-button"
+        style="margin-left: 7%"
+        (click)="goBackToWriterDashboard()"
+      >
+        < Back
+      </button>
+    </div>
     <div class="welcome-box">
       <p
         class="welcome-text"
@@ -25,7 +35,7 @@
       Paid to
       {{
         writerService.memberCurrentMonthData.PaidToPersonName +
-          " " +
+          "-" +
           writerService.memberCurrentMonthData.PaidToPersonMobile
       }}
     </p>

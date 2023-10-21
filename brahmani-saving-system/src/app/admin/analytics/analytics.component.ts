@@ -16,4 +16,8 @@ export class AnalyticsComponent implements OnInit {
   goToMemberAnalytics() {
     this.router.navigate(['member-analytics']);
   }
+
+  goToLoanDetails() {
+    this.router.navigate(['loan-details']);
+  }
 }

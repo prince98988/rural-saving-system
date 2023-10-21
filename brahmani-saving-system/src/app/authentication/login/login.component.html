@@ -2,7 +2,7 @@
   <img class="tavisca-logo" src="../../../assets/logos/app-logo.svg" />
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div
-      *ngIf="authenticationService.isWrongCredentials"
+      *ngIf="!submitted && authenticationService.isWrongCredentials"
       class="input-error text-align-left"
     >
       Wrong Credentials
@@ -88,11 +88,6 @@
           password should be more than 8 characters
         </div>
       </div>
-    </div>
-    <div class="text-align-right">
-      <p class="forgot-password" (click)="onForgotPassword()">
-        Forgot Password?
-      </p>
     </div>
     <button type="submit" class="btn btn-dark login-button">Login</button>
   </form>

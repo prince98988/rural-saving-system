@@ -1,6 +1,11 @@
 import * as CryptoJS from 'crypto-js';
 import { CookieService } from 'ngx-cookie-service';
 
+export function getSelectedLanguage(cookieService: CookieService) {
+  if (cookieService.check('app-language')) {
+    return cookieService.get('app-language');
+  } else return 'ગુજરાતી';
+}
 export function getMemberRole(cookieService: CookieService) {
   var role = decryptData(cookieService.get('memberRole'));
   if (role == null) return 'reader';
@@ -70,8 +75,8 @@ export function getCurrentUserMobileNumber(cookieService: CookieService) {
 }
 
 export function getCurrentUserType(cookieService: CookieService) {
-  if (cookieService.check('userMobileNumber'))
-    return cookieService.get('userMobileNumber');
+  if (cookieService.check('role'))
+    return decryptData(cookieService.get('role'));
   else return 'Unkown';
 }
 export function makeCardAnimation(className: string) {
