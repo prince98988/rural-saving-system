@@ -4,7 +4,7 @@ export class AdminDashboardEnglish {
   static UpdateTables: string = 'Update Tables';
   static ManageMembers: string = 'Manage Memebrs';
   static Analytics: string = 'Analytics';
-  static Configurations: string = 'Configuations';
+  static Configurations: string = 'Configurations';
 }
 
 export class AdminDashboardGujarati {
