@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { UserCurrentMonthData } from 'src/app/general-settings/Types/ReaderTypes';
@@ -14,6 +14,10 @@ import { decryptData } from 'src/app/general-settings/static/HelperFunctions';
 })
 export class AddMontlyEntryComponent implements OnInit {
   penaltyForm!: FormGroup;
+  submitted = false;
+  doneDisplayStyle: string = 'none';
+  somethingWentWrongStyle: string = 'none';
+  loadingDisplayStyle: string = 'none';
   constructor(
     private router: Router,
     @Inject(HelpService)
@@ -27,18 +31,51 @@ export class AddMontlyEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.penaltyForm = this.formBuilder.group({
-      penalty: [this.writerService.memberCurrentMonthData.PenaltyPaid, []],
+      penalty: [
+        this.writerService.memberCurrentMonthData.PenaltyPaid,
+        [Validators.required],
+      ],
     });
     console.log(this.writerService.memberCurrentMonthData);
   }
   async onAddEntry() {
+    this.openLoadingPopup();
+    this.submitted = true;
     console.log(this.penaltyForm.value.penalty);
     await this.writerService.AddMemberMontlyEntry(
       this.penaltyForm.value.penalty
     );
-    this.router.navigate(['dashboard-writer']);
+    this.submitted = false;
+
+    this.closeLoadingPopup();
+    if (this.writerService.isMonthlyEntryAdded) this.openDonePopup();
+    else this.openErrorPopup();
+  }
+
+  get form() {
+    return this.penaltyForm.controls;
   }
   goBackToWriterDashboard() {
     this.router.navigate(['dashboard-writer']);
+  }
+
+  openDonePopup() {
+    this.doneDisplayStyle = 'flex';
+  }
+  closeDonePopup() {
+    this.doneDisplayStyle = 'none';
+    this.router.navigate(['dashboard-writer']);
+  }
+  openErrorPopup() {
+    this.somethingWentWrongStyle = 'flex';
+  }
+  closeErrorPopup() {
+    this.somethingWentWrongStyle = 'none';
+  }
+  openLoadingPopup() {
+    this.loadingDisplayStyle = 'flex';
+  }
+  closeLoadingPopup() {
+    this.loadingDisplayStyle = 'none';
   }
 }

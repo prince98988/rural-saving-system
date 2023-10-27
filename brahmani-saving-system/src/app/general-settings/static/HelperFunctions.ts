@@ -31,6 +31,10 @@ export function getYearList() {
   return ['2021', '2022', '2023', '2024', '2025', '2026', '2027'];
 }
 
+export function getMonthInString(month: number) {
+  return getMonthList()[month];
+}
+
 export function getNextMonth(month: string) {
   if (month == 'Dec') return 'Jan';
   else {

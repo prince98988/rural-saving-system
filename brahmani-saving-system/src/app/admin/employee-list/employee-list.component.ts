@@ -68,5 +68,13 @@ export class EmployeeListComponent implements OnInit {
     this.settingsPopUpStyle = 'flex';
     this.selectedUserName = userData.FirstName;
     this.selectedUserPhoneNumber = userData.PhoneNumber;
+    console.log(userData);
+    this.adminService.SelectedMemberData = userData;
+  }
+  updateMemberDetails() {
+    this.router.navigate(['update-member']);
+  }
+  goBackToDashboard() {
+    this.router.navigate(['dashboard-admin']);
   }
 }

@@ -11,6 +11,7 @@ import {
   decryptData,
   encryptData,
   getCurrentUserType,
+  getMonthInString,
   getNextMonth,
   getSelectedLanguage,
 } from '../static/HelperFunctions';
@@ -41,6 +42,7 @@ export class AdminService {
     private firestore: AngularFirestore
   ) {}
   isEmployeeAdded: boolean = false;
+  isMemberUpdated: boolean = false;
   isEmployeeRemoved: boolean = false;
   isMemberDetailsArrayAdded: boolean = false;
   isAssociationDetailsUpdated: boolean = false;
@@ -59,6 +61,7 @@ export class AdminService {
   associationMontlyData!: AssociationMontlyData;
   memberDetails!: MemberData;
   memberMontlyData!: UserMonthlyData;
+  SelectedMemberData!: MemberData;
 
   isAdmin() {
     if (getCurrentUserType(this.cookieService) == 'admin') {
@@ -119,6 +122,39 @@ export class AdminService {
         PhoneNumber: newMemberData.PhoneNumber,
         Password: newMemberData.PhoneNumber,
       });
+  }
+
+  async UpdateMemberData(updateMemberData: any) {
+    console.log(updateMemberData);
+    this.isMemberUpdated = false;
+    var memberList: Array<MemberData> = JSON.parse(
+      decryptData(this.cookieService.get('memberList'))
+    );
+    var copyMember!: any;
+    console.log(memberList);
+    memberList.find((member) => {
+      if (member.PhoneNumber == updateMemberData.PhoneNumber) {
+        copyMember = member;
+      }
+    });
+
+    if (copyMember == null) {
+      return;
+    }
+    console.log('passed');
+    await this.firestore
+      .collection('memberTable')
+      .doc(updateMemberData.PhoneNumber)
+      .set(updateMemberData);
+    var data: AssociationData = await this.helpService.getAssociationData();
+    var newShares =
+      parseInt(data.Shares.toString()) +
+      parseInt(updateMemberData.Shares) -
+      parseInt(copyMember.Shares.toString());
+    await this.firestore.collection('associationTable').doc('table').update({
+      Shares: newShares,
+    });
+    this.isMemberUpdated = true;
   }
 
   async updateAssociationDetails(updatedData: any) {
@@ -270,8 +306,11 @@ export class AdminService {
 
   async startNextMonth() {
     this.isNextMonthStarted = false;
+
+    var currentMonth = getMonthInString(new Date().getMonth());
     this.associationDetals = await this.helpService.getAssociationData();
     if (this.associationDetals == null) return;
+    if (this.associationDetals.CurrentMonth != currentMonth) return;
     await this.getAllMemberDetails();
     this.memberList.find((member) => {
       member.NextMonthPremium =

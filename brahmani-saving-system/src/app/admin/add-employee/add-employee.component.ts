@@ -28,12 +28,12 @@ export class AddEmployeeComponent implements OnInit {
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
       middlename: ['', [Validators.required]],
-      shares: [0, []],
+      shares: [0, [Validators.required]],
       type: ['reader', [Validators.required]],
       activestatus: ['active', [Validators.required]],
-      premiumpaid: [0, []],
-      penaltypaid: [0, []],
-      interestpaid: [0, []],
+      premiumpaid: [0, [Validators.required]],
+      penaltypaid: [0, [Validators.required]],
+      interestpaid: [0, [Validators.required]],
     });
   }
   openDonePopup() {
@@ -81,5 +81,9 @@ export class AddEmployeeComponent implements OnInit {
   }
   get form() {
     return this.addEmployeeForm.controls;
+  }
+
+  goBackToDashboard() {
+    this.router.navigate(['manage-members']);
   }
 }

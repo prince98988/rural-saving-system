@@ -34,6 +34,7 @@ export class WriterService {
   isVehicleAdded = true;
   isVehicleDeleted = true;
   isAllVehicleEntriesAdded = true;
+  isMonthlyEntryAdded = true;
   membersMonthlyDetails: Array<UserCurrentMonthData> = [];
   searchedMembersMonthlyDetails: Array<UserCurrentMonthData> = [];
   memberCurrentMonthData!: UserCurrentMonthData;
@@ -134,6 +135,7 @@ export class WriterService {
     );
   }
   async AddMemberMontlyEntry(penalty: number) {
+    this.isMonthlyEntryAdded = false;
     if (this.associationData == null)
       this.associationData = await this.helpService.getAssociationData();
     if (this.currentUserData == null)
@@ -154,6 +156,7 @@ export class WriterService {
         PenaltyPaid: penalty,
         PaidToPersonMobile: this.currentUserData.PhoneNumber,
         PaidToPersonName: this.currentUserData.FirstName,
+        DateTime: new Date(),
       });
 
     var data = await this.helpService.getAssociationData();
@@ -164,13 +167,18 @@ export class WriterService {
       this.memberCurrentMonthData.Premium +
       this.memberCurrentMonthData.InterestAmount +
       newPenalty;
-    console.log(parseInt(data.TotalBalance));
-    console.log(newTotalBalance);
     var newAvailableBalance =
       parseInt(data.AvailableBalance) +
       this.memberCurrentMonthData.Premium +
+      this.memberCurrentMonthData.InterestAmount +
       newPenalty;
-    var penaltyAmount = newPenalty + parseInt(data.PenaltyAmount);
+    var penaltyAmount = parseInt(data.PenaltyAmount) + newPenalty;
+
+    if (this.memberCurrentMonthData.PremiumStatus) {
+      newTotalBalance = parseInt(data.TotalBalance) + newPenalty;
+      newAvailableBalance = parseInt(data.AvailableBalance) + newPenalty;
+    }
+
     await this.firestore.collection('associationTable').doc('table').update({
       TotalBalance: newTotalBalance,
       AvailableBalance: newAvailableBalance,
@@ -180,17 +188,28 @@ export class WriterService {
     var updateMemberData = await this.helpService.getMemberDetails(
       this.memberCurrentMonthData.PhoneNumber
     );
+
+    //update member table
+    var PremiumPaid =
+      updateMemberData.PremiumPaid + this.memberCurrentMonthData.Premium;
+    var InterestPaid =
+      updateMemberData.InterestPaid +
+      this.memberCurrentMonthData.InterestAmount;
+    var PanaltyPaid =
+      parseInt(updateMemberData.TotalPenaltyPaid.toString()) + newPenalty;
+    if (this.memberCurrentMonthData.PremiumStatus) {
+      PremiumPaid = updateMemberData.PremiumPaid;
+      InterestPaid = updateMemberData.InterestPaid;
+    }
     await this.firestore
       .collection('memberTable')
       .doc(this.memberCurrentMonthData.PhoneNumber)
       .update({
-        PremiumPaid:
-          updateMemberData.PremiumPaid + this.memberCurrentMonthData.Premium,
-        InterestPaid:
-          updateMemberData.InterestPaid +
-          this.memberCurrentMonthData.InterestAmount,
-        TotalPenaltyPaid:
-          parseInt(updateMemberData.TotalPenaltyPaid.toString()) + newPenalty,
+        PremiumPaid: PremiumPaid,
+        InterestPaid: InterestPaid,
+        TotalPenaltyPaid: PanaltyPaid,
       });
+
+    this.isMonthlyEntryAdded = true;
   }
 }

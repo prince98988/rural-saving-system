@@ -20,4 +20,8 @@ export class AnalyticsComponent implements OnInit {
   goToLoanDetails() {
     this.router.navigate(['loan-details']);
   }
+
+  goBackToDashboard() {
+    this.router.navigate(['dashboard-admin']);
+  }
 }

@@ -28,7 +28,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.cookieService.check('userMobileNumber')) {
+    if (
+      this.cookieService.check('userMobileNumber') &&
+      this.cookieService.check('passcode')
+    ) {
       this.router.navigate(['login-passcode']);
     }
     this.loginForm = this.formBuilder.group({
@@ -61,7 +64,9 @@ export class LoginComponent implements OnInit {
     );
     this.submitted = false;
     if (this.authenticationService.isWrongCredentials) return;
-    this.cookieService.set('userMobileNumber', this.loginForm.value.mmobile);
+    this.cookieService.set('userMobileNumber', this.loginForm.value.mmobile, {
+      expires: 30,
+    });
     const encryptedUserCredentials = encryptData(
       JSON.stringify({
         PhoneNumber: this.loginForm.value.mmobile,

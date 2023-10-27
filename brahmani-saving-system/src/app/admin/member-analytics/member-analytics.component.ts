@@ -47,4 +47,8 @@ export class MemberAnalyticsComponent implements OnInit {
     });
     this.router.navigate(['member-details']);
   }
+
+  goBackToDashboard() {
+    this.router.navigate(['analytics']);
+  }
 }

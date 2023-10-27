@@ -52,7 +52,7 @@ export class AssociationInfoComponent {
       totalmembers: [{ value: 0, disabled: true }, [Validators.required]],
       shares: [{ value: 0, disabled: true }, [Validators.required]],
       shareprice: [0, [Validators.required]],
-      totalbalance: [{ value: 0, disabled: true }, []],
+      totalbalance: [{ value: 0, disabled: true }, [Validators.required]],
       presidentname: ['', [Validators.required]],
       interestrate: [0, [Validators.required]],
       defaultpassword: ['', [Validators.required]],
@@ -108,5 +108,9 @@ export class AssociationInfoComponent {
   }
   get form() {
     return this.addEmployeeForm.controls;
+  }
+
+  goBackToDashboard() {
+    this.router.navigate(['dashboard-admin']);
   }
 }

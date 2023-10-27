@@ -1,5 +1,16 @@
 <div class="dashboard-main">
   <div class="modal-top">
+    <div class="row-dashboard">
+      <button
+        type="submit"
+        class="btn btn-dark login-button"
+        style="margin-left: 7%; width: 20%"
+        (click)="goBackToDashboard()"
+      >
+        < Back
+      </button>
+    </div>
+
     <div class="welcome-box">
       <p class="welcome-text" *ngIf="adminService.isMemberDetailsLoaded">
         {{ adminService.memberDetails.FirstName }}
@@ -207,9 +218,9 @@
           *ngIf="adminService.isMemberMontlyDataLoaded"
         >
           {{
-            adminService.memberMontlyData.InterestAmount +
-              adminService.memberMontlyData.Premium +
-              adminService.memberMontlyData.PenaltyPaid
+            parseInt(adminService.memberMontlyData.InterestAmount) +
+              parseInt(adminService.memberMontlyData.Premium) +
+              parseInt(adminService.memberMontlyData.PenaltyPaid)
           }}
           Rs
         </p>

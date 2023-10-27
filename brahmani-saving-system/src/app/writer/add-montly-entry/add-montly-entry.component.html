@@ -86,18 +86,75 @@
         [formGroup]="penaltyForm"
         (ngSubmit)="onAddEntry()"
       >
-        <input
-          type="text"
-          id="email"
-          class="input-box form-control border-none"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-          formControlName="penalty"
-        />
+        <div class="input-group input-border">
+          <input
+            type="text"
+            id="email"
+            class="input-box form-control border-none"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            formControlName="penalty"
+            [ngClass]="{ 'is-invalid': submitted && form['penalty'].errors }"
+          />
+          <div class="input-error text-align-left">
+            <div *ngIf="submitted && form['penalty'].errors">
+              <div *ngIf="form['penalty'].errors['required']">
+                Penalty is required
+              </div>
+            </div>
+          </div>
+        </div>
         <button type="submit" class="btn btn-dark" style="margin-top: 3px">
           Add entry
         </button>
       </form>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: doneDisplayStyle }"
+    (click)="closeDonePopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-done.svg"
+        />
+        <p class="card-modal-text">Entry Successful</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: somethingWentWrongStyle }"
+    (click)="closeErrorPopup()"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img
+          class="card-modal-icon"
+          src="../../../assets/logos/icon-exclamation-mark.svg"
+        />
+        <p class="card-modal-text">Something Went Wrong</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal modal-bottom"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: loadingDisplayStyle }"
+  >
+    <div class="card card-modal">
+      <div class="card-widget-body">
+        <img class="card-modal-icon" src="../../../assets/gifs/spinner.gif" />
+        <p class="card-modal-text">Please Wait</p>
+      </div>
     </div>
   </div>
 </div>

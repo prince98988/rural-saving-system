@@ -13,6 +13,7 @@ import { AssociationAnalyticsComponent } from './association-analytics/associati
 import { MemberDetailsComponent } from './member-details/member-details.component';
 import { LoanEntryComponent } from './loan-entry/loan-entry.component';
 import { LoanDetailsComponent } from './loan-details/loan-details.component';
+import { UpdateMemberComponent } from './update-member/update-member.component';
 
 export const adminRoutes: Routes = [
   {
@@ -25,42 +26,57 @@ export const adminRoutes: Routes = [
     path: 'manage-members',
     component: EmployeeListComponent,
     pathMatch: 'full',
+    canActivate: [AdminGuard],
   },
   {
     path: 'add-member',
     component: AddEmployeeComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'update-member',
+    component: UpdateMemberComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'update-tables',
     component: UpdateTablesComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'association-info',
     component: AssociationInfoComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'analytics',
     component: AnalyticsComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'association-analytics',
     component: AssociationAnalyticsComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'member-analytics',
     component: MemberAnalyticsComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'member-details',
     component: MemberDetailsComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'loan-entry',
     component: LoanEntryComponent,
+    canActivate: [AdminGuard],
   },
   {
     path: 'loan-details',
     component: LoanDetailsComponent,
+    canActivate: [AdminGuard],
   },
 ];
 

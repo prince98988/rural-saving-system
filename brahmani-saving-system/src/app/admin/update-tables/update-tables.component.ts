@@ -55,4 +55,8 @@ export default class UpdateTablesComponent implements OnInit {
   closeNewMonthStarted() {
     this.removeEmployeeStyle = 'none';
   }
+
+  goBackToDashboard() {
+    this.router.navigate(['dashboard-admin']);
+  }
 }

@@ -47,4 +47,12 @@ export class MemberDetailsComponent implements OnInit {
   get form() {
     return this.searchMonthlyDataForm.controls;
   }
+
+  goBackToDashboard() {
+    this.router.navigate(['member-analytics']);
+  }
+
+  parseInt(value: any) {
+    return parseInt(value);
+  }
 }
