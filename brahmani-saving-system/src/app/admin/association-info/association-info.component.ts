@@ -49,20 +49,20 @@ export class AssociationInfoComponent {
   ngOnInit(): void {
     this.addEmployeeForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      totalmembers: [{ value: 0, disabled: true }, [Validators.required]],
-      shares: [{ value: 0, disabled: true }, [Validators.required]],
+      totalmembers: [{ value: 0 }, [Validators.required]],
+      shares: [{ value: 0 }, [Validators.required]],
       shareprice: [0, [Validators.required]],
-      totalbalance: [{ value: 0, disabled: true }, [Validators.required]],
+      totalbalance: [{ value: 0 }, [Validators.required]],
       presidentname: ['', [Validators.required]],
       interestrate: [0, [Validators.required]],
       defaultpassword: ['', [Validators.required]],
-      availablebalance: [{ value: 0, disabled: true }, [Validators.required]],
-      loanamount: [{ value: 0, disabled: true }, [Validators.required]],
-      penaltyamount: [{ value: 0, disabled: true }, [Validators.required]],
+      availablebalance: [{ value: 0 }, [Validators.required]],
+      loanamount: [{ value: 0 }, [Validators.required]],
+      penaltyamount: [{ value: 0 }, [Validators.required]],
       startedmonth: ['', [Validators.required]],
       startedyear: ['', [Validators.required]],
-      currentmonth: [{ value: '', disabled: true }, [Validators.required]],
-      currentyear: [{ value: '', disabled: true }, [Validators.required]],
+      currentmonth: [{ value: '' }, [Validators.required]],
+      currentyear: [{ value: '' }, [Validators.required]],
       loanamountpershare: [0, [Validators.required]],
     });
   }
@@ -100,6 +100,12 @@ export class AssociationInfoComponent {
       LoanAmountPerShare: parseInt(
         this.addEmployeeForm.value.loanamountpershare
       ),
+      PenaltyAmount: parseInt(this.addEmployeeForm.value.penaltyamount),
+      AvailableBalance: parseInt(this.addEmployeeForm.value.availablebalance),
+      TotalBalance: parseInt(this.addEmployeeForm.value.totalbalance),
+      Shares: parseInt(this.addEmployeeForm.value.shares),
+      LoanAmount: parseInt(this.addEmployeeForm.value.loanamount),
+      TotalMembers: parseInt(this.addEmployeeForm.value.totalmembers),
     };
     await this.adminService.updateAssociationDetails(updatedData);
     this.closeLoadingPopup();

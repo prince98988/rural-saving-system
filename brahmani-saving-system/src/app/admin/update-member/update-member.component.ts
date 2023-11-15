@@ -25,7 +25,11 @@ export class UpdateMemberComponent {
     this.addEmployeeForm = this.formBuilder.group({
       mmobile: [
         this.adminService.SelectedMemberData.PhoneNumber,
-        [Validators.required, Validators.minLength(10)],
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+        ],
       ],
       firstname: [
         this.adminService.SelectedMemberData.FirstName,
@@ -49,24 +53,19 @@ export class UpdateMemberComponent {
         [Validators.required],
       ],
       premiumpaid: [
-        {
-          value: this.adminService.SelectedMemberData.PremiumPaid,
-          disabled: true,
-        },
+        this.adminService.SelectedMemberData.PremiumPaid,
         [Validators.required],
       ],
       penaltypaid: [
-        {
-          value: this.adminService.SelectedMemberData.TotalPenaltyPaid,
-          disabled: true,
-        },
+        this.adminService.SelectedMemberData.TotalPenaltyPaid,
         [Validators.required],
       ],
       interestpaid: [
-        {
-          value: this.adminService.SelectedMemberData.InterestPaid,
-          disabled: true,
-        },
+        this.adminService.SelectedMemberData.InterestPaid,
+        [Validators.required],
+      ],
+      loanamount: [
+        this.adminService.SelectedMemberData.LoanAmount,
         [Validators.required],
       ],
     });
@@ -103,10 +102,10 @@ export class UpdateMemberComponent {
       PhoneNumber: this.addEmployeeForm.value.mmobile,
       Shares: parseInt(this.addEmployeeForm.value.shares),
       Role: this.addEmployeeForm.value.type,
-      InterestPaid: this.adminService.SelectedMemberData.InterestPaid,
-      PremiumPaid: this.adminService.SelectedMemberData.PremiumPaid,
-      LoanAmount: this.adminService.SelectedMemberData.LoanAmount,
-      TotalPenaltyPaid: this.adminService.SelectedMemberData.TotalPenaltyPaid,
+      InterestPaid: this.addEmployeeForm.value.interestpaid,
+      PremiumPaid: this.addEmployeeForm.value.premiumpaid,
+      LoanAmount: this.addEmployeeForm.value.loanamount,
+      TotalPenaltyPaid: this.addEmployeeForm.value.penaltypaid,
       ActiveStatus: this.addEmployeeForm.value.activestatus,
     };
     await this.adminService.UpdateMemberData(updatedMember);

@@ -71,9 +71,8 @@ export class AdminService {
   async addNewEmployee(newMemberData: any) {
     console.log(newMemberData);
     this.isEmployeeAdded = false;
-    var memberList: Array<MemberData> = JSON.parse(
-      decryptData(this.cookieService.get('memberList'))
-    );
+    var memberList: Array<MemberData> =
+      await this.helpService.getAllMemberData();
     var copyMember!: any;
     console.log(memberList);
     memberList.find((member) => {
@@ -85,11 +84,14 @@ export class AdminService {
     if (copyMember != null) {
       return;
     }
+    var data: AssociationData = await this.helpService.getAssociationData();
+    if (data == null) return;
+
     await this.firestore
       .collection('memberTable')
       .doc(newMemberData.PhoneNumber)
       .set(newMemberData);
-    var data: AssociationData = await this.helpService.getAssociationData();
+
     var newShares =
       parseInt(data.Shares.toString()) + parseInt(newMemberData.Shares);
     var newMembers = parseInt(data.TotalMembers.toString()) + 1;
@@ -127,21 +129,13 @@ export class AdminService {
   async UpdateMemberData(updateMemberData: any) {
     console.log(updateMemberData);
     this.isMemberUpdated = false;
-    var memberList: Array<MemberData> = JSON.parse(
-      decryptData(this.cookieService.get('memberList'))
-    );
-    var copyMember!: any;
-    console.log(memberList);
-    memberList.find((member) => {
-      if (member.PhoneNumber == updateMemberData.PhoneNumber) {
-        copyMember = member;
-      }
-    });
-
+    var memberList: Array<MemberData> =
+      await this.helpService.getAllMemberData();
+    var copyMember: any = this.SelectedMemberData;
     if (copyMember == null) {
       return;
     }
-    console.log('passed');
+    console.log(copyMember);
     await this.firestore
       .collection('memberTable')
       .doc(updateMemberData.PhoneNumber)
@@ -151,8 +145,32 @@ export class AdminService {
       parseInt(data.Shares.toString()) +
       parseInt(updateMemberData.Shares) -
       parseInt(copyMember.Shares.toString());
+    var penaltyChange =
+      parseInt(updateMemberData.TotalPenaltyPaid) -
+      parseInt(copyMember.TotalPenaltyPaid.toString());
+    var loanAmountChange =
+      parseInt(updateMemberData.LoanAmount) -
+      parseInt(copyMember.LoanAmount.toString());
+    var dataChange =
+      parseInt(updateMemberData.PremiumPaid) -
+      parseInt(copyMember.PremiumPaid.toString()) +
+      parseInt(updateMemberData.InterestPaid) -
+      parseInt(copyMember.InterestPaid.toString()) +
+      penaltyChange;
+    var newTotalBalance = parseInt(data.TotalBalance.toString()) + dataChange;
+    var newAvaliableBalance =
+      parseInt(data.AvailableBalance.toString()) +
+      dataChange -
+      loanAmountChange;
+    var newPenaltyAmount = parseInt(data.PenaltyAmount.toString()) + dataChange;
+    var newLoanAmount = parseInt(data.LoanAmount.toString()) + loanAmountChange;
+
     await this.firestore.collection('associationTable').doc('table').update({
       Shares: newShares,
+      TotalBalance: newTotalBalance,
+      AvailableBalance: newAvaliableBalance,
+      PenaltyAmount: newPenaltyAmount,
+      LoanAmount: newLoanAmount,
     });
     this.isMemberUpdated = true;
   }
@@ -166,30 +184,43 @@ export class AdminService {
       .update(updatedData);
     this.isAssociationDetailsUpdated = true;
   }
-  async removeEmployee(email: string) {
+  async removeEmployee(phoneNumber: string) {
     this.isEmployeeRemoved = false;
-    var body = RemoveEmployeeBodyRequest(email);
-    const headers = {};
-    await this.http
-      .delete(remove_employee, { headers: headers, body: body })
-      .toPromise()
-      .then((data) => {
-        var json = JSON.parse(JSON.stringify(data));
-        this.isEmployeeRemoved = true;
-      })
-      .catch((error) => {
-        this.isEmployeeRemoved = false;
-      });
+    await this.firestore.collection('memberTable').doc(phoneNumber).delete();
+    var associationData: AssociationData =
+      await this.helpService.getAssociationData();
+    var newTotalBalance =
+      associationData.TotalBalance -
+      this.SelectedMemberData.PremiumPaid -
+      this.SelectedMemberData.InterestPaid -
+      this.SelectedMemberData.TotalPenaltyPaid +
+      this.SelectedMemberData.LoanAmount;
+    var newAvailableBalance =
+      associationData.AvailableBalance -
+      this.SelectedMemberData.PremiumPaid -
+      this.SelectedMemberData.InterestPaid -
+      this.SelectedMemberData.TotalPenaltyPaid +
+      this.SelectedMemberData.LoanAmount;
+    var newLoanAmount =
+      associationData.LoanAmount - this.SelectedMemberData.LoanAmount;
+    var newPenaltyAmount =
+      associationData.PenaltyAmount - this.SelectedMemberData.TotalPenaltyPaid;
+    var newShares = associationData.Shares - this.SelectedMemberData.Shares;
+    var newMembers = associationData.TotalMembers - 1;
+
+    await this.firestore.collection('associationTable').doc('table').update({
+      Shares: newShares,
+      TotalBalance: newTotalBalance,
+      AvailableBalance: newAvailableBalance,
+      PenaltyAmount: newPenaltyAmount,
+      LoanAmount: newLoanAmount,
+      TotalMembers: newMembers,
+    });
+    this.isEmployeeRemoved = true;
   }
   async getAllMemberDetails() {
     this.isMemberDetailsArrayAdded = false;
     this.memberList = await this.helpService.getAllMemberData();
-    const encryptedUserCredentials = encryptData(
-      JSON.stringify(this.memberList)
-    );
-    this.cookieService.set('memberList', encryptedUserCredentials, {
-      expires: 30,
-    });
     this.searchedMemberList = this.memberList;
     this.isMemberDetailsArrayAdded = true;
   }
@@ -200,13 +231,6 @@ export class AdminService {
     this.loanMemberList = await this.helpService.getAllMemberData();
     this.loanMemberList = this.loanMemberList.filter((member) => {
       return member.LoanAmount > 0;
-    });
-
-    const encryptedUserCredentials = encryptData(
-      JSON.stringify(this.memberList)
-    );
-    this.cookieService.set('memberList', encryptedUserCredentials, {
-      expires: 30,
     });
 
     this.searchedLoanMemberList = this.loanMemberList;

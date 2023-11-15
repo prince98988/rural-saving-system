@@ -30,12 +30,10 @@ export class EmployeeListComponent implements OnInit {
     await this.adminService.getAllMemberDetails();
   }
   async removeEmployeeEntry() {
-    // this.openLoadingPopup();
-    // await this.adminService.removeEmployee(this.selectedUserPhoneNumber);
-    // await this.getAllEmployee();
-    // this.closeLoadingPopup();
-    // if (this.adminService.isEmployeeRemoved) this.openRemoveEmployeePopup();
-    // else this.openErrorPopup();
+    this.openLoadingPopup();
+    await this.adminService.removeEmployee(this.selectedUserPhoneNumber);
+    this.closeLoadingPopup();
+    if (!this.adminService.isEmployeeRemoved) this.openErrorPopup();
   }
   openRemoveEmployeePopup() {
     this.removeEmployeeStyle = 'flex';

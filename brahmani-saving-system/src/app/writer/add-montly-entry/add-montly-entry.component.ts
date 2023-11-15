@@ -6,6 +6,7 @@ import { UserCurrentMonthData } from 'src/app/general-settings/Types/ReaderTypes
 import { HelpService } from 'src/app/general-settings/services/help.service';
 import { WriterService } from 'src/app/general-settings/services/writer.service';
 import { decryptData } from 'src/app/general-settings/static/HelperFunctions';
+import Cotter from 'cotter';
 
 @Component({
   selector: 'app-add-montly-entry',
@@ -43,7 +44,7 @@ export class AddMontlyEntryComponent implements OnInit {
     this.submitted = true;
     console.log(this.penaltyForm.value.penalty);
     await this.writerService.AddMemberMontlyEntry(
-      this.penaltyForm.value.penalty
+      parseInt(this.penaltyForm.value.penalty)
     );
     this.submitted = false;
 
